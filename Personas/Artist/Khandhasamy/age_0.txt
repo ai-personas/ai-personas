@@ -1,0 +1,13 @@
+DNA: Khandhasamy
+    input: 40000
+    LayerX1: 400
+    LayerX2: 200
+    output: 40000
+Physical: Theano
+Environment:
+    Information: News_Cartoon
+    Society: None
+    
+Age: 0
+    LearningCycle: 0
+    
