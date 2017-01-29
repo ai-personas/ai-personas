@@ -1,13 +1,29 @@
 DNA: Khandhasamy
     input: 40000
+        information: /testImages
+        transform: imageTransfrom
+            height: 200
+            width: 200
+            color: grey
     LayerX1: 400
     LayerX2: 200
     output: 40000
 Physical: Theano
 Environment:
-    Information: News_Cartoon
-    Society: None
-    
+    information: portraits
+    society: none
 Age: 0
     LearningCycle: 0
+    train:
+        input: 
+            information: /trainImages
+            transform: imageTransform
+                color: grey
+        output: 
+            information: /trainImages
+            transform: imageTransform
+                height: 200
+                width: 200
+                color: RGB
+    
     

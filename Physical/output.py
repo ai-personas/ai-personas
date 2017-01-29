@@ -5,20 +5,13 @@ import numpy as np
 import matplotlib.pyplot as plt 
 import matplotlib.cm as cm 
 
-X = T.fmatrix() 
-Y = T.fmatrix() 
+w_h1 = init_weights((400, 200)) 
 
-w_h1 = init_weights((40000, 400)) 
-w_h2 = init_weights((400, 200)) 
-w_h3 = init_weights((200, 40000)) 
-
-def model(X,w_h1,w_h2,w_h3,p_drop_input, p_drop_hidden):
-    X = dropout(X, p_drop_input) 
-    w_o_h1=rectify(T.dot(X, w_h1)) 
+def model(w_h1,p_drop_input, p_drop_hidden):
+    w_o_h1=rectify(T.dot(, w_h1)) 
     w_o_h1= dropout(w_o_h1, p_drop_input) 
-    w_o_h2=rectify(T.dot(w_o_h1, w_h2)) 
-    w_o_h2= dropout(w_o_h2, p_drop_input) 
-    py_x = softmax(T.dot(w_o_h2, w_h3)) 
+    w_o_h1=rectify(T.dot(w_o_h1, w_h1)) 
+    w_o_h1= dropout(w_o_h1, p_drop_input) 
     return py_x 
 
 def dropout(X, p=0.): 
@@ -53,9 +46,9 @@ def RMSprop(cost, params, lr=0.001, rho=0.9, epsilon=1e-6):
         updates.append((p, p - lr * g)) 
     return updates 
 
-noise_y_x = model(X,w_h1,w_h2,w_h3)
+noise_y_x = model(w_h1,
 cost = T.mean(T.nnet.categorical_crossentropy(noise_y_x, Y))
-params = [w_h1,w_h2,w_h3]
+params = [w_h1,
 updates = RMSprop(cost, params, lr=0.001) 
 train = theano.function(inputs=[X, Y], outputs=cost, updates=updates, allow_input_downcast=True) 
 predict = theano.function(inputs=[X], outputs=py_x, allow_input_downcast=True) 
