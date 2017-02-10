@@ -9,6 +9,8 @@ The structure follows the below scheme:
   The environment is where AI persona to grow up. It contains informations (like text, images, audio, video etc.) and load, extract, transformation scheme to consume these data. Also, environment has society which is individual persona, group of personas, communities, teams etc., The newly created persona can be included in any group, community, team and in this way, that persona behaviour will be enhanced and modulated. The persona could join the team as well to accomplish the coordinated work and learn the multitude. 
   
   The persona character defined in two ways. One by DNA and other by what kind of environment it exposed.
+##Personas
+  The personas defined here. The persona structure follows by its category and name and each persona has definition which includes multiple age defintion files. At age 0, the DNA and basic parameters will be defined and then subsequent age definitions will include more enviroment details, learning parameters etc., but DNA cannot be altered. 
 ##Physical
   
 ##Power
