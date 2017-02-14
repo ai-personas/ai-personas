@@ -12,5 +12,5 @@ The structure follows the below scheme:
 ##Personas
   The personas defined here. The persona structure follows by its category and name and each persona has definition which includes multiple age defintion files. At age 0, the DNA and basic parameters will be defined and then subsequent age definitions will include more enviroment details, learning parameters etc., but DNA cannot be altered. 
 ##Physical
-  
+  The physical is responsible create actual persona using persona definition file. The soft implementations could be based on the existing frameworks such as theano, tensorflow, caffe, keras etc.,
 ##Power
