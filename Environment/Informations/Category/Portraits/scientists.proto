@@ -1,0 +1,18 @@
+syntax = "proto3";
+package portraits;
+
+message Information {
+
+	string extractor = 1;
+	
+	message TrainingData {
+		string URL = 1;
+	}
+	
+	message TestData {
+		string URL = 1;
+	}
+
+	repeated TrainingData trainingDataList = 2;
+	repeated TestData testDataList = 3;
+}
