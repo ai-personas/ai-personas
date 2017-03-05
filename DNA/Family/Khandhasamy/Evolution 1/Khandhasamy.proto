@@ -1,0 +1,55 @@
+syntax = "proto3";
+package Family.Khandhasamy;
+
+message DNA {
+	string DNA = 1;
+	repeated Input inputs = 2;
+	repeated Layer layers = 3;
+	repeated Output outputs = 4;
+	repeated Connection connections = 5;
+	
+	message Input {
+		string inputLayerName = 1;
+		repeated Size inputSize = 2;
+		Transform inputTransform = 3;
+		string inputLayerType =4;
+		repeated Connection connections = 5;
+	}
+
+	message Layer {
+		string layerName = 1;
+		string layerType= 2;
+		repeated size layerSize = 3;
+		repeated Connection connections = 4;
+	}
+	
+	message Output {
+		string outputLayerName = 1;
+		string outputLayerType = 2;
+		Transform outputTransform = 3;
+		repeated Connection connections = 4;
+	}
+	
+	message Transform {
+		string transformerName = 1;
+		string informationType = 2;
+		uint64 transformHeight = 3;
+		uint64 transformWidth = 4;
+		string transformParam = 5;
+	}
+	
+	message Connection {
+		string sourceLayerName = 1;
+		string destionationLayerName = 2;
+	}
+	
+	message Size {
+		uint64 dimension = 1;
+		uint64 dimensionSize = 2;
+	}
+	
+	message Parameter {
+		string parameterName = 1;
+		string parameterValue = 2;
+	}
+}

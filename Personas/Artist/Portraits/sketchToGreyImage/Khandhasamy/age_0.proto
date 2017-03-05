@@ -2,31 +2,37 @@ syntax = "proto3";
 package sketchToGreyImages;
 
 message Persona {
-	
+	repeated DNA DNAs = 1;
+	string physical = 2;
+	string Age age = 3;
+
 	message DNA {
 		string DNA = 1;
 		repeated Input inputs = 2;
 		repeated Layer layers = 3;
 		repeated Output outputs = 4;
+		repeated Connection connections = 5;
 		
 		message Input {
 			string inputLayerName = 1;
-			string inputSize = 3;
-			Transform inputTransform = 4;
-			string inputLayerType =5;
-			string connectedDestinationLayerName = 6;
+			uint64 inputSize = 2;
+			Transform inputTransform = 3;
+			string inputLayerType =4;
+			repeated Connection connections = 5;
 		}
 
 		message Layer {
 			string layerName = 1;
 			string layerType= 2;
 			string layerSize = 3;
+			repeated Connection connections = 4;
 		}
 		
 		message Output {
 			string outputLayerName = 1;
-			string outputLayerType = 3;
-			Transform outputTransform = 2;
+			string outputLayerType = 2;
+			Transform outputTransform = 3;
+			repeated Connection connections = 4;
 		}
 		
 		message Transform {
@@ -36,14 +42,27 @@ message Persona {
 			string transformWidth = 4;
 			string transformColor = 5;
 		}
+		
+		message Connection {
+			string sourceLayerName = 1;
+			string destionationLayerName = 2;
+		}
+	}
+	
+	message Age {
+		uint64 old = 1;
+		uint64 learningCycle = 2;
+		repeated Environment environments = 3; 
 	}
 
-	string physical = 5;
-	repeated Environment environments = 6; 
-	
 	message Environment {
-		string informationSource = 1;
-		string 	
+		repeated Information informations = 1;
 		string society = 2;
+		
+		message Information {
+			string informationSource = 1;
+			string connectedInputLayerName = 2;
+		}
 	}
+		
 }
