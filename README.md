@@ -14,3 +14,4 @@ The structure follows the below scheme:
 ##Physical
   The physical is responsible create actual persona using persona definition file. The soft implementations could be based on the existing frameworks such as theano, tensorflow, caffe, keras etc.,
 ##Power
+The power is responsible to fuel Physical. For soft physical, it would be set of servers/clouds to execute physical for given persona and generate outputs.
