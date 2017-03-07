@@ -22,6 +22,7 @@ message DNA {
 		oneof SubLayer {
 			LayerConvolution layerConvolution = 4;
 			LayerActivation layerActivation = 5;
+			LayerDropout layerDropout = 6;
 		}		
 	}
 	
@@ -33,6 +34,10 @@ message DNA {
 	
 	message LayerActivation {
 		string activationType = 1;
+	}
+
+	message LayerDropout {
+		double dropPercentage = 1;
 	}
 	
 	message Output {

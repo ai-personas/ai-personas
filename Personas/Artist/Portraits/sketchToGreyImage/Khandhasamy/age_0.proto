@@ -21,9 +21,23 @@ message Persona {
 
 		message Layer {
 			string layerName = 1;
-			string layerType= 2;
-			repeated Size layerSize = 3;
-			repeated Connection connections = 4;
+			repeated Size layerSize = 2;
+			repeated Connection connections = 3;
+			
+			oneof SubLayer {
+				LayerConvolution layerConvolution = 4;
+				LayerActivation layerActivation = 5;
+			}		
+		}
+		
+		message LayerConvolution {
+			uint64 convolutionDimension = 1;
+			uint64 filters = 2;
+			string borderMode = 3;
+		}
+		
+		message LayerActivation {
+			string activationType = 1;
 		}
 		
 		message Output {
@@ -37,12 +51,12 @@ message Persona {
 			string transformerName = 1;
 			string informationType = 2;
 			repeated Size transformSize = 3;
-			string transformParam = 4;
+			repeated Parameter transformParam = 4;
 		}
-
+		
 		message Connection {
 			string sourceLayerName = 1;
-			string destionationLayerName = 2;
+			string destinationLayerName = 2;
 		}
 		
 		message Size {
@@ -54,7 +68,7 @@ message Persona {
 			string parameterName = 1;
 			string parameterValue = 2;
 		}
-	}	
+	}
 	
 	message Age {
 		uint64 old = 1;
