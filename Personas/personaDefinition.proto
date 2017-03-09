@@ -5,7 +5,7 @@ message Persona {
 	repeated DNA DNAs = 1;
 	string physical = 2;
 	Age age = 3;
-
+	
 	message DNA {
 		string DNA = 1;
 		repeated Input inputs = 2;
