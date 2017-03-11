@@ -10,8 +10,8 @@ The structure follows the below scheme:
   
   The persona character defined in two ways. One by DNA and other by what kind of environment it exposed.
 
-  [Informations](Environments/Informations/README.md)
-  Society
+  [Informations](tree/master/Environment/Informations)  
+  [Society](tree/master/Environment/Society)
   
 ##Personas
   The personas defined here. The persona structure follows by its category and name and each persona has definition which includes multiple age defintion files. At age 0, the DNA and basic parameters will be defined and then subsequent age definitions will include more enviroment details, learning parameters etc., but DNA cannot be altered. 
