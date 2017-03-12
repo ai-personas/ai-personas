@@ -29,7 +29,9 @@ message DNA {
 	message LayerConvolution {
 		uint64 convolutionDimension = 1;
 		uint64 filters = 2;
-		string borderMode = 3;
+		repeated uint64 kernelSize = 3;
+		string borderMode = 4;
+		repeated uint64 inputShape = 5;
 	}
 	
 	message LayerActivation {

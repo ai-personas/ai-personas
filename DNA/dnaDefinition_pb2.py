@@ -17,9 +17,9 @@ _sym_db = _symbol_database.Default()
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='dnaDefinition.proto',
-  package='Family.Khandhasamy',
+  package='dna',
   syntax='proto3',
-  serialized_pb=_b('\n\x13\x64naDefinition.proto\x12\x12\x46\x61mily.Khandhasamy\"\x8a\x0b\n\x03\x44NA\x12\x0b\n\x03\x44NA\x18\x01 \x01(\t\x12-\n\x06inputs\x18\x02 \x03(\x0b\x32\x1d.Family.Khandhasamy.DNA.Input\x12-\n\x06layers\x18\x03 \x03(\x0b\x32\x1d.Family.Khandhasamy.DNA.Layer\x12/\n\x07outputs\x18\x04 \x03(\x0b\x32\x1e.Family.Khandhasamy.DNA.Output\x12\x37\n\x0b\x63onnections\x18\x05 \x03(\x0b\x32\".Family.Khandhasamy.DNA.Connection\x1a\x93\x01\n\x05Input\x12\x16\n\x0einputLayerName\x18\x01 \x01(\t\x12\x39\n\x0einputTransform\x18\x03 \x01(\x0b\x32!.Family.Khandhasamy.DNA.Transform\x12\x37\n\x0b\x63onnections\x18\x05 \x03(\x0b\x32\".Family.Khandhasamy.DNA.Connection\x1a\xd8\x02\n\x05Layer\x12\x11\n\tlayerName\x18\x01 \x01(\t\x12/\n\tlayerSize\x18\x02 \x03(\x0b\x32\x1c.Family.Khandhasamy.DNA.Size\x12\x37\n\x0b\x63onnections\x18\x03 \x03(\x0b\x32\".Family.Khandhasamy.DNA.Connection\x12\x44\n\x10layerConvolution\x18\x04 \x01(\x0b\x32(.Family.Khandhasamy.DNA.LayerConvolutionH\x00\x12\x42\n\x0flayerActivation\x18\x05 \x01(\x0b\x32\'.Family.Khandhasamy.DNA.LayerActivationH\x00\x12<\n\x0clayerDropout\x18\x06 \x01(\x0b\x32$.Family.Khandhasamy.DNA.LayerDropoutH\x00\x42\n\n\x08SubLayer\x1aU\n\x10LayerConvolution\x12\x1c\n\x14\x63onvolutionDimension\x18\x01 \x01(\x04\x12\x0f\n\x07\x66ilters\x18\x02 \x01(\x04\x12\x12\n\nborderMode\x18\x03 \x01(\t\x1a)\n\x0fLayerActivation\x12\x16\n\x0e\x61\x63tivationType\x18\x01 \x01(\t\x1a&\n\x0cLayerDropout\x12\x16\n\x0e\x64ropPercentage\x18\x01 \x01(\x01\x1a\xaf\x01\n\x06Output\x12\x17\n\x0foutputLayerName\x18\x01 \x01(\t\x12\x17\n\x0foutputLayerType\x18\x02 \x01(\t\x12:\n\x0foutputTransform\x18\x03 \x01(\x0b\x32!.Family.Khandhasamy.DNA.Transform\x12\x37\n\x0b\x63onnections\x18\x04 \x03(\x0b\x32\".Family.Khandhasamy.DNA.Connection\x1a\xad\x01\n\tTransform\x12\x17\n\x0ftransformerName\x18\x01 \x01(\t\x12\x17\n\x0finformationType\x18\x02 \x01(\t\x12\x33\n\rtransformSize\x18\x03 \x03(\x0b\x32\x1c.Family.Khandhasamy.DNA.Size\x12\x39\n\x0etransformParam\x18\x04 \x03(\x0b\x32!.Family.Khandhasamy.DNA.Parameter\x1a\x43\n\nConnection\x12\x17\n\x0fsourceLayerName\x18\x01 \x01(\t\x12\x1c\n\x14\x64\x65stinationLayerName\x18\x02 \x01(\t\x1a\x30\n\x04Size\x12\x11\n\tdimension\x18\x01 \x01(\x04\x12\x15\n\rdimensionSize\x18\x02 \x01(\x04\x1a:\n\tParameter\x12\x15\n\rparameterName\x18\x01 \x01(\t\x12\x16\n\x0eparameterValue\x18\x02 \x01(\tb\x06proto3')
+  serialized_pb=_b('\n\x13\x64naDefinition.proto\x12\x03\x64na\"\xd0\t\n\x03\x44NA\x12\x0b\n\x03\x44NA\x18\x01 \x01(\t\x12\x1e\n\x06inputs\x18\x02 \x03(\x0b\x32\x0e.dna.DNA.Input\x12\x1e\n\x06layers\x18\x03 \x03(\x0b\x32\x0e.dna.DNA.Layer\x12 \n\x07outputs\x18\x04 \x03(\x0b\x32\x0f.dna.DNA.Output\x12(\n\x0b\x63onnections\x18\x05 \x03(\x0b\x32\x13.dna.DNA.Connection\x1au\n\x05Input\x12\x16\n\x0einputLayerName\x18\x01 \x01(\t\x12*\n\x0einputTransform\x18\x03 \x01(\x0b\x32\x12.dna.DNA.Transform\x12(\n\x0b\x63onnections\x18\x05 \x03(\x0b\x32\x13.dna.DNA.Connection\x1a\x8d\x02\n\x05Layer\x12\x11\n\tlayerName\x18\x01 \x01(\t\x12 \n\tlayerSize\x18\x02 \x03(\x0b\x32\r.dna.DNA.Size\x12(\n\x0b\x63onnections\x18\x03 \x03(\x0b\x32\x13.dna.DNA.Connection\x12\x35\n\x10layerConvolution\x18\x04 \x01(\x0b\x32\x19.dna.DNA.LayerConvolutionH\x00\x12\x33\n\x0flayerActivation\x18\x05 \x01(\x0b\x32\x18.dna.DNA.LayerActivationH\x00\x12-\n\x0clayerDropout\x18\x06 \x01(\x0b\x32\x15.dna.DNA.LayerDropoutH\x00\x42\n\n\x08SubLayer\x1a}\n\x10LayerConvolution\x12\x1c\n\x14\x63onvolutionDimension\x18\x01 \x01(\x04\x12\x0f\n\x07\x66ilters\x18\x02 \x01(\x04\x12\x12\n\nkernelSize\x18\x03 \x03(\x04\x12\x12\n\nborderMode\x18\x04 \x01(\t\x12\x12\n\ninputShape\x18\x05 \x03(\x04\x1a)\n\x0fLayerActivation\x12\x16\n\x0e\x61\x63tivationType\x18\x01 \x01(\t\x1a&\n\x0cLayerDropout\x12\x16\n\x0e\x64ropPercentage\x18\x01 \x01(\x01\x1a\x91\x01\n\x06Output\x12\x17\n\x0foutputLayerName\x18\x01 \x01(\t\x12\x17\n\x0foutputLayerType\x18\x02 \x01(\t\x12+\n\x0foutputTransform\x18\x03 \x01(\x0b\x32\x12.dna.DNA.Transform\x12(\n\x0b\x63onnections\x18\x04 \x03(\x0b\x32\x13.dna.DNA.Connection\x1a\x8f\x01\n\tTransform\x12\x17\n\x0ftransformerName\x18\x01 \x01(\t\x12\x17\n\x0finformationType\x18\x02 \x01(\t\x12$\n\rtransformSize\x18\x03 \x03(\x0b\x32\r.dna.DNA.Size\x12*\n\x0etransformParam\x18\x04 \x03(\x0b\x32\x12.dna.DNA.Parameter\x1a\x43\n\nConnection\x12\x17\n\x0fsourceLayerName\x18\x01 \x01(\t\x12\x1c\n\x14\x64\x65stinationLayerName\x18\x02 \x01(\t\x1a\x30\n\x04Size\x12\x11\n\tdimension\x18\x01 \x01(\x04\x12\x15\n\rdimensionSize\x18\x02 \x01(\x04\x1a:\n\tParameter\x12\x15\n\rparameterName\x18\x01 \x01(\t\x12\x16\n\x0eparameterValue\x18\x02 \x01(\tb\x06proto3')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -28,27 +28,27 @@ _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _DNA_INPUT = _descriptor.Descriptor(
   name='Input',
-  full_name='Family.Khandhasamy.DNA.Input',
+  full_name='dna.DNA.Input',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='inputLayerName', full_name='Family.Khandhasamy.DNA.Input.inputLayerName', index=0,
+      name='inputLayerName', full_name='dna.DNA.Input.inputLayerName', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='inputTransform', full_name='Family.Khandhasamy.DNA.Input.inputTransform', index=1,
+      name='inputTransform', full_name='dna.DNA.Input.inputTransform', index=1,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='connections', full_name='Family.Khandhasamy.DNA.Input.connections', index=2,
+      name='connections', full_name='dna.DNA.Input.connections', index=2,
       number=5, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -66,54 +66,54 @@ _DNA_INPUT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=265,
-  serialized_end=412,
+  serialized_start=189,
+  serialized_end=306,
 )
 
 _DNA_LAYER = _descriptor.Descriptor(
   name='Layer',
-  full_name='Family.Khandhasamy.DNA.Layer',
+  full_name='dna.DNA.Layer',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='layerName', full_name='Family.Khandhasamy.DNA.Layer.layerName', index=0,
+      name='layerName', full_name='dna.DNA.Layer.layerName', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='layerSize', full_name='Family.Khandhasamy.DNA.Layer.layerSize', index=1,
+      name='layerSize', full_name='dna.DNA.Layer.layerSize', index=1,
       number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='connections', full_name='Family.Khandhasamy.DNA.Layer.connections', index=2,
+      name='connections', full_name='dna.DNA.Layer.connections', index=2,
       number=3, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='layerConvolution', full_name='Family.Khandhasamy.DNA.Layer.layerConvolution', index=3,
+      name='layerConvolution', full_name='dna.DNA.Layer.layerConvolution', index=3,
       number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='layerActivation', full_name='Family.Khandhasamy.DNA.Layer.layerActivation', index=4,
+      name='layerActivation', full_name='dna.DNA.Layer.layerActivation', index=4,
       number=5, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='layerDropout', full_name='Family.Khandhasamy.DNA.Layer.layerDropout', index=5,
+      name='layerDropout', full_name='dna.DNA.Layer.layerDropout', index=5,
       number=6, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -131,38 +131,52 @@ _DNA_LAYER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='SubLayer', full_name='Family.Khandhasamy.DNA.Layer.SubLayer',
+      name='SubLayer', full_name='dna.DNA.Layer.SubLayer',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=415,
-  serialized_end=759,
+  serialized_start=309,
+  serialized_end=578,
 )
 
 _DNA_LAYERCONVOLUTION = _descriptor.Descriptor(
   name='LayerConvolution',
-  full_name='Family.Khandhasamy.DNA.LayerConvolution',
+  full_name='dna.DNA.LayerConvolution',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='convolutionDimension', full_name='Family.Khandhasamy.DNA.LayerConvolution.convolutionDimension', index=0,
+      name='convolutionDimension', full_name='dna.DNA.LayerConvolution.convolutionDimension', index=0,
       number=1, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='filters', full_name='Family.Khandhasamy.DNA.LayerConvolution.filters', index=1,
+      name='filters', full_name='dna.DNA.LayerConvolution.filters', index=1,
       number=2, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='borderMode', full_name='Family.Khandhasamy.DNA.LayerConvolution.borderMode', index=2,
-      number=3, type=9, cpp_type=9, label=1,
+      name='kernelSize', full_name='dna.DNA.LayerConvolution.kernelSize', index=2,
+      number=3, type=4, cpp_type=4, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='borderMode', full_name='dna.DNA.LayerConvolution.borderMode', index=3,
+      number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='inputShape', full_name='dna.DNA.LayerConvolution.inputShape', index=4,
+      number=5, type=4, cpp_type=4, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
@@ -178,19 +192,19 @@ _DNA_LAYERCONVOLUTION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=761,
-  serialized_end=846,
+  serialized_start=580,
+  serialized_end=705,
 )
 
 _DNA_LAYERACTIVATION = _descriptor.Descriptor(
   name='LayerActivation',
-  full_name='Family.Khandhasamy.DNA.LayerActivation',
+  full_name='dna.DNA.LayerActivation',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='activationType', full_name='Family.Khandhasamy.DNA.LayerActivation.activationType', index=0,
+      name='activationType', full_name='dna.DNA.LayerActivation.activationType', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -208,19 +222,19 @@ _DNA_LAYERACTIVATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=848,
-  serialized_end=889,
+  serialized_start=707,
+  serialized_end=748,
 )
 
 _DNA_LAYERDROPOUT = _descriptor.Descriptor(
   name='LayerDropout',
-  full_name='Family.Khandhasamy.DNA.LayerDropout',
+  full_name='dna.DNA.LayerDropout',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='dropPercentage', full_name='Family.Khandhasamy.DNA.LayerDropout.dropPercentage', index=0,
+      name='dropPercentage', full_name='dna.DNA.LayerDropout.dropPercentage', index=0,
       number=1, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
@@ -238,40 +252,40 @@ _DNA_LAYERDROPOUT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=891,
-  serialized_end=929,
+  serialized_start=750,
+  serialized_end=788,
 )
 
 _DNA_OUTPUT = _descriptor.Descriptor(
   name='Output',
-  full_name='Family.Khandhasamy.DNA.Output',
+  full_name='dna.DNA.Output',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='outputLayerName', full_name='Family.Khandhasamy.DNA.Output.outputLayerName', index=0,
+      name='outputLayerName', full_name='dna.DNA.Output.outputLayerName', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='outputLayerType', full_name='Family.Khandhasamy.DNA.Output.outputLayerType', index=1,
+      name='outputLayerType', full_name='dna.DNA.Output.outputLayerType', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='outputTransform', full_name='Family.Khandhasamy.DNA.Output.outputTransform', index=2,
+      name='outputTransform', full_name='dna.DNA.Output.outputTransform', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='connections', full_name='Family.Khandhasamy.DNA.Output.connections', index=3,
+      name='connections', full_name='dna.DNA.Output.connections', index=3,
       number=4, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -289,40 +303,40 @@ _DNA_OUTPUT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=932,
-  serialized_end=1107,
+  serialized_start=791,
+  serialized_end=936,
 )
 
 _DNA_TRANSFORM = _descriptor.Descriptor(
   name='Transform',
-  full_name='Family.Khandhasamy.DNA.Transform',
+  full_name='dna.DNA.Transform',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='transformerName', full_name='Family.Khandhasamy.DNA.Transform.transformerName', index=0,
+      name='transformerName', full_name='dna.DNA.Transform.transformerName', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='informationType', full_name='Family.Khandhasamy.DNA.Transform.informationType', index=1,
+      name='informationType', full_name='dna.DNA.Transform.informationType', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='transformSize', full_name='Family.Khandhasamy.DNA.Transform.transformSize', index=2,
+      name='transformSize', full_name='dna.DNA.Transform.transformSize', index=2,
       number=3, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='transformParam', full_name='Family.Khandhasamy.DNA.Transform.transformParam', index=3,
+      name='transformParam', full_name='dna.DNA.Transform.transformParam', index=3,
       number=4, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -340,26 +354,26 @@ _DNA_TRANSFORM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1110,
-  serialized_end=1283,
+  serialized_start=939,
+  serialized_end=1082,
 )
 
 _DNA_CONNECTION = _descriptor.Descriptor(
   name='Connection',
-  full_name='Family.Khandhasamy.DNA.Connection',
+  full_name='dna.DNA.Connection',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='sourceLayerName', full_name='Family.Khandhasamy.DNA.Connection.sourceLayerName', index=0,
+      name='sourceLayerName', full_name='dna.DNA.Connection.sourceLayerName', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='destinationLayerName', full_name='Family.Khandhasamy.DNA.Connection.destinationLayerName', index=1,
+      name='destinationLayerName', full_name='dna.DNA.Connection.destinationLayerName', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -377,26 +391,26 @@ _DNA_CONNECTION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1285,
-  serialized_end=1352,
+  serialized_start=1084,
+  serialized_end=1151,
 )
 
 _DNA_SIZE = _descriptor.Descriptor(
   name='Size',
-  full_name='Family.Khandhasamy.DNA.Size',
+  full_name='dna.DNA.Size',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='dimension', full_name='Family.Khandhasamy.DNA.Size.dimension', index=0,
+      name='dimension', full_name='dna.DNA.Size.dimension', index=0,
       number=1, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='dimensionSize', full_name='Family.Khandhasamy.DNA.Size.dimensionSize', index=1,
+      name='dimensionSize', full_name='dna.DNA.Size.dimensionSize', index=1,
       number=2, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -414,26 +428,26 @@ _DNA_SIZE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1354,
-  serialized_end=1402,
+  serialized_start=1153,
+  serialized_end=1201,
 )
 
 _DNA_PARAMETER = _descriptor.Descriptor(
   name='Parameter',
-  full_name='Family.Khandhasamy.DNA.Parameter',
+  full_name='dna.DNA.Parameter',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='parameterName', full_name='Family.Khandhasamy.DNA.Parameter.parameterName', index=0,
+      name='parameterName', full_name='dna.DNA.Parameter.parameterName', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='parameterValue', full_name='Family.Khandhasamy.DNA.Parameter.parameterValue', index=1,
+      name='parameterValue', full_name='dna.DNA.Parameter.parameterValue', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -451,47 +465,47 @@ _DNA_PARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1404,
-  serialized_end=1462,
+  serialized_start=1203,
+  serialized_end=1261,
 )
 
 _DNA = _descriptor.Descriptor(
   name='DNA',
-  full_name='Family.Khandhasamy.DNA',
+  full_name='dna.DNA',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='DNA', full_name='Family.Khandhasamy.DNA.DNA', index=0,
+      name='DNA', full_name='dna.DNA.DNA', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='inputs', full_name='Family.Khandhasamy.DNA.inputs', index=1,
+      name='inputs', full_name='dna.DNA.inputs', index=1,
       number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='layers', full_name='Family.Khandhasamy.DNA.layers', index=2,
+      name='layers', full_name='dna.DNA.layers', index=2,
       number=3, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='outputs', full_name='Family.Khandhasamy.DNA.outputs', index=3,
+      name='outputs', full_name='dna.DNA.outputs', index=3,
       number=4, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='connections', full_name='Family.Khandhasamy.DNA.connections', index=4,
+      name='connections', full_name='dna.DNA.connections', index=4,
       number=5, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -509,8 +523,8 @@ _DNA = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=44,
-  serialized_end=1462,
+  serialized_start=29,
+  serialized_end=1261,
 )
 
 _DNA_INPUT.fields_by_name['inputTransform'].message_type = _DNA_TRANSFORM
@@ -554,75 +568,75 @@ DNA = _reflection.GeneratedProtocolMessageType('DNA', (_message.Message,), dict(
   Input = _reflection.GeneratedProtocolMessageType('Input', (_message.Message,), dict(
     DESCRIPTOR = _DNA_INPUT,
     __module__ = 'dnaDefinition_pb2'
-    # @@protoc_insertion_point(class_scope:Family.Khandhasamy.DNA.Input)
+    # @@protoc_insertion_point(class_scope:dna.DNA.Input)
     ))
   ,
 
   Layer = _reflection.GeneratedProtocolMessageType('Layer', (_message.Message,), dict(
     DESCRIPTOR = _DNA_LAYER,
     __module__ = 'dnaDefinition_pb2'
-    # @@protoc_insertion_point(class_scope:Family.Khandhasamy.DNA.Layer)
+    # @@protoc_insertion_point(class_scope:dna.DNA.Layer)
     ))
   ,
 
   LayerConvolution = _reflection.GeneratedProtocolMessageType('LayerConvolution', (_message.Message,), dict(
     DESCRIPTOR = _DNA_LAYERCONVOLUTION,
     __module__ = 'dnaDefinition_pb2'
-    # @@protoc_insertion_point(class_scope:Family.Khandhasamy.DNA.LayerConvolution)
+    # @@protoc_insertion_point(class_scope:dna.DNA.LayerConvolution)
     ))
   ,
 
   LayerActivation = _reflection.GeneratedProtocolMessageType('LayerActivation', (_message.Message,), dict(
     DESCRIPTOR = _DNA_LAYERACTIVATION,
     __module__ = 'dnaDefinition_pb2'
-    # @@protoc_insertion_point(class_scope:Family.Khandhasamy.DNA.LayerActivation)
+    # @@protoc_insertion_point(class_scope:dna.DNA.LayerActivation)
     ))
   ,
 
   LayerDropout = _reflection.GeneratedProtocolMessageType('LayerDropout', (_message.Message,), dict(
     DESCRIPTOR = _DNA_LAYERDROPOUT,
     __module__ = 'dnaDefinition_pb2'
-    # @@protoc_insertion_point(class_scope:Family.Khandhasamy.DNA.LayerDropout)
+    # @@protoc_insertion_point(class_scope:dna.DNA.LayerDropout)
     ))
   ,
 
   Output = _reflection.GeneratedProtocolMessageType('Output', (_message.Message,), dict(
     DESCRIPTOR = _DNA_OUTPUT,
     __module__ = 'dnaDefinition_pb2'
-    # @@protoc_insertion_point(class_scope:Family.Khandhasamy.DNA.Output)
+    # @@protoc_insertion_point(class_scope:dna.DNA.Output)
     ))
   ,
 
   Transform = _reflection.GeneratedProtocolMessageType('Transform', (_message.Message,), dict(
     DESCRIPTOR = _DNA_TRANSFORM,
     __module__ = 'dnaDefinition_pb2'
-    # @@protoc_insertion_point(class_scope:Family.Khandhasamy.DNA.Transform)
+    # @@protoc_insertion_point(class_scope:dna.DNA.Transform)
     ))
   ,
 
   Connection = _reflection.GeneratedProtocolMessageType('Connection', (_message.Message,), dict(
     DESCRIPTOR = _DNA_CONNECTION,
     __module__ = 'dnaDefinition_pb2'
-    # @@protoc_insertion_point(class_scope:Family.Khandhasamy.DNA.Connection)
+    # @@protoc_insertion_point(class_scope:dna.DNA.Connection)
     ))
   ,
 
   Size = _reflection.GeneratedProtocolMessageType('Size', (_message.Message,), dict(
     DESCRIPTOR = _DNA_SIZE,
     __module__ = 'dnaDefinition_pb2'
-    # @@protoc_insertion_point(class_scope:Family.Khandhasamy.DNA.Size)
+    # @@protoc_insertion_point(class_scope:dna.DNA.Size)
     ))
   ,
 
   Parameter = _reflection.GeneratedProtocolMessageType('Parameter', (_message.Message,), dict(
     DESCRIPTOR = _DNA_PARAMETER,
     __module__ = 'dnaDefinition_pb2'
-    # @@protoc_insertion_point(class_scope:Family.Khandhasamy.DNA.Parameter)
+    # @@protoc_insertion_point(class_scope:dna.DNA.Parameter)
     ))
   ,
   DESCRIPTOR = _DNA,
   __module__ = 'dnaDefinition_pb2'
-  # @@protoc_insertion_point(class_scope:Family.Khandhasamy.DNA)
+  # @@protoc_insertion_point(class_scope:dna.DNA)
   ))
 _sym_db.RegisterMessage(DNA)
 _sym_db.RegisterMessage(DNA.Input)

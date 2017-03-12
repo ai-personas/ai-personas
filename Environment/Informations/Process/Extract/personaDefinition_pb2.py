@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='personaDefinition.proto',
   package='persona',
   syntax='proto3',
-  serialized_pb=_b('\n\x17personaDefinition.proto\x12\x07persona\"\xf5\r\n\x07Persona\x12\"\n\x04\x44NAs\x18\x01 \x03(\x0b\x32\x14.persona.Persona.DNA\x12\x10\n\x08physical\x18\x02 \x01(\t\x12!\n\x03\x61ge\x18\x03 \x01(\x0b\x32\x14.persona.Persona.Age\x1a\x85\x0b\n\x03\x44NA\x12\x0b\n\x03\x44NA\x18\x01 \x01(\t\x12*\n\x06inputs\x18\x02 \x03(\x0b\x32\x1a.persona.Persona.DNA.Input\x12*\n\x06layers\x18\x03 \x03(\x0b\x32\x1a.persona.Persona.DNA.Layer\x12,\n\x07outputs\x18\x04 \x03(\x0b\x32\x1b.persona.Persona.DNA.Output\x12\x34\n\x0b\x63onnections\x18\x05 \x03(\x0b\x32\x1f.persona.Persona.DNA.Connection\x1a\x8d\x01\n\x05Input\x12\x16\n\x0einputLayerName\x18\x01 \x01(\t\x12\x36\n\x0einputTransform\x18\x03 \x01(\x0b\x32\x1e.persona.Persona.DNA.Transform\x12\x34\n\x0b\x63onnections\x18\x05 \x03(\x0b\x32\x1f.persona.Persona.DNA.Connection\x1a\xc9\x02\n\x05Layer\x12\x11\n\tlayerName\x18\x01 \x01(\t\x12,\n\tlayerSize\x18\x02 \x03(\x0b\x32\x19.persona.Persona.DNA.Size\x12\x34\n\x0b\x63onnections\x18\x03 \x03(\x0b\x32\x1f.persona.Persona.DNA.Connection\x12\x41\n\x10layerConvolution\x18\x04 \x01(\x0b\x32%.persona.Persona.DNA.LayerConvolutionH\x00\x12?\n\x0flayerActivation\x18\x05 \x01(\x0b\x32$.persona.Persona.DNA.LayerActivationH\x00\x12\x39\n\x0clayerDropout\x18\x06 \x01(\x0b\x32!.persona.Persona.DNA.LayerDropoutH\x00\x42\n\n\x08SubLayer\x1a}\n\x10LayerConvolution\x12\x1c\n\x14\x63onvolutionDimension\x18\x01 \x01(\x04\x12\x0f\n\x07\x66ilters\x18\x02 \x01(\x04\x12\x12\n\nkernelSize\x18\x03 \x03(\x04\x12\x12\n\nborderMode\x18\x04 \x01(\t\x12\x12\n\ninputShape\x18\x05 \x03(\x04\x1a)\n\x0fLayerActivation\x12\x16\n\x0e\x61\x63tivationType\x18\x01 \x01(\t\x1a&\n\x0cLayerDropout\x12\x16\n\x0e\x64ropPercentage\x18\x01 \x01(\x01\x1a\xa9\x01\n\x06Output\x12\x17\n\x0foutputLayerName\x18\x01 \x01(\t\x12\x17\n\x0foutputLayerType\x18\x02 \x01(\t\x12\x37\n\x0foutputTransform\x18\x03 \x01(\x0b\x32\x1e.persona.Persona.DNA.Transform\x12\x34\n\x0b\x63onnections\x18\x04 \x03(\x0b\x32\x1f.persona.Persona.DNA.Connection\x1a\xa7\x01\n\tTransform\x12\x17\n\x0ftransformerName\x18\x01 \x01(\t\x12\x17\n\x0finformationType\x18\x02 \x01(\t\x12\x30\n\rtransformSize\x18\x03 \x03(\x0b\x32\x19.persona.Persona.DNA.Size\x12\x36\n\x0etransformParam\x18\x04 \x03(\x0b\x32\x1e.persona.Persona.DNA.Parameter\x1a\x43\n\nConnection\x12\x17\n\x0fsourceLayerName\x18\x01 \x01(\t\x12\x1c\n\x14\x64\x65stinationLayerName\x18\x02 \x01(\t\x1a\x30\n\x04Size\x12\x11\n\tdimension\x18\x01 \x01(\x04\x12\x15\n\rdimensionSize\x18\x02 \x01(\x04\x1a:\n\tParameter\x12\x15\n\rparameterName\x18\x01 \x01(\t\x12\x16\n\x0eparameterValue\x18\x02 \x01(\t\x1a]\n\x03\x41ge\x12\x0b\n\x03old\x18\x01 \x01(\x04\x12\x15\n\rlearningCycle\x18\x02 \x01(\x04\x12\x32\n\x0c\x65nvironments\x18\x03 \x03(\x0b\x32\x1c.persona.Persona.Environment\x1a\xa9\x01\n\x0b\x45nvironment\x12>\n\x0cinformations\x18\x01 \x03(\x0b\x32(.persona.Persona.Environment.Information\x12\x0f\n\x07society\x18\x02 \x01(\t\x1aI\n\x0bInformation\x12\x19\n\x11informationSource\x18\x01 \x01(\t\x12\x1f\n\x17\x63onnectedInputLayerName\x18\x02 \x01(\tb\x06proto3')
+  serialized_pb=_b('\n\x17personaDefinition.proto\x12\x07persona\"\xe1\r\n\x07Persona\x12\"\n\x04\x44NAs\x18\x01 \x03(\x0b\x32\x14.persona.Persona.DNA\x12\x10\n\x08physical\x18\x02 \x01(\t\x12!\n\x03\x61ge\x18\x03 \x01(\x0b\x32\x14.persona.Persona.Age\x1a\xf1\n\n\x03\x44NA\x12\x0b\n\x03\x44NA\x18\x01 \x01(\t\x12*\n\x06inputs\x18\x02 \x03(\x0b\x32\x1a.persona.Persona.DNA.Input\x12*\n\x06layers\x18\x03 \x03(\x0b\x32\x1a.persona.Persona.DNA.Layer\x12,\n\x07outputs\x18\x04 \x03(\x0b\x32\x1b.persona.Persona.DNA.Output\x12\x34\n\x0b\x63onnections\x18\x05 \x03(\x0b\x32\x1f.persona.Persona.DNA.Connection\x1a\x8d\x01\n\x05Input\x12\x16\n\x0einputLayerName\x18\x01 \x01(\t\x12\x36\n\x0einputTransform\x18\x03 \x01(\x0b\x32\x1e.persona.Persona.DNA.Transform\x12\x34\n\x0b\x63onnections\x18\x05 \x03(\x0b\x32\x1f.persona.Persona.DNA.Connection\x1a\xc9\x02\n\x05Layer\x12\x11\n\tlayerName\x18\x01 \x01(\t\x12,\n\tlayerSize\x18\x02 \x03(\x0b\x32\x19.persona.Persona.DNA.Size\x12\x34\n\x0b\x63onnections\x18\x03 \x03(\x0b\x32\x1f.persona.Persona.DNA.Connection\x12\x41\n\x10layerConvolution\x18\x04 \x01(\x0b\x32%.persona.Persona.DNA.LayerConvolutionH\x00\x12?\n\x0flayerActivation\x18\x05 \x01(\x0b\x32$.persona.Persona.DNA.LayerActivationH\x00\x12\x39\n\x0clayerDropout\x18\x06 \x01(\x0b\x32!.persona.Persona.DNA.LayerDropoutH\x00\x42\n\n\x08SubLayer\x1ai\n\x10LayerConvolution\x12\x1c\n\x14\x63onvolutionDimension\x18\x01 \x01(\x04\x12\x0f\n\x07\x66ilters\x18\x02 \x01(\x04\x12\x12\n\nkernelSize\x18\x03 \x03(\x04\x12\x12\n\nborderMode\x18\x04 \x01(\t\x1a)\n\x0fLayerActivation\x12\x16\n\x0e\x61\x63tivationType\x18\x01 \x01(\t\x1a&\n\x0cLayerDropout\x12\x16\n\x0e\x64ropPercentage\x18\x01 \x01(\x01\x1a\xa9\x01\n\x06Output\x12\x17\n\x0foutputLayerName\x18\x01 \x01(\t\x12\x17\n\x0foutputLayerType\x18\x02 \x01(\t\x12\x37\n\x0foutputTransform\x18\x03 \x01(\x0b\x32\x1e.persona.Persona.DNA.Transform\x12\x34\n\x0b\x63onnections\x18\x04 \x03(\x0b\x32\x1f.persona.Persona.DNA.Connection\x1a\xa7\x01\n\tTransform\x12\x17\n\x0ftransformerName\x18\x01 \x01(\t\x12\x17\n\x0finformationType\x18\x02 \x01(\t\x12\x30\n\rtransformSize\x18\x03 \x03(\x0b\x32\x19.persona.Persona.DNA.Size\x12\x36\n\x0etransformParam\x18\x04 \x03(\x0b\x32\x1e.persona.Persona.DNA.Parameter\x1a\x43\n\nConnection\x12\x17\n\x0fsourceLayerName\x18\x01 \x01(\t\x12\x1c\n\x14\x64\x65stinationLayerName\x18\x02 \x01(\t\x1a\x30\n\x04Size\x12\x11\n\tdimension\x18\x01 \x01(\x04\x12\x15\n\rdimensionSize\x18\x02 \x01(\x04\x1a:\n\tParameter\x12\x15\n\rparameterName\x18\x01 \x01(\t\x12\x16\n\x0eparameterValue\x18\x02 \x01(\t\x1a]\n\x03\x41ge\x12\x0b\n\x03old\x18\x01 \x01(\x04\x12\x15\n\rlearningCycle\x18\x02 \x01(\x04\x12\x32\n\x0c\x65nvironments\x18\x03 \x03(\x0b\x32\x1c.persona.Persona.Environment\x1a\xa9\x01\n\x0b\x45nvironment\x12>\n\x0cinformations\x18\x01 \x03(\x0b\x32(.persona.Persona.Environment.Information\x12\x0f\n\x07society\x18\x02 \x01(\t\x1aI\n\x0bInformation\x12\x19\n\x11informationSource\x18\x01 \x01(\t\x12\x1f\n\x17\x63onnectedInputLayerName\x18\x02 \x01(\tb\x06proto3')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -173,13 +173,6 @@ _PERSONA_DNA_LAYERCONVOLUTION = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
-    _descriptor.FieldDescriptor(
-      name='inputShape', full_name='persona.Persona.DNA.LayerConvolution.inputShape', index=4,
-      number=5, type=4, cpp_type=4, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
   ],
   extensions=[
   ],
@@ -193,7 +186,7 @@ _PERSONA_DNA_LAYERCONVOLUTION = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=822,
-  serialized_end=947,
+  serialized_end=927,
 )
 
 _PERSONA_DNA_LAYERACTIVATION = _descriptor.Descriptor(
@@ -222,8 +215,8 @@ _PERSONA_DNA_LAYERACTIVATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=949,
-  serialized_end=990,
+  serialized_start=929,
+  serialized_end=970,
 )
 
 _PERSONA_DNA_LAYERDROPOUT = _descriptor.Descriptor(
@@ -252,8 +245,8 @@ _PERSONA_DNA_LAYERDROPOUT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=992,
-  serialized_end=1030,
+  serialized_start=972,
+  serialized_end=1010,
 )
 
 _PERSONA_DNA_OUTPUT = _descriptor.Descriptor(
@@ -303,8 +296,8 @@ _PERSONA_DNA_OUTPUT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1033,
-  serialized_end=1202,
+  serialized_start=1013,
+  serialized_end=1182,
 )
 
 _PERSONA_DNA_TRANSFORM = _descriptor.Descriptor(
@@ -354,8 +347,8 @@ _PERSONA_DNA_TRANSFORM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1205,
-  serialized_end=1372,
+  serialized_start=1185,
+  serialized_end=1352,
 )
 
 _PERSONA_DNA_CONNECTION = _descriptor.Descriptor(
@@ -391,8 +384,8 @@ _PERSONA_DNA_CONNECTION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1374,
-  serialized_end=1441,
+  serialized_start=1354,
+  serialized_end=1421,
 )
 
 _PERSONA_DNA_SIZE = _descriptor.Descriptor(
@@ -428,8 +421,8 @@ _PERSONA_DNA_SIZE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1443,
-  serialized_end=1491,
+  serialized_start=1423,
+  serialized_end=1471,
 )
 
 _PERSONA_DNA_PARAMETER = _descriptor.Descriptor(
@@ -465,8 +458,8 @@ _PERSONA_DNA_PARAMETER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1493,
-  serialized_end=1551,
+  serialized_start=1473,
+  serialized_end=1531,
 )
 
 _PERSONA_DNA = _descriptor.Descriptor(
@@ -524,7 +517,7 @@ _PERSONA_DNA = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=138,
-  serialized_end=1551,
+  serialized_end=1531,
 )
 
 _PERSONA_AGE = _descriptor.Descriptor(
@@ -567,8 +560,8 @@ _PERSONA_AGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1553,
-  serialized_end=1646,
+  serialized_start=1533,
+  serialized_end=1626,
 )
 
 _PERSONA_ENVIRONMENT_INFORMATION = _descriptor.Descriptor(
@@ -604,8 +597,8 @@ _PERSONA_ENVIRONMENT_INFORMATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1745,
-  serialized_end=1818,
+  serialized_start=1725,
+  serialized_end=1798,
 )
 
 _PERSONA_ENVIRONMENT = _descriptor.Descriptor(
@@ -641,8 +634,8 @@ _PERSONA_ENVIRONMENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1649,
-  serialized_end=1818,
+  serialized_start=1629,
+  serialized_end=1798,
 )
 
 _PERSONA = _descriptor.Descriptor(
@@ -686,7 +679,7 @@ _PERSONA = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=37,
-  serialized_end=1818,
+  serialized_end=1798,
 )
 
 _PERSONA_DNA_INPUT.fields_by_name['inputTransform'].message_type = _PERSONA_DNA_TRANSFORM
