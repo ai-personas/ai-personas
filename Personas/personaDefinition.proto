@@ -80,7 +80,8 @@ message Persona {
 	message Age {
 		uint64 old = 1;
 		uint64 learningCycle = 2;
-		repeated Environment environments = 3; 
+		uint64 learningBatchSize = 3;
+		repeated Environment environments = 4; 
 	}
 
 	message Environment {
