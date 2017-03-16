@@ -10,19 +10,22 @@ message DNA {
 	
 	message Input {
 		string inputLayerName = 1;
+		repeated Connection connections = 2;
 		Transform inputTransform = 3;
-		repeated Connection connections = 5;
+		Transform outputTransform = 4;		
 	}
 
 	message Layer {
 		string layerName = 1;
 		repeated Size layerSize = 2;
 		repeated Connection connections = 3;
+		Transform inputTransform = 4;
+		Transform outputTransform = 5;		
 		
 		oneof SubLayer {
-			LayerConvolution layerConvolution = 4;
-			LayerActivation layerActivation = 5;
-			LayerDropout layerDropout = 6;
+			LayerConvolution layerConvolution = 6;
+			LayerActivation layerActivation = 7;
+			LayerDropout layerDropout = 8;
 		}		
 	}
 	
@@ -45,8 +48,9 @@ message DNA {
 	message Output {
 		string outputLayerName = 1;
 		string outputLayerType = 2;
-		Transform outputTransform = 3;
-		repeated Connection connections = 4;
+		repeated Connection connections = 3;
+		Transform inputTransform = 4;
+		Transform outputTransform = 5;				
 	}
 	
 	message Transform {
