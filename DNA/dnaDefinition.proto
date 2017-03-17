@@ -9,7 +9,7 @@ message DNA {
 	repeated Connection connections = 5;
 	
 	message Input {
-		string inputLayerName = 1;
+		string layerName = 1;
 		repeated Connection connections = 2;
 		Transform inputTransform = 3;
 		Transform outputTransform = 4;		
@@ -46,7 +46,7 @@ message DNA {
 	}
 	
 	message Output {
-		string outputLayerName = 1;
+		string layerName = 1;
 		string outputLayerType = 2;
 		repeated Connection connections = 3;
 		Transform inputTransform = 4;

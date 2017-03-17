@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[3]:
+# In[5]:
 
 import requests
 from io import BytesIO
@@ -16,7 +16,7 @@ class ImageURLExtractor(object):
     def __init__(self, information):
         self.information = information
     
-    def X_train_data(self, inputTransform):
+    def getData(self, inputTransform):
         no_of_images = len(self.information.trainingDataList)
         data = np.random.random((no_of_images, self.dim, inputTransform.transformSize[0].dimensionSize, inputTransform.transformSize[1].dimensionSize))
         image_index = 0
@@ -48,10 +48,3 @@ class ImageURLExtractor(object):
             print ("Extractor in the information file and running extractor is not matching.")
         return data
     
-    def Y_train_data(self, inputTransform):
-        print (self.information.extractor)
-        return
-    
-    def X_action_data(self, inputTransform):
-        print (self.information.extractor)
-        return   

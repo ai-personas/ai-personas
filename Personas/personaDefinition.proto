@@ -14,7 +14,7 @@ message Persona {
 		repeated Connection connections = 5;
 		
 		message Input {
-			string inputLayerName = 1;
+			string layerName = 1;
 			repeated Connection connections = 2;
 			Transform inputTransform = 3;
 			Transform outputTransform = 4;		
@@ -51,7 +51,7 @@ message Persona {
 		}
 		
 		message Output {
-			string outputLayerName = 1;
+			string layerName = 1;
 			string outputLayerType = 2;
 			repeated Connection connections = 3;
 			Transform inputTransform = 4;
@@ -80,7 +80,7 @@ message Persona {
 			string parameterValue = 2;
 		}
 	}
-	
+
 	message Age {
 		uint64 old = 1;
 		uint64 learningCycle = 2;
@@ -94,7 +94,7 @@ message Persona {
 		
 		message Information {
 			string informationSource = 1;
-			string connectedInputLayerName = 2;
+			repeated string connectedLayerName = 2;
 		}
 	}		
 }
