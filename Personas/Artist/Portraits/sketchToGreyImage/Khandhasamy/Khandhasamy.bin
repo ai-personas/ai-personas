@@ -23,13 +23,13 @@ imageInputlayer22d"same*22"
 relu
 layer6B		333333Ó?;
 layer722
-layer6layer82d"same*22"
+layer6layer82"same*22"
 layer8
 layer7output:
 relu"A
 imageOutput"2
 imageTransformimage22"
-colorgreykerasO2"G
+colorgreykerasO2"G
 E
 *Informations\Category\Portraits\scientists
 imageInputimageOutput
