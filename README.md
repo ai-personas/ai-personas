@@ -1,8 +1,8 @@
 # AI Personas
 
-AI Personas is the architecture and framework for AI design. This structure allows to design AI personas (characters) with minimal coding but allows you to improve the framework whenever required. Also, you can resue the existing AI personas with new informations, society (community) etc.,
+AI Personas is the architecture and framework for AI design. This structure allows to design AI personas with various network structures, environments and inter persona communication. Human persona behaviours defined by the DNA and environments, so AI personas modeled based on this concept.
 
-The structure follows the below scheme:
+The AI persona structure follows as:
 ## DNA
   The persona DNA defined here. DNAs definitions are the set of inputs, layers, outputs and its connections. The DNA wil be used in persona design and could be reused in any persona design.
   
