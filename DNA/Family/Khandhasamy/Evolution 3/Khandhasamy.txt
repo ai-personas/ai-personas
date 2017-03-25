@@ -1,1 +1,0 @@
-[input], [FullyConnected], [LayerX1;FullyConnected;LayerX2]+, [FullyConnected], [output]
