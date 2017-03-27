@@ -95,6 +95,9 @@ message Persona {
 		message Information {
 			string informationSource = 1;
 			repeated string connectedLayerName = 2;
+			uint32 trainingDataPercentage = 3;
+			uint32 testDataPercentage = 4;
+			uint32 validationDataPercentage = 5;
 		}
 	}		
 }
