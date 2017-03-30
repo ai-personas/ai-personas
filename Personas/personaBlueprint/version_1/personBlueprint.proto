@@ -89,15 +89,19 @@ message Persona {
 	}
 
 	message Environment {
-		repeated Information informations = 1;
-		string society = 2;
+		string society = 1;
+		Library library = 2;
 		
-		message Information {
-			string informationSource = 1;
-			repeated string connectedLayerName = 2;
-			uint32 trainingDataPercentage = 3;
-			uint32 testDataPercentage = 4;
-			uint32 validationDataPercentage = 5;
+		message Library {
+			message Source {
+				string sourceName = 1;
+				repeated string connectedLayerName = 2;
+				float teachingDataPercentage = 3;
+				float validationDataPercentage = 4;
+				float testDataPercentage = 5;
+			}
+			
+			repeated Source sources = 1;
 		}
 	}		
 }

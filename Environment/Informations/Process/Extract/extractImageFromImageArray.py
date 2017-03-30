@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[5]:
+# In[24]:
 
 import sys
 import imp
@@ -11,10 +11,10 @@ from io import BytesIO
 from PIL import Image, ImageFilter
 import numpy as np
 
-PERSONA_BLUEPRINT = "../../../../Personas/personaBlueprint/version_1/personBlueprint"
 INFORMATION_BLUEPRINT = "../../informationBlueprint"
 INFORMATION_BASE = "../../"
 PROTO_PYTHON_EXTENSION = "_pb2.py"
+PROTO_DEF_EXTENSION = ".bin"
 
 class Extractor(object):
         
@@ -109,6 +109,33 @@ class Extractor(object):
     def getActionData():
         return
 
+class test(object):
+    
+    PERSONA_NAME_QUALIFIER = "PersonaDefinition"
+    TEST_PERSONA_BLUEPRINT = "../../../../Personas/personaBlueprint/version_1/personBlueprint" + PROTO_PYTHON_EXTENSION
+    TEST_PERSONA_NAME = "Khandhasamy" + PERSONA_NAME_QUALIFIER + PROTO_DEF_EXTENSION
+    TEST_PERSONA_DEF = "../../../Personas/Artist/Portraits/sketchToGreyImage/Khandhasamy/Evolution_1/age_1" + TEST_PERSONA_NAME
+
+    def __init__(self):
+        return 
+        
+    def getPersonaBlueprint(self): 
+        #persona blueprint path
+        persona_blueprint_path = os.path.abspath(os.path.join(self.TEST_PERSONA_BLUEPRINT))
+        print (persona_blueprint_path)
+        #persona blueprint
+        personaBlueprint = imp.load_source('Persona', persona_blueprint_path).Persona() 
+        return personaBlueprint
+    
+    def loadPersona(self):
+        persona = self.getPersonaBlueprint()
+        #load persona
+        persona_path = os.path.abspath(os.path.join(self.TEST_PERSONA_DEF))
+        f = open("test.bin", "rb")
+        persona.ParseFromString(f.read())
+        f.close()        
+        return persona
+    
 def testExtractor():
     #persona blueprint path
     information_blueprint_path = os.path.join("..", "..")
@@ -153,7 +180,10 @@ def testExtractor():
 def testPopulatePersonaInformation():
     return
 
-testExtractor()
+# testExtractor()
+
+testExtractor = test()
+testExtractor.loadPersona()
 
 
 # In[ ]:
