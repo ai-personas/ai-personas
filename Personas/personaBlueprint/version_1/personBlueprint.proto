@@ -99,6 +99,13 @@ message Persona {
 				float teachingDataPercentage = 3;
 				float validationDataPercentage = 4;
 				float testDataPercentage = 5;
+				
+				message ImageSource {
+					uint64 imageWidth = 1;
+					uint64 imageHeight = 2;
+					string transformColor = 3;
+					string imageProcess = 4;
+				}
 			}
 			
 			repeated Source sources = 1;
