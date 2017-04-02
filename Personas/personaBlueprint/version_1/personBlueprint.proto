@@ -93,18 +93,26 @@ message Persona {
 		Library library = 2;
 		
 		message Library {
+		
 			message Source {
 				string sourceName = 1;
 				repeated string connectedLayerName = 2;
 				float teachingDataPercentage = 3;
 				float validationDataPercentage = 4;
 				float testDataPercentage = 5;
+				repeated SourceConnectionLayer sourceConnectionLayer = 6;
 				
-				message ImageSource {
-					uint64 imageWidth = 1;
-					uint64 imageHeight = 2;
-					string transformColor = 3;
-					string imageProcess = 4;
+				message SourceConnectionLayer {
+					string connectedLayerName = 1;
+
+					oneof SourceParameter {
+					}
+					
+					message ImageSource {
+						uint64 imageWidth = 1;
+						uint64 imageHeight = 2;
+						repeated string imageProcess = 4;
+					}				
 				}
 			}
 			

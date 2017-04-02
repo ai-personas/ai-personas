@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[4]:
+# In[3]:
 
 import os, sys, inspect
 import copy
@@ -9,6 +9,9 @@ import copy
 PROTO_DEF_EXTENSION = ".bin"
 PROTO_PYTHON_EXTENSION = "_pb2.py"
 PERSONA_BLUEPRINT = "version_1/personBlueprint" + PROTO_PYTHON_EXTENSION
+PERSONA_NAME_QUALIFIER = "PersonaDefinition"
+PERSONA_AGE = 1
+PERSONA_DEF_PATH="../Artist/Portraits/sketchToGreyImage/Khandhasamy/Evolution_1/age_" + str(PERSONA_AGE) + "/" + PERSONA_NAME_QUALIFIER + PROTO_DEF_EXTENSION
 DNA_BLUEPRINT = "../../DNA/dnaBlueprint/version_1/dnaBlueprint" +  PROTO_PYTHON_EXTENSION
 DNA_NAME_QUALIFIER = "DnaDefinition"
 DNA_NAME = "Khandhasamy" + DNA_NAME_QUALIFIER + PROTO_DEF_EXTENSION
@@ -29,12 +32,6 @@ def loadDNA(dnaName, evolution, dnaInstance):
     f.close()
 
     return dnaInstance
-
-def DynamicImporter(module_name, class_name):
-    module = __import__(module_name)
-    my_class = getattr(module, class_name)
-    instance = my_class()
-    return instance
 
 class PersonaDefinitionGeneration(object):
     
@@ -85,7 +82,7 @@ def generatePersonaDefinition():
     return persona
     
 # Write persona to file
-f = open("Artist\Portraits\sketchToGreyImage\Khandhasamy\Khandhasamy.bin", "wb")
+f = open(PERSONA_DEF_PATH, "wb")
 f.write(generatePersonaDefinition().SerializeToString())
 f.close()
 

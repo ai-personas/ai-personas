@@ -3,17 +3,9 @@ package dna;
 
 message DNA {
 	string DNA = 1;
-	repeated Input inputs = 2;
 	repeated Layer layers = 3;
-	repeated Output outputs = 4;
 	repeated Connection connections = 5;
 	
-	message Input {
-		string layerName = 1;
-		repeated Connection connections = 2;
-		Transform inputTransform = 3;
-		Transform outputTransform = 4;		
-	}
 
 	message Layer {
 		string layerName = 1;
@@ -45,20 +37,6 @@ message DNA {
 		double dropPercentage = 1;
 	}
 	
-	message Output {
-		string layerName = 1;
-		string outputLayerType = 2;
-		repeated Connection connections = 3;
-		Transform inputTransform = 4;
-		Transform outputTransform = 5;				
-	}
-	
-	message Transform {
-		string transformerName = 1;
-		string informationType = 2;
-		repeated Size transformSize = 3;
-		repeated Parameter transformParam = 4;
-	}
 	
 	message Connection {
 		string sourceLayerName = 1;
@@ -69,9 +47,5 @@ message DNA {
 		uint64 dimension = 1;
 		uint64 dimensionSize = 2;
 	}
-	
-	message Parameter {
-		string parameterName = 1;
-		string parameterValue = 2;
-	}
+		
 }

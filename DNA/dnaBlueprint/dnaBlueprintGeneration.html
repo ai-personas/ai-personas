@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>generatePersonaBlueprint</title>
+<title>dnaBlueprintGeneration</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -11748,91 +11748,204 @@ div#notebook {
 
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">inspect</span>
 <span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">imp</span>
 
 <span class="n">PROTO_DEF_EXTENSION</span> <span class="o">=</span> <span class="s2">&quot;.bin&quot;</span>
 <span class="n">PROTO_PYTHON_EXTENSION</span> <span class="o">=</span> <span class="s2">&quot;_pb2.py&quot;</span>
-<span class="n">PERSONA_BLUEPRINT</span> <span class="o">=</span> <span class="s2">&quot;version_1/personBlueprint&quot;</span> <span class="o">+</span> <span class="n">PROTO_PYTHON_EXTENSION</span>
-<span class="n">PERSONA_NAME_QUALIFIER</span> <span class="o">=</span> <span class="s2">&quot;PersonaDefinition&quot;</span>
-<span class="n">PERSONA_AGE</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">PERSONA_DEF_PATH</span><span class="o">=</span><span class="s2">&quot;../Artist/Portraits/sketchToGreyImage/Khandhasamy/Evolution_1/age_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">PERSONA_AGE</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">PERSONA_NAME_QUALIFIER</span> <span class="o">+</span> <span class="n">PROTO_DEF_EXTENSION</span>
 <span class="n">DNA_BLUEPRINT</span> <span class="o">=</span> <span class="s2">&quot;../../DNA/dnaBlueprint/version_1/dnaBlueprint&quot;</span> <span class="o">+</span>  <span class="n">PROTO_PYTHON_EXTENSION</span>
 <span class="n">DNA_NAME_QUALIFIER</span> <span class="o">=</span> <span class="s2">&quot;DnaDefinition&quot;</span>
 <span class="n">DNA_NAME</span> <span class="o">=</span> <span class="s2">&quot;Khandhasamy&quot;</span> <span class="o">+</span> <span class="n">DNA_NAME_QUALIFIER</span> <span class="o">+</span> <span class="n">PROTO_DEF_EXTENSION</span>
-<span class="n">DNA_DEF_PATH</span> <span class="o">=</span> <span class="s2">&quot;../DNA/dnaFamily/Khandhasamy/Evolution_1/&quot;</span> <span class="o">+</span> <span class="n">DNA_NAME</span>
+<span class="n">DNA_DEF_PATH</span> <span class="o">=</span> <span class="s2">&quot;../dnaFamily/Khandhasamy/Evolution_1/&quot;</span> <span class="o">+</span> <span class="n">DNA_NAME</span>
 
-<span class="k">def</span> <span class="nf">loadDNA</span><span class="p">(</span><span class="n">dnaName</span><span class="p">,</span> <span class="n">evolution</span><span class="p">,</span> <span class="n">dnaInstance</span><span class="p">):</span>
-    <span class="n">dna_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;DNA&#39;</span><span class="p">,</span> <span class="s1">&#39;Family&#39;</span><span class="p">,</span> <span class="n">dnaName</span><span class="p">,</span> <span class="s1">&#39;Evolution &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">evolution</span><span class="p">)))</span>
-
-    <span class="c1"># use this if you want to include modules from a subfolder</span>
-    <span class="n">cmd_subfolder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getfile</span><span class="p">(</span> <span class="n">inspect</span><span class="o">.</span><span class="n">currentframe</span><span class="p">()</span> <span class="p">))[</span><span class="mi">0</span><span class="p">],</span><span class="n">dna_path</span><span class="p">)))</span>
-    <span class="k">if</span> <span class="n">cmd_subfolder</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
-        <span class="k">print</span> <span class="p">(</span><span class="n">cmd_subfolder</span><span class="p">)</span>
-    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">cmd_subfolder</span><span class="p">)</span>
-
-    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">dna_path</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">dnaName</span> <span class="o">+</span> <span class="s2">&quot;.bin&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
-    <span class="c1">#dnaInstance = DynamicImporter(dnaName+&quot;_pb2&quot;, &quot;DNA&quot;)</span>
-    <span class="n">dnaInstance</span><span class="o">.</span><span class="n">ParseFromString</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-
-    <span class="k">return</span> <span class="n">dnaInstance</span>
-
-<span class="k">class</span> <span class="nc">PersonaDefinitionGeneration</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">DnaDefinitionGeneration</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     
-    <span class="k">def</span> <span class="nf">getDnaBlueprint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">input_layer_index</span> <span class="o">=</span> <span class="mi">1</span>
+    
+    <span class="k">def</span> <span class="nf">getDnaBlueprint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dnaBlueprintPath</span><span class="p">):</span>
         <span class="c1">#DNA blueprint path</span>
-        <span class="n">dna_blueprint_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DNA_BLUEPRINT</span><span class="p">))</span>
+        <span class="n">dna_blueprint_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dnaBlueprintPath</span><span class="p">))</span>
         <span class="k">print</span> <span class="p">(</span><span class="n">dna_blueprint_path</span><span class="p">)</span>
         <span class="c1">#dna blueprint</span>
         <span class="n">dnaBlueprint</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">load_source</span><span class="p">(</span><span class="s1">&#39;DNA&#39;</span><span class="p">,</span> <span class="n">dna_blueprint_path</span><span class="p">)</span><span class="o">.</span><span class="n">DNA</span><span class="p">()</span> 
         <span class="k">return</span> <span class="n">dnaBlueprint</span>
     
-    <span class="k">def</span> <span class="nf">loadDnaDefinition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">saveDnaDefinition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dnaDefPath</span><span class="p">,</span> <span class="n">dna</span><span class="p">):</span>
+        <span class="n">dna_def_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dnaDefPath</span><span class="p">))</span>
         <span class="c1"># read dna definition</span>
-        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;Artist\Portraits\sketchToGreyImage\Khandhasamy\Khandhasamy.bin&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span>
-        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">generatePersonaDefinition</span><span class="p">()</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">dna_def_path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dna</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">())</span>
         <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">getPersonaBlueprint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
-        <span class="c1">#persona blueprint path</span>
-        <span class="n">persona_blueprint_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TEST_PERSONA_BLUEPRINT</span><span class="p">))</span>
-        <span class="k">print</span> <span class="p">(</span><span class="n">persona_blueprint_path</span><span class="p">)</span>
-        <span class="c1">#persona blueprint</span>
-        <span class="n">personaBlueprint</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">load_source</span><span class="p">(</span><span class="s1">&#39;Persona&#39;</span><span class="p">,</span> <span class="n">persona_blueprint_path</span><span class="p">)</span><span class="o">.</span><span class="n">Persona</span><span class="p">()</span> 
-        <span class="k">return</span> <span class="n">personaBlueprint</span>
+    <span class="k">def</span> <span class="nf">generateDnaDefinition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dnaBlueprint</span><span class="p">,</span> <span class="n">dnaDefPath</span><span class="p">):</span>
+        <span class="n">dnaBlueprint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDnaBlueprint</span><span class="p">(</span><span class="n">dnaBlueprint</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">saveDnaDefinition</span><span class="p">(</span><span class="n">dnaDefPath</span><span class="p">,</span> <span class="n">dnaBlueprint</span><span class="p">)</span>
+        <span class="k">return</span>
     
-<span class="c1">#generate persona definitions </span>
-<span class="k">def</span> <span class="nf">generatePersonaDefinition</span><span class="p">():</span>
-    <span class="n">persona</span> <span class="o">=</span> <span class="n">personaDefinition_pb2</span><span class="o">.</span><span class="n">Persona</span><span class="p">()</span>
-    <span class="n">persona</span><span class="o">.</span><span class="n">physical</span> <span class="o">=</span> <span class="s2">&quot;keras&quot;</span>
+    <span class="k">def</span> <span class="nf">generateInputLayer</span><span class="p">(</span><span class="n">dna</span><span class="p">):</span>
+        <span class="n">inputLayer</span> <span class="o">=</span> <span class="n">dna</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+        <span class="n">inputLayer</span><span class="o">.</span><span class="n">layerName</span> <span class="o">=</span> <span class="s2">&quot;input&quot;</span> <span class="o">+</span> <span class="n">input_layer_index</span>
+        
     
-    <span class="n">persona</span><span class="o">.</span><span class="n">age</span><span class="o">.</span><span class="n">old</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">persona</span><span class="o">.</span><span class="n">age</span><span class="o">.</span><span class="n">learningCycle</span> <span class="o">=</span> <span class="mi">50</span>
-    <span class="n">persona</span><span class="o">.</span><span class="n">age</span><span class="o">.</span><span class="n">learningBatchSize</span> <span class="o">=</span> <span class="mi">3</span>
-    
-    <span class="c1">################ environments #############################</span>
-    <span class="n">environment</span> <span class="o">=</span> <span class="n">persona</span><span class="o">.</span><span class="n">age</span><span class="o">.</span><span class="n">environments</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+<span class="n">dnaDef</span> <span class="o">=</span> <span class="n">DnaDefinitionGeneration</span><span class="p">()</span>
+<span class="n">dnaDef</span><span class="o">.</span><span class="n">generateDnaDefinition</span><span class="p">(</span><span class="n">DNA_BLUEPRINT</span><span class="p">,</span> <span class="n">DNA_DEF_PATH</span><span class="p">)</span>
 
-    <span class="c1">################ environments #############################</span>
-    <span class="n">information</span> <span class="o">=</span> <span class="n">environment</span><span class="o">.</span><span class="n">informations</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
-    <span class="n">information</span><span class="o">.</span><span class="n">informationSource</span> <span class="o">=</span> <span class="s2">&quot;Informations\Category\Portraits\scientists&quot;</span>
-    <span class="n">information</span><span class="o">.</span><span class="n">connectedLayerName</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;imageInput&quot;</span><span class="p">)</span>
-    <span class="n">information</span><span class="o">.</span><span class="n">connectedLayerName</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;imageOutput&quot;</span><span class="p">)</span>
+<span class="c1"># This function fills in a Person message based on user input.</span>
+<span class="k">def</span> <span class="nf">generateDNA</span><span class="p">():</span>
+    <span class="n">dna</span> <span class="o">=</span> <span class="n">dnaDefinition_pb2</span><span class="o">.</span><span class="n">DNA</span><span class="p">()</span>
+    <span class="n">dna</span><span class="o">.</span><span class="n">DNA</span> <span class="o">=</span> <span class="s2">&quot;Khandasamy&quot;</span>
     
-    <span class="c1">################# get DNA from file######################</span>
-    <span class="n">dna</span> <span class="o">=</span> <span class="n">persona</span><span class="o">.</span><span class="n">DNAs</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
-    <span class="n">dna</span> <span class="o">=</span> <span class="n">loadDNA</span><span class="p">(</span><span class="s2">&quot;Khandhasamy&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dna</span><span class="p">)</span>
+    <span class="c1">################ input layer #############################</span>
+    <span class="n">inputLayer</span> <span class="o">=</span> <span class="n">dna</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">inputLayer</span><span class="o">.</span><span class="n">layerName</span> <span class="o">=</span> <span class="s2">&quot;imageInput&quot;</span>
+
+    <span class="n">inputLayer</span><span class="o">.</span><span class="n">inputTransform</span><span class="o">.</span><span class="n">transformerName</span> <span class="o">=</span> <span class="s2">&quot;imageTransform&quot;</span>
+    <span class="n">inputLayer</span><span class="o">.</span><span class="n">inputTransform</span><span class="o">.</span><span class="n">informationType</span> <span class="o">=</span> <span class="s2">&quot;image&quot;</span>
+    <span class="n">transformInputSize1</span> <span class="o">=</span>  <span class="n">inputLayer</span><span class="o">.</span><span class="n">inputTransform</span><span class="o">.</span><span class="n">transformSize</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">transformInputSize1</span><span class="o">.</span><span class="n">dimension</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">transformInputSize1</span><span class="o">.</span><span class="n">dimensionSize</span> <span class="o">=</span> <span class="mi">50</span>
+    <span class="n">transformInputSize2</span> <span class="o">=</span>  <span class="n">inputLayer</span><span class="o">.</span><span class="n">inputTransform</span><span class="o">.</span><span class="n">transformSize</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">transformInputSize2</span><span class="o">.</span><span class="n">dimension</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">transformInputSize2</span><span class="o">.</span><span class="n">dimensionSize</span> <span class="o">=</span> <span class="mi">50</span>
+    <span class="n">transformParam1</span> <span class="o">=</span> <span class="n">inputLayer</span><span class="o">.</span><span class="n">inputTransform</span><span class="o">.</span><span class="n">transformParam</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">transformParam1</span><span class="o">.</span><span class="n">parameterName</span> <span class="o">=</span> <span class="s2">&quot;color&quot;</span>
+    <span class="n">transformParam1</span><span class="o">.</span><span class="n">parameterValue</span>  <span class="o">=</span> <span class="s2">&quot;grey&quot;</span>
+    <span class="n">transformParam2</span> <span class="o">=</span> <span class="n">inputLayer</span><span class="o">.</span><span class="n">inputTransform</span><span class="o">.</span><span class="n">transformParam</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">transformParam2</span><span class="o">.</span><span class="n">parameterName</span> <span class="o">=</span> <span class="s2">&quot;process&quot;</span>
+    <span class="n">transformParam2</span><span class="o">.</span><span class="n">parameterValue</span>  <span class="o">=</span> <span class="s2">&quot;edge&quot;</span>
     
-    <span class="k">return</span> <span class="n">persona</span>
+    <span class="n">connection1</span> <span class="o">=</span> <span class="n">inputLayer</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">connection1</span><span class="o">.</span><span class="n">destinationLayerName</span> <span class="o">=</span> <span class="s2">&quot;layer1&quot;</span>
     
-<span class="c1"># Write persona to file</span>
-<span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">PERSONA_DEF_PATH</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span>
-<span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">generatePersonaDefinition</span><span class="p">()</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">())</span>
-<span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="c1">################ convolution layer #############################</span>
+    <span class="n">layer1</span> <span class="o">=</span> <span class="n">dna</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">layer1</span><span class="o">.</span><span class="n">layerName</span> <span class="o">=</span> <span class="s2">&quot;layer1&quot;</span>
+    <span class="n">layer1Size1</span> <span class="o">=</span> <span class="n">layer1</span><span class="o">.</span><span class="n">layerSize</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">layer1Size1</span><span class="o">.</span><span class="n">dimension</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">layer1Size1</span><span class="o">.</span><span class="n">dimensionSize</span> <span class="o">=</span> <span class="mi">50</span>
+    <span class="n">layer1Size2</span> <span class="o">=</span> <span class="n">layer1</span><span class="o">.</span><span class="n">layerSize</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">layer1Size2</span><span class="o">.</span><span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">layer1Size2</span><span class="o">.</span><span class="n">dimensionSize</span> <span class="o">=</span> <span class="mi">50</span>
+    <span class="n">layer1Connection1</span> <span class="o">=</span> <span class="n">layer1</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">layer1Connection1</span><span class="o">.</span><span class="n">sourceLayerName</span> <span class="o">=</span> <span class="s2">&quot;imageInput&quot;</span>
+    <span class="n">layer1Connection1</span><span class="o">.</span><span class="n">destinationLayerName</span> <span class="o">=</span> <span class="s2">&quot;layer2&quot;</span>
+    <span class="n">layer1</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">convolutionDimension</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">layer1</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">filters</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">layer1</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">borderMode</span> <span class="o">=</span> <span class="s2">&quot;same&quot;</span>
+    <span class="n">layer1</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">kernelSize</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">layer1</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">kernelSize</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">layer1</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">inputShape</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">layer1</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">inputShape</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">layer1</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">inputShape</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+    
+    <span class="c1">################ activation layer #############################</span>
+    <span class="n">layer2</span> <span class="o">=</span> <span class="n">dna</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">layer2</span><span class="o">.</span><span class="n">layerName</span> <span class="o">=</span> <span class="s2">&quot;layer2&quot;</span>
+    <span class="n">layer2Connection1</span> <span class="o">=</span> <span class="n">layer2</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">layer2Connection1</span><span class="o">.</span><span class="n">sourceLayerName</span> <span class="o">=</span> <span class="s2">&quot;layer1&quot;</span>
+    <span class="n">layer2Connection1</span><span class="o">.</span><span class="n">destinationLayerName</span> <span class="o">=</span> <span class="s2">&quot;layer3&quot;</span>
+    <span class="n">layer2</span><span class="o">.</span><span class="n">layerActivation</span><span class="o">.</span><span class="n">activationType</span> <span class="o">=</span> <span class="s2">&quot;relu&quot;</span>
+
+    <span class="c1">################ dropout layer #############################</span>
+    <span class="n">layer3</span> <span class="o">=</span> <span class="n">dna</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">layer3</span><span class="o">.</span><span class="n">layerName</span> <span class="o">=</span> <span class="s2">&quot;layer3&quot;</span>
+    <span class="n">layer3Connection1</span> <span class="o">=</span> <span class="n">layer3</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">layer3Connection1</span><span class="o">.</span><span class="n">sourceLayerName</span> <span class="o">=</span> <span class="s2">&quot;layer2&quot;</span>
+    <span class="n">layer3Connection1</span><span class="o">.</span><span class="n">destinationLayerName</span> <span class="o">=</span> <span class="s2">&quot;layer4&quot;</span>
+    <span class="n">layer3</span><span class="o">.</span><span class="n">layerDropout</span><span class="o">.</span><span class="n">dropPercentage</span> <span class="o">=</span> <span class="mf">0.3</span>
+    
+    <span class="c1">################ convolution layer #############################</span>
+    <span class="n">layer4</span> <span class="o">=</span> <span class="n">dna</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">layer4</span><span class="o">.</span><span class="n">layerName</span> <span class="o">=</span> <span class="s2">&quot;layer4&quot;</span>
+    <span class="n">layer4Size1</span> <span class="o">=</span> <span class="n">layer4</span><span class="o">.</span><span class="n">layerSize</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">layer4Size1</span><span class="o">.</span><span class="n">dimension</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">layer4Size1</span><span class="o">.</span><span class="n">dimensionSize</span> <span class="o">=</span> <span class="mi">50</span>
+    <span class="n">layer4Size2</span> <span class="o">=</span> <span class="n">layer4</span><span class="o">.</span><span class="n">layerSize</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">layer4Size2</span><span class="o">.</span><span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">layer4Size2</span><span class="o">.</span><span class="n">dimensionSize</span> <span class="o">=</span> <span class="mi">50</span>
+    <span class="n">layer4Connection1</span> <span class="o">=</span> <span class="n">layer4</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">layer4Connection1</span><span class="o">.</span><span class="n">sourceLayerName</span> <span class="o">=</span> <span class="s2">&quot;layer3&quot;</span>
+    <span class="n">layer4Connection1</span><span class="o">.</span><span class="n">destinationLayerName</span> <span class="o">=</span> <span class="s2">&quot;layer5&quot;</span>
+    <span class="n">layer4</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">convolutionDimension</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">layer4</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">filters</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">layer4</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">borderMode</span> <span class="o">=</span> <span class="s2">&quot;same&quot;</span>
+    <span class="n">layer4</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">kernelSize</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">layer4</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">kernelSize</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">layer4</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">inputShape</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">layer4</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">inputShape</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">layer4</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">inputShape</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>    
+    
+    <span class="c1">################ activation layer #############################</span>
+    <span class="n">layer5</span> <span class="o">=</span> <span class="n">dna</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">layer5</span><span class="o">.</span><span class="n">layerName</span> <span class="o">=</span> <span class="s2">&quot;layer5&quot;</span>
+    <span class="n">layer5Connection1</span> <span class="o">=</span> <span class="n">layer5</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">layer5Connection1</span><span class="o">.</span><span class="n">sourceLayerName</span> <span class="o">=</span> <span class="s2">&quot;layer4&quot;</span>
+    <span class="n">layer5Connection1</span><span class="o">.</span><span class="n">destinationLayerName</span> <span class="o">=</span> <span class="s2">&quot;layer6&quot;</span>
+    <span class="n">layer5</span><span class="o">.</span><span class="n">layerActivation</span><span class="o">.</span><span class="n">activationType</span> <span class="o">=</span> <span class="s2">&quot;relu&quot;</span>
+
+    <span class="c1">################ dropout layer #############################</span>
+    <span class="n">layer6</span> <span class="o">=</span> <span class="n">dna</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">layer6</span><span class="o">.</span><span class="n">layerName</span> <span class="o">=</span> <span class="s2">&quot;layer6&quot;</span>
+    <span class="n">layer6Connection1</span> <span class="o">=</span> <span class="n">layer3</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">layer6Connection1</span><span class="o">.</span><span class="n">sourceLayerName</span> <span class="o">=</span> <span class="s2">&quot;layer5&quot;</span>
+    <span class="n">layer6Connection1</span><span class="o">.</span><span class="n">destinationLayerName</span> <span class="o">=</span> <span class="s2">&quot;layer7&quot;</span>
+    <span class="n">layer6</span><span class="o">.</span><span class="n">layerDropout</span><span class="o">.</span><span class="n">dropPercentage</span> <span class="o">=</span> <span class="mf">0.3</span>
+    
+    <span class="c1">################ convolution layer #############################</span>
+    <span class="n">layer7</span> <span class="o">=</span> <span class="n">dna</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">layer7</span><span class="o">.</span><span class="n">layerName</span> <span class="o">=</span> <span class="s2">&quot;layer7&quot;</span>
+    <span class="n">layer7Size1</span> <span class="o">=</span> <span class="n">layer7</span><span class="o">.</span><span class="n">layerSize</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">layer7Size1</span><span class="o">.</span><span class="n">dimension</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">layer7Size1</span><span class="o">.</span><span class="n">dimensionSize</span> <span class="o">=</span> <span class="mi">50</span>
+    <span class="n">layer7Size2</span> <span class="o">=</span> <span class="n">layer7</span><span class="o">.</span><span class="n">layerSize</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">layer7Size2</span><span class="o">.</span><span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">layer7Size2</span><span class="o">.</span><span class="n">dimensionSize</span> <span class="o">=</span> <span class="mi">50</span>
+    <span class="n">layer7Connection1</span> <span class="o">=</span> <span class="n">layer7</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">layer7Connection1</span><span class="o">.</span><span class="n">sourceLayerName</span> <span class="o">=</span> <span class="s2">&quot;layer6&quot;</span>
+    <span class="n">layer7Connection1</span><span class="o">.</span><span class="n">destinationLayerName</span> <span class="o">=</span> <span class="s2">&quot;layer8&quot;</span>
+    <span class="n">layer7</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">convolutionDimension</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">layer7</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">filters</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">layer7</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">borderMode</span> <span class="o">=</span> <span class="s2">&quot;same&quot;</span>
+    <span class="n">layer7</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">kernelSize</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">layer7</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">kernelSize</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">layer7</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">inputShape</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">layer7</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">inputShape</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">layer7</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">inputShape</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>    
+    
+    <span class="c1">################ activation layer #############################</span>
+    <span class="n">layer8</span> <span class="o">=</span> <span class="n">dna</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">layer8</span><span class="o">.</span><span class="n">layerName</span> <span class="o">=</span> <span class="s2">&quot;layer8&quot;</span>
+    <span class="n">layer8Connection1</span> <span class="o">=</span> <span class="n">layer8</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">layer8Connection1</span><span class="o">.</span><span class="n">sourceLayerName</span> <span class="o">=</span> <span class="s2">&quot;layer7&quot;</span>
+    <span class="n">layer8Connection1</span><span class="o">.</span><span class="n">destinationLayerName</span> <span class="o">=</span> <span class="s2">&quot;output&quot;</span>
+    <span class="n">layer8</span><span class="o">.</span><span class="n">layerActivation</span><span class="o">.</span><span class="n">activationType</span> <span class="o">=</span> <span class="s2">&quot;relu&quot;</span>
+    
+    <span class="c1">################ output layer #############################</span>
+    <span class="n">outputLayer</span> <span class="o">=</span> <span class="n">dna</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">outputLayer</span><span class="o">.</span><span class="n">layerName</span> <span class="o">=</span> <span class="s2">&quot;imageOutput&quot;</span>
+
+    <span class="n">outputLayer</span><span class="o">.</span><span class="n">inputTransform</span><span class="o">.</span><span class="n">transformerName</span> <span class="o">=</span> <span class="s2">&quot;imageTransform&quot;</span>
+    <span class="n">outputLayer</span><span class="o">.</span><span class="n">inputTransform</span><span class="o">.</span><span class="n">informationType</span> <span class="o">=</span> <span class="s2">&quot;image&quot;</span>
+    <span class="n">transformInputSize1</span> <span class="o">=</span>  <span class="n">outputLayer</span><span class="o">.</span><span class="n">inputTransform</span><span class="o">.</span><span class="n">transformSize</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">transformInputSize1</span><span class="o">.</span><span class="n">dimension</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">transformInputSize1</span><span class="o">.</span><span class="n">dimensionSize</span> <span class="o">=</span> <span class="mi">50</span>
+    <span class="n">transformInputSize2</span> <span class="o">=</span>  <span class="n">outputLayer</span><span class="o">.</span><span class="n">inputTransform</span><span class="o">.</span><span class="n">transformSize</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">transformInputSize2</span><span class="o">.</span><span class="n">dimension</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">transformInputSize2</span><span class="o">.</span><span class="n">dimensionSize</span> <span class="o">=</span> <span class="mi">50</span>
+    <span class="n">transformParam1</span> <span class="o">=</span> <span class="n">outputLayer</span><span class="o">.</span><span class="n">inputTransform</span><span class="o">.</span><span class="n">transformParam</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+    <span class="n">transformParam1</span><span class="o">.</span><span class="n">parameterName</span> <span class="o">=</span> <span class="s2">&quot;color&quot;</span>
+    <span class="n">transformParam1</span><span class="o">.</span><span class="n">parameterValue</span>  <span class="o">=</span> <span class="s2">&quot;grey&quot;</span>
+        
+    <span class="k">return</span> <span class="n">dna</span>
+    
+<span class="c1"># # Write the new address book back to disk.</span>
+<span class="c1"># f = open(&quot;Family\Khandhasamy\Evolution 1\Khandhasamy.bin&quot;, &quot;wb&quot;)</span>
+<span class="c1"># f.write(generateDNA().SerializeToString())</span>
+<span class="c1"># f.close()</span>
 </pre></div>
 
 </div>
@@ -11844,25 +11957,9 @@ div#notebook {
 
 
 <div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-3-abd8935b1b0b&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">     85</span> <span class="ansi-red-intense-fg ansi-bold"># Write persona to file</span>
-<span class="ansi-green-intense-fg ansi-bold">     86</span> f <span class="ansi-yellow-intense-fg ansi-bold">=</span> open<span class="ansi-yellow-intense-fg ansi-bold">(</span>PERSONA_DEF_PATH<span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-blue-intense-fg ansi-bold">&#34;wb&#34;</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">---&gt; 87</span><span class="ansi-red-fg"> </span>f<span class="ansi-yellow-intense-fg ansi-bold">.</span>write<span class="ansi-yellow-intense-fg ansi-bold">(</span>generatePersonaDefinition<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">.</span>SerializeToString<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     88</span> f<span class="ansi-yellow-intense-fg ansi-bold">.</span>close<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     89</span> 
-
-<span class="ansi-green-fg">&lt;ipython-input-3-abd8935b1b0b&gt;</span> in <span class="ansi-cyan-fg">generatePersonaDefinition</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">     61</span> <span class="ansi-red-intense-fg ansi-bold">#generate persona definitions</span>
-<span class="ansi-green-intense-fg ansi-bold">     62</span> <span class="ansi-green-intense-fg ansi-bold">def</span> generatePersonaDefinition<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
-<span class="ansi-green-fg">---&gt; 63</span><span class="ansi-red-fg">     </span>persona <span class="ansi-yellow-intense-fg ansi-bold">=</span> personaDefinition_pb2<span class="ansi-yellow-intense-fg ansi-bold">.</span>Persona<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     64</span>     persona<span class="ansi-yellow-intense-fg ansi-bold">.</span>physical <span class="ansi-yellow-intense-fg ansi-bold">=</span> <span class="ansi-blue-intense-fg ansi-bold">&#34;keras&#34;</span>
-<span class="ansi-green-intense-fg ansi-bold">     65</span> 
-
-<span class="ansi-red-fg">NameError</span>: global name &#39;personaDefinition_pb2&#39; is not defined</pre>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>C:\Users\rames\Documents\GitHub\ai-personas\DNA\dnaBlueprint\version_1\dnaBlueprint_pb2.py
+</pre>
 </div>
 </div>
 
