@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='personBlueprint.proto',
   package='persona',
   syntax='proto3',
-  serialized_pb=_b('\n\x15personBlueprint.proto\x12\x07persona\"\xc4\x11\n\x07Persona\x12\"\n\x04\x44NAs\x18\x01 \x03(\x0b\x32\x14.persona.Persona.DNA\x12\x10\n\x08physical\x18\x02 \x01(\t\x12!\n\x03\x61ge\x18\x03 \x01(\x0b\x32\x14.persona.Persona.Age\x1a\xdc\x0c\n\x03\x44NA\x12\x0b\n\x03\x44NA\x18\x01 \x01(\t\x12*\n\x06inputs\x18\x02 \x03(\x0b\x32\x1a.persona.Persona.DNA.Input\x12*\n\x06layers\x18\x03 \x03(\x0b\x32\x1a.persona.Persona.DNA.Layer\x12,\n\x07outputs\x18\x04 \x03(\x0b\x32\x1b.persona.Persona.DNA.Output\x12\x34\n\x0b\x63onnections\x18\x05 \x03(\x0b\x32\x1f.persona.Persona.DNA.Connection\x1a\xc1\x01\n\x05Input\x12\x11\n\tlayerName\x18\x01 \x01(\t\x12\x34\n\x0b\x63onnections\x18\x02 \x03(\x0b\x32\x1f.persona.Persona.DNA.Connection\x12\x36\n\x0einputTransform\x18\x03 \x01(\x0b\x32\x1e.persona.Persona.DNA.Transform\x12\x37\n\x0foutputTransform\x18\x04 \x01(\x0b\x32\x1e.persona.Persona.DNA.Transform\x1a\xba\x03\n\x05Layer\x12\x11\n\tlayerName\x18\x01 \x01(\t\x12,\n\tlayerSize\x18\x02 \x03(\x0b\x32\x19.persona.Persona.DNA.Size\x12\x34\n\x0b\x63onnections\x18\x03 \x03(\x0b\x32\x1f.persona.Persona.DNA.Connection\x12\x36\n\x0einputTransform\x18\x04 \x01(\x0b\x32\x1e.persona.Persona.DNA.Transform\x12\x37\n\x0foutputTransform\x18\x05 \x01(\x0b\x32\x1e.persona.Persona.DNA.Transform\x12\x41\n\x10layerConvolution\x18\x06 \x01(\x0b\x32%.persona.Persona.DNA.LayerConvolutionH\x00\x12?\n\x0flayerActivation\x18\x07 \x01(\x0b\x32$.persona.Persona.DNA.LayerActivationH\x00\x12\x39\n\x0clayerDropout\x18\x08 \x01(\x0b\x32!.persona.Persona.DNA.LayerDropoutH\x00\x42\n\n\x08SubLayer\x1a}\n\x10LayerConvolution\x12\x1c\n\x14\x63onvolutionDimension\x18\x01 \x01(\x04\x12\x0f\n\x07\x66ilters\x18\x02 \x01(\x04\x12\x12\n\nkernelSize\x18\x03 \x03(\x04\x12\x12\n\nborderMode\x18\x04 \x01(\t\x12\x12\n\ninputShape\x18\x05 \x03(\x04\x1a)\n\x0fLayerActivation\x12\x16\n\x0e\x61\x63tivationType\x18\x01 \x01(\t\x1a&\n\x0cLayerDropout\x12\x16\n\x0e\x64ropPercentage\x18\x01 \x01(\x01\x1a\xdb\x01\n\x06Output\x12\x11\n\tlayerName\x18\x01 \x01(\t\x12\x17\n\x0foutputLayerType\x18\x02 \x01(\t\x12\x34\n\x0b\x63onnections\x18\x03 \x03(\x0b\x32\x1f.persona.Persona.DNA.Connection\x12\x36\n\x0einputTransform\x18\x04 \x01(\x0b\x32\x1e.persona.Persona.DNA.Transform\x12\x37\n\x0foutputTransform\x18\x05 \x01(\x0b\x32\x1e.persona.Persona.DNA.Transform\x1a\xa7\x01\n\tTransform\x12\x17\n\x0ftransformerName\x18\x01 \x01(\t\x12\x17\n\x0finformationType\x18\x02 \x01(\t\x12\x30\n\rtransformSize\x18\x03 \x03(\x0b\x32\x19.persona.Persona.DNA.Size\x12\x36\n\x0etransformParam\x18\x04 \x03(\x0b\x32\x1e.persona.Persona.DNA.Parameter\x1a\x43\n\nConnection\x12\x17\n\x0fsourceLayerName\x18\x01 \x01(\t\x12\x1c\n\x14\x64\x65stinationLayerName\x18\x02 \x01(\t\x1a\x30\n\x04Size\x12\x11\n\tdimension\x18\x01 \x01(\x04\x12\x15\n\rdimensionSize\x18\x02 \x01(\x04\x1a:\n\tParameter\x12\x15\n\rparameterName\x18\x01 \x01(\t\x12\x16\n\x0eparameterValue\x18\x02 \x01(\t\x1ax\n\x03\x41ge\x12\x0b\n\x03old\x18\x01 \x01(\x04\x12\x15\n\rlearningCycle\x18\x02 \x01(\x04\x12\x19\n\x11learningBatchSize\x18\x03 \x01(\x04\x12\x32\n\x0c\x65nvironments\x18\x04 \x03(\x0b\x32\x1c.persona.Persona.Environment\x1a\x86\x03\n\x0b\x45nvironment\x12\x0f\n\x07society\x18\x01 \x01(\t\x12\x35\n\x07library\x18\x02 \x01(\x0b\x32$.persona.Persona.Environment.Library\x1a\xae\x02\n\x07Library\x12<\n\x07sources\x18\x01 \x03(\x0b\x32+.persona.Persona.Environment.Library.Source\x1a\xe4\x01\n\x06Source\x12\x12\n\nsourceName\x18\x01 \x01(\t\x12\x1a\n\x12\x63onnectedLayerName\x18\x02 \x03(\t\x12\x1e\n\x16teachingDataPercentage\x18\x03 \x01(\x02\x12 \n\x18validationDataPercentage\x18\x04 \x01(\x02\x12\x1a\n\x12testDataPercentage\x18\x05 \x01(\x02\x1aL\n\x0bImageSource\x12\x12\n\nimageWidth\x18\x01 \x01(\x04\x12\x13\n\x0bimageHeight\x18\x02 \x01(\x04\x12\x14\n\x0cimageProcess\x18\x04 \x03(\tb\x06proto3')
+  serialized_pb=_b('\n\x15personBlueprint.proto\x12\x07persona\"\xd5\x13\n\x07Persona\x12\"\n\x04\x44NAs\x18\x01 \x03(\x0b\x32\x14.persona.Persona.DNA\x12\x10\n\x08physical\x18\x02 \x01(\t\x12!\n\x03\x61ge\x18\x03 \x01(\x0b\x32\x14.persona.Persona.Age\x1a\xdc\x0c\n\x03\x44NA\x12\x0b\n\x03\x44NA\x18\x01 \x01(\t\x12*\n\x06inputs\x18\x02 \x03(\x0b\x32\x1a.persona.Persona.DNA.Input\x12*\n\x06layers\x18\x03 \x03(\x0b\x32\x1a.persona.Persona.DNA.Layer\x12,\n\x07outputs\x18\x04 \x03(\x0b\x32\x1b.persona.Persona.DNA.Output\x12\x34\n\x0b\x63onnections\x18\x05 \x03(\x0b\x32\x1f.persona.Persona.DNA.Connection\x1a\xc1\x01\n\x05Input\x12\x11\n\tlayerName\x18\x01 \x01(\t\x12\x34\n\x0b\x63onnections\x18\x02 \x03(\x0b\x32\x1f.persona.Persona.DNA.Connection\x12\x36\n\x0einputTransform\x18\x03 \x01(\x0b\x32\x1e.persona.Persona.DNA.Transform\x12\x37\n\x0foutputTransform\x18\x04 \x01(\x0b\x32\x1e.persona.Persona.DNA.Transform\x1a\xba\x03\n\x05Layer\x12\x11\n\tlayerName\x18\x01 \x01(\t\x12,\n\tlayerSize\x18\x02 \x03(\x0b\x32\x19.persona.Persona.DNA.Size\x12\x34\n\x0b\x63onnections\x18\x03 \x03(\x0b\x32\x1f.persona.Persona.DNA.Connection\x12\x36\n\x0einputTransform\x18\x04 \x01(\x0b\x32\x1e.persona.Persona.DNA.Transform\x12\x37\n\x0foutputTransform\x18\x05 \x01(\x0b\x32\x1e.persona.Persona.DNA.Transform\x12\x41\n\x10layerConvolution\x18\x06 \x01(\x0b\x32%.persona.Persona.DNA.LayerConvolutionH\x00\x12?\n\x0flayerActivation\x18\x07 \x01(\x0b\x32$.persona.Persona.DNA.LayerActivationH\x00\x12\x39\n\x0clayerDropout\x18\x08 \x01(\x0b\x32!.persona.Persona.DNA.LayerDropoutH\x00\x42\n\n\x08SubLayer\x1a}\n\x10LayerConvolution\x12\x1c\n\x14\x63onvolutionDimension\x18\x01 \x01(\x04\x12\x0f\n\x07\x66ilters\x18\x02 \x01(\x04\x12\x12\n\nkernelSize\x18\x03 \x03(\x04\x12\x12\n\nborderMode\x18\x04 \x01(\t\x12\x12\n\ninputShape\x18\x05 \x03(\x04\x1a)\n\x0fLayerActivation\x12\x16\n\x0e\x61\x63tivationType\x18\x01 \x01(\t\x1a&\n\x0cLayerDropout\x12\x16\n\x0e\x64ropPercentage\x18\x01 \x01(\x01\x1a\xdb\x01\n\x06Output\x12\x11\n\tlayerName\x18\x01 \x01(\t\x12\x17\n\x0foutputLayerType\x18\x02 \x01(\t\x12\x34\n\x0b\x63onnections\x18\x03 \x03(\x0b\x32\x1f.persona.Persona.DNA.Connection\x12\x36\n\x0einputTransform\x18\x04 \x01(\x0b\x32\x1e.persona.Persona.DNA.Transform\x12\x37\n\x0foutputTransform\x18\x05 \x01(\x0b\x32\x1e.persona.Persona.DNA.Transform\x1a\xa7\x01\n\tTransform\x12\x17\n\x0ftransformerName\x18\x01 \x01(\t\x12\x17\n\x0finformationType\x18\x02 \x01(\t\x12\x30\n\rtransformSize\x18\x03 \x03(\x0b\x32\x19.persona.Persona.DNA.Size\x12\x36\n\x0etransformParam\x18\x04 \x03(\x0b\x32\x1e.persona.Persona.DNA.Parameter\x1a\x43\n\nConnection\x12\x17\n\x0fsourceLayerName\x18\x01 \x01(\t\x12\x1c\n\x14\x64\x65stinationLayerName\x18\x02 \x01(\t\x1a\x30\n\x04Size\x12\x11\n\tdimension\x18\x01 \x01(\x04\x12\x15\n\rdimensionSize\x18\x02 \x01(\x04\x1a:\n\tParameter\x12\x15\n\rparameterName\x18\x01 \x01(\t\x12\x16\n\x0eparameterValue\x18\x02 \x01(\t\x1ax\n\x03\x41ge\x12\x0b\n\x03old\x18\x01 \x01(\x04\x12\x15\n\rlearningCycle\x18\x02 \x01(\x04\x12\x19\n\x11learningBatchSize\x18\x03 \x01(\x04\x12\x32\n\x0c\x65nvironments\x18\x04 \x03(\x0b\x32\x1c.persona.Persona.Environment\x1a\x97\x05\n\x0b\x45nvironment\x12\x0f\n\x07society\x18\x01 \x01(\t\x12\x35\n\x07library\x18\x02 \x01(\x0b\x32$.persona.Persona.Environment.Library\x1a\xbf\x04\n\x07Library\x12<\n\x07sources\x18\x01 \x03(\x0b\x32+.persona.Persona.Environment.Library.Source\x1a\xf5\x03\n\x06Source\x12\x12\n\nsourceName\x18\x01 \x01(\t\x12\x1a\n\x12\x63onnectedLayerName\x18\x02 \x03(\t\x12\x1e\n\x16teachingDataPercentage\x18\x03 \x01(\x02\x12 \n\x18validationDataPercentage\x18\x04 \x01(\x02\x12\x1a\n\x12testDataPercentage\x18\x05 \x01(\x02\x12`\n\x15sourceConnectionLayer\x18\x06 \x03(\x0b\x32\x41.persona.Persona.Environment.Library.Source.SourceConnectionLayer\x1a\xfa\x01\n\x15SourceConnectionLayer\x12\x1a\n\x12\x63onnectedLayerName\x18\x07 \x01(\t\x12\x64\n\x0bimageSource\x18\x01 \x01(\x0b\x32M.persona.Persona.Environment.Library.Source.SourceConnectionLayer.ImageSourceH\x00\x1aL\n\x0bImageSource\x12\x12\n\nimageWidth\x18\x01 \x01(\x04\x12\x13\n\x0bimageHeight\x18\x02 \x01(\x04\x12\x14\n\x0cimageProcess\x18\x04 \x03(\tB\x11\n\x0fSourceParameterb\x06proto3')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -606,29 +606,29 @@ _PERSONA_AGE = _descriptor.Descriptor(
   serialized_end=1886,
 )
 
-_PERSONA_ENVIRONMENT_LIBRARY_SOURCE_IMAGESOURCE = _descriptor.Descriptor(
+_PERSONA_ENVIRONMENT_LIBRARY_SOURCE_SOURCECONNECTIONLAYER_IMAGESOURCE = _descriptor.Descriptor(
   name='ImageSource',
-  full_name='persona.Persona.Environment.Library.Source.ImageSource',
+  full_name='persona.Persona.Environment.Library.Source.SourceConnectionLayer.ImageSource',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='imageWidth', full_name='persona.Persona.Environment.Library.Source.ImageSource.imageWidth', index=0,
+      name='imageWidth', full_name='persona.Persona.Environment.Library.Source.SourceConnectionLayer.ImageSource.imageWidth', index=0,
       number=1, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='imageHeight', full_name='persona.Persona.Environment.Library.Source.ImageSource.imageHeight', index=1,
+      name='imageHeight', full_name='persona.Persona.Environment.Library.Source.SourceConnectionLayer.ImageSource.imageHeight', index=1,
       number=2, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='imageProcess', full_name='persona.Persona.Environment.Library.Source.ImageSource.imageProcess', index=2,
+      name='imageProcess', full_name='persona.Persona.Environment.Library.Source.SourceConnectionLayer.ImageSource.imageProcess', index=2,
       number=4, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -646,8 +646,48 @@ _PERSONA_ENVIRONMENT_LIBRARY_SOURCE_IMAGESOURCE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2203,
-  serialized_end=2279,
+  serialized_start=2457,
+  serialized_end=2533,
+)
+
+_PERSONA_ENVIRONMENT_LIBRARY_SOURCE_SOURCECONNECTIONLAYER = _descriptor.Descriptor(
+  name='SourceConnectionLayer',
+  full_name='persona.Persona.Environment.Library.Source.SourceConnectionLayer',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='connectedLayerName', full_name='persona.Persona.Environment.Library.Source.SourceConnectionLayer.connectedLayerName', index=0,
+      number=7, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='imageSource', full_name='persona.Persona.Environment.Library.Source.SourceConnectionLayer.imageSource', index=1,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[_PERSONA_ENVIRONMENT_LIBRARY_SOURCE_SOURCECONNECTIONLAYER_IMAGESOURCE, ],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+    _descriptor.OneofDescriptor(
+      name='SourceParameter', full_name='persona.Persona.Environment.Library.Source.SourceConnectionLayer.SourceParameter',
+      index=0, containing_type=None, fields=[]),
+  ],
+  serialized_start=2302,
+  serialized_end=2552,
 )
 
 _PERSONA_ENVIRONMENT_LIBRARY_SOURCE = _descriptor.Descriptor(
@@ -692,10 +732,17 @@ _PERSONA_ENVIRONMENT_LIBRARY_SOURCE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
+    _descriptor.FieldDescriptor(
+      name='sourceConnectionLayer', full_name='persona.Persona.Environment.Library.Source.sourceConnectionLayer', index=5,
+      number=6, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
   ],
   extensions=[
   ],
-  nested_types=[_PERSONA_ENVIRONMENT_LIBRARY_SOURCE_IMAGESOURCE, ],
+  nested_types=[_PERSONA_ENVIRONMENT_LIBRARY_SOURCE_SOURCECONNECTIONLAYER, ],
   enum_types=[
   ],
   options=None,
@@ -705,7 +752,7 @@ _PERSONA_ENVIRONMENT_LIBRARY_SOURCE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=2051,
-  serialized_end=2279,
+  serialized_end=2552,
 )
 
 _PERSONA_ENVIRONMENT_LIBRARY = _descriptor.Descriptor(
@@ -735,7 +782,7 @@ _PERSONA_ENVIRONMENT_LIBRARY = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=1977,
-  serialized_end=2279,
+  serialized_end=2552,
 )
 
 _PERSONA_ENVIRONMENT = _descriptor.Descriptor(
@@ -772,7 +819,7 @@ _PERSONA_ENVIRONMENT = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=1889,
-  serialized_end=2279,
+  serialized_end=2552,
 )
 
 _PERSONA = _descriptor.Descriptor(
@@ -816,7 +863,7 @@ _PERSONA = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=35,
-  serialized_end=2279,
+  serialized_end=2552,
 )
 
 _PERSONA_DNA_INPUT.fields_by_name['connections'].message_type = _PERSONA_DNA_CONNECTION
@@ -860,7 +907,13 @@ _PERSONA_DNA.fields_by_name['connections'].message_type = _PERSONA_DNA_CONNECTIO
 _PERSONA_DNA.containing_type = _PERSONA
 _PERSONA_AGE.fields_by_name['environments'].message_type = _PERSONA_ENVIRONMENT
 _PERSONA_AGE.containing_type = _PERSONA
-_PERSONA_ENVIRONMENT_LIBRARY_SOURCE_IMAGESOURCE.containing_type = _PERSONA_ENVIRONMENT_LIBRARY_SOURCE
+_PERSONA_ENVIRONMENT_LIBRARY_SOURCE_SOURCECONNECTIONLAYER_IMAGESOURCE.containing_type = _PERSONA_ENVIRONMENT_LIBRARY_SOURCE_SOURCECONNECTIONLAYER
+_PERSONA_ENVIRONMENT_LIBRARY_SOURCE_SOURCECONNECTIONLAYER.fields_by_name['imageSource'].message_type = _PERSONA_ENVIRONMENT_LIBRARY_SOURCE_SOURCECONNECTIONLAYER_IMAGESOURCE
+_PERSONA_ENVIRONMENT_LIBRARY_SOURCE_SOURCECONNECTIONLAYER.containing_type = _PERSONA_ENVIRONMENT_LIBRARY_SOURCE
+_PERSONA_ENVIRONMENT_LIBRARY_SOURCE_SOURCECONNECTIONLAYER.oneofs_by_name['SourceParameter'].fields.append(
+  _PERSONA_ENVIRONMENT_LIBRARY_SOURCE_SOURCECONNECTIONLAYER.fields_by_name['imageSource'])
+_PERSONA_ENVIRONMENT_LIBRARY_SOURCE_SOURCECONNECTIONLAYER.fields_by_name['imageSource'].containing_oneof = _PERSONA_ENVIRONMENT_LIBRARY_SOURCE_SOURCECONNECTIONLAYER.oneofs_by_name['SourceParameter']
+_PERSONA_ENVIRONMENT_LIBRARY_SOURCE.fields_by_name['sourceConnectionLayer'].message_type = _PERSONA_ENVIRONMENT_LIBRARY_SOURCE_SOURCECONNECTIONLAYER
 _PERSONA_ENVIRONMENT_LIBRARY_SOURCE.containing_type = _PERSONA_ENVIRONMENT_LIBRARY
 _PERSONA_ENVIRONMENT_LIBRARY.fields_by_name['sources'].message_type = _PERSONA_ENVIRONMENT_LIBRARY_SOURCE
 _PERSONA_ENVIRONMENT_LIBRARY.containing_type = _PERSONA_ENVIRONMENT
@@ -962,10 +1015,17 @@ Persona = _reflection.GeneratedProtocolMessageType('Persona', (_message.Message,
 
       Source = _reflection.GeneratedProtocolMessageType('Source', (_message.Message,), dict(
 
-        ImageSource = _reflection.GeneratedProtocolMessageType('ImageSource', (_message.Message,), dict(
-          DESCRIPTOR = _PERSONA_ENVIRONMENT_LIBRARY_SOURCE_IMAGESOURCE,
+        SourceConnectionLayer = _reflection.GeneratedProtocolMessageType('SourceConnectionLayer', (_message.Message,), dict(
+
+          ImageSource = _reflection.GeneratedProtocolMessageType('ImageSource', (_message.Message,), dict(
+            DESCRIPTOR = _PERSONA_ENVIRONMENT_LIBRARY_SOURCE_SOURCECONNECTIONLAYER_IMAGESOURCE,
+            __module__ = 'personBlueprint_pb2'
+            # @@protoc_insertion_point(class_scope:persona.Persona.Environment.Library.Source.SourceConnectionLayer.ImageSource)
+            ))
+          ,
+          DESCRIPTOR = _PERSONA_ENVIRONMENT_LIBRARY_SOURCE_SOURCECONNECTIONLAYER,
           __module__ = 'personBlueprint_pb2'
-          # @@protoc_insertion_point(class_scope:persona.Persona.Environment.Library.Source.ImageSource)
+          # @@protoc_insertion_point(class_scope:persona.Persona.Environment.Library.Source.SourceConnectionLayer)
           ))
         ,
         DESCRIPTOR = _PERSONA_ENVIRONMENT_LIBRARY_SOURCE,
@@ -1003,7 +1063,8 @@ _sym_db.RegisterMessage(Persona.Age)
 _sym_db.RegisterMessage(Persona.Environment)
 _sym_db.RegisterMessage(Persona.Environment.Library)
 _sym_db.RegisterMessage(Persona.Environment.Library.Source)
-_sym_db.RegisterMessage(Persona.Environment.Library.Source.ImageSource)
+_sym_db.RegisterMessage(Persona.Environment.Library.Source.SourceConnectionLayer)
+_sym_db.RegisterMessage(Persona.Environment.Library.Source.SourceConnectionLayer.ImageSource)
 
 
 # @@protoc_insertion_point(module_scope)

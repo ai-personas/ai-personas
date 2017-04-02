@@ -103,9 +103,10 @@ message Persona {
 				repeated SourceConnectionLayer sourceConnectionLayer = 6;
 				
 				message SourceConnectionLayer {
-					string connectedLayerName = 1;
+					string connectedLayerName = 7;
 
 					oneof SourceParameter {
+						ImageSource imageSource = 1;
 					}
 					
 					message ImageSource {

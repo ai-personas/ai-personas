@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[5]:
+# In[13]:
 
 import os, sys, inspect
 import copy
@@ -9,14 +9,17 @@ import imp
 
 PROTO_DEF_EXTENSION = ".bin"
 PROTO_PYTHON_EXTENSION = "_pb2.py"
-DNA_BLUEPRINT = "../../DNA/dnaBlueprint/version_1/dnaBlueprint" +  PROTO_PYTHON_EXTENSION
+DNA_BLUEPRINT_PATH = "../../DNA/dnaBlueprint/version_1/dnaBlueprint" +  PROTO_PYTHON_EXTENSION
 DNA_NAME_QUALIFIER = "DnaDefinition"
 DNA_NAME = "Khandhasamy" + DNA_NAME_QUALIFIER + PROTO_DEF_EXTENSION
 DNA_DEF_PATH = "../dnaFamily/Khandhasamy/Evolution_1/" + DNA_NAME
 
 class DnaDefinitionGeneration(object):
     
-    input_layer_index = 1
+    layer_index = 1
+    layer_size = 50
+    layer_convolution_filter = 100
+    layer_border_mode = "same"
     
     def getDnaBlueprint(self, dnaBlueprintPath):
         #DNA blueprint path
@@ -33,171 +36,64 @@ class DnaDefinitionGeneration(object):
         f.write(dna.SerializeToString())
         f.close()
 
-    def generateDnaDefinition(self, dnaBlueprint, dnaDefPath):
-        dnaBlueprint = self.getDnaBlueprint(dnaBlueprint)
-        self.saveDnaDefinition(dnaDefPath, dnaBlueprint)
+    def getLayerName(self, layerIndex):
+        if layerIndex is None:
+            return ''
+        else:
+            return 'layer' + str(layerIndex)
+            
+    def generateDnaDefinition(self, dnaBlueprintPath, dnaDefPath):
+        dna = self.getDnaBlueprint(dnaBlueprintPath)
+        self.generateConvoution2DLayer(dna, None , 2)
+        self.generateActivationLayer(dna, 1, 3)
+        self.generateDropoutLayer(dna, 2, 4)
+        self.generateConvoution2DLayer(dna, 3, 5)
+        self.generateActivationLayer(dna, 4, 6)
+        self.generateDropoutLayer(dna, 5, 7)     
+        self.generateConvoution2DLayer(dna, 6, 8)
+        self.generateConvoution2DLayer(dna, 7, None)
+        self.saveDnaDefinition(dnaDefPath, dna)
         return
     
-    def generateInputLayer(dna):
-        inputLayer = dna.inputs.add()
-        inputLayer.layerName = "input" + input_layer_index
+    def generateConvoution2DLayer(self, dna, sourceLayer, destLayer):
+        layer = dna.layers.add()
+        layer.layerName = "layer" + str(self.layer_index)
+        layerSize1 = layer.layerSize.add()
+        layerSize1.dimension = 1
+        layerSize1.dimensionSize = 50
+        layerSize2 = layer.layerSize.add()
+        layerSize2.dimension = 2
+        layerSize2.dimensionSize = 50
+        layerConnection1 = layer.connections.add()
+        layerConnection1.sourceLayerName = self.getLayerName(sourceLayer)
+        layerConnection1.destinationLayerName = self.getLayerName(destLayer)
+        layer.layerConvolution.convolutionDimension = 2
+        layer.layerConvolution.filters = 100
+        layer.layerConvolution.borderMode = "same"
+        layer.layerConvolution.kernelSize.append(3)
+        layer.layerConvolution.kernelSize.append(3)
+        layer.layerConvolution.inputShape.append(1)
+        layer.layerConvolution.inputShape.append(50)
+        layer.layerConvolution.inputShape.append(50)
         
+    def generateActivationLayer(self, dna, sourceLayer, destLayer):
+        layer = dna.layers.add()
+        layer.layerName = "layer" + str(self.layer_index)
+        layerConnection1 = layer.connections.add()
+        layerConnection1.sourceLayerName = self.getLayerName(sourceLayer)
+        layerConnection1.destinationLayerName = self.getLayerName(destLayer)
+        layer.layerActivation.activationType = "relu"
     
+    def generateDropoutLayer(self, dna, sourceLayer, destLayer):
+        layer = dna.layers.add()
+        layer.layerName = "layer" + str(self.layer_index)
+        layerConnection1 = layer.connections.add()
+        layerConnection1.sourceLayerName = self.getLayerName(sourceLayer)
+        layerConnection1.destinationLayerName = self.getLayerName(destLayer)
+        layer.layerDropout.dropPercentage = 0.3
+        
 dnaDef = DnaDefinitionGeneration()
-dnaDef.generateDnaDefinition(DNA_BLUEPRINT, DNA_DEF_PATH)
-
-# This function fills in a Person message based on user input.
-def generateDNA():
-    dna = dnaDefinition_pb2.DNA()
-    dna.DNA = "Khandasamy"
-    
-    ################ input layer #############################
-    inputLayer = dna.inputs.add()
-    inputLayer.layerName = "imageInput"
-
-    inputLayer.inputTransform.transformerName = "imageTransform"
-    inputLayer.inputTransform.informationType = "image"
-    transformInputSize1 =  inputLayer.inputTransform.transformSize.add()
-    transformInputSize1.dimension = 1
-    transformInputSize1.dimensionSize = 50
-    transformInputSize2 =  inputLayer.inputTransform.transformSize.add()
-    transformInputSize2.dimension = 1
-    transformInputSize2.dimensionSize = 50
-    transformParam1 = inputLayer.inputTransform.transformParam.add()
-    transformParam1.parameterName = "color"
-    transformParam1.parameterValue  = "grey"
-    transformParam2 = inputLayer.inputTransform.transformParam.add()
-    transformParam2.parameterName = "process"
-    transformParam2.parameterValue  = "edge"
-    
-    connection1 = inputLayer.connections.add()
-    connection1.destinationLayerName = "layer1"
-    
-    ################ convolution layer #############################
-    layer1 = dna.layers.add()
-    layer1.layerName = "layer1"
-    layer1Size1 = layer1.layerSize.add()
-    layer1Size1.dimension = 1
-    layer1Size1.dimensionSize = 50
-    layer1Size2 = layer1.layerSize.add()
-    layer1Size2.dimension = 2
-    layer1Size2.dimensionSize = 50
-    layer1Connection1 = layer1.connections.add()
-    layer1Connection1.sourceLayerName = "imageInput"
-    layer1Connection1.destinationLayerName = "layer2"
-    layer1.layerConvolution.convolutionDimension = 2
-    layer1.layerConvolution.filters = 100
-    layer1.layerConvolution.borderMode = "same"
-    layer1.layerConvolution.kernelSize.append(3)
-    layer1.layerConvolution.kernelSize.append(3)
-    layer1.layerConvolution.inputShape.append(1)
-    layer1.layerConvolution.inputShape.append(50)
-    layer1.layerConvolution.inputShape.append(50)
-    
-    ################ activation layer #############################
-    layer2 = dna.layers.add()
-    layer2.layerName = "layer2"
-    layer2Connection1 = layer2.connections.add()
-    layer2Connection1.sourceLayerName = "layer1"
-    layer2Connection1.destinationLayerName = "layer3"
-    layer2.layerActivation.activationType = "relu"
-
-    ################ dropout layer #############################
-    layer3 = dna.layers.add()
-    layer3.layerName = "layer3"
-    layer3Connection1 = layer3.connections.add()
-    layer3Connection1.sourceLayerName = "layer2"
-    layer3Connection1.destinationLayerName = "layer4"
-    layer3.layerDropout.dropPercentage = 0.3
-    
-    ################ convolution layer #############################
-    layer4 = dna.layers.add()
-    layer4.layerName = "layer4"
-    layer4Size1 = layer4.layerSize.add()
-    layer4Size1.dimension = 1
-    layer4Size1.dimensionSize = 50
-    layer4Size2 = layer4.layerSize.add()
-    layer4Size2.dimension = 2
-    layer4Size2.dimensionSize = 50
-    layer4Connection1 = layer4.connections.add()
-    layer4Connection1.sourceLayerName = "layer3"
-    layer4Connection1.destinationLayerName = "layer5"
-    layer4.layerConvolution.convolutionDimension = 2
-    layer4.layerConvolution.filters = 100
-    layer4.layerConvolution.borderMode = "same"
-    layer4.layerConvolution.kernelSize.append(3)
-    layer4.layerConvolution.kernelSize.append(3)
-    layer4.layerConvolution.inputShape.append(1)
-    layer4.layerConvolution.inputShape.append(50)
-    layer4.layerConvolution.inputShape.append(50)    
-    
-    ################ activation layer #############################
-    layer5 = dna.layers.add()
-    layer5.layerName = "layer5"
-    layer5Connection1 = layer5.connections.add()
-    layer5Connection1.sourceLayerName = "layer4"
-    layer5Connection1.destinationLayerName = "layer6"
-    layer5.layerActivation.activationType = "relu"
-
-    ################ dropout layer #############################
-    layer6 = dna.layers.add()
-    layer6.layerName = "layer6"
-    layer6Connection1 = layer3.connections.add()
-    layer6Connection1.sourceLayerName = "layer5"
-    layer6Connection1.destinationLayerName = "layer7"
-    layer6.layerDropout.dropPercentage = 0.3
-    
-    ################ convolution layer #############################
-    layer7 = dna.layers.add()
-    layer7.layerName = "layer7"
-    layer7Size1 = layer7.layerSize.add()
-    layer7Size1.dimension = 1
-    layer7Size1.dimensionSize = 50
-    layer7Size2 = layer7.layerSize.add()
-    layer7Size2.dimension = 2
-    layer7Size2.dimensionSize = 50
-    layer7Connection1 = layer7.connections.add()
-    layer7Connection1.sourceLayerName = "layer6"
-    layer7Connection1.destinationLayerName = "layer8"
-    layer7.layerConvolution.convolutionDimension = 2
-    layer7.layerConvolution.filters = 1
-    layer7.layerConvolution.borderMode = "same"
-    layer7.layerConvolution.kernelSize.append(3)
-    layer7.layerConvolution.kernelSize.append(3)
-    layer7.layerConvolution.inputShape.append(1)
-    layer7.layerConvolution.inputShape.append(50)
-    layer7.layerConvolution.inputShape.append(50)    
-    
-    ################ activation layer #############################
-    layer8 = dna.layers.add()
-    layer8.layerName = "layer8"
-    layer8Connection1 = layer8.connections.add()
-    layer8Connection1.sourceLayerName = "layer7"
-    layer8Connection1.destinationLayerName = "output"
-    layer8.layerActivation.activationType = "relu"
-    
-    ################ output layer #############################
-    outputLayer = dna.outputs.add()
-    outputLayer.layerName = "imageOutput"
-
-    outputLayer.inputTransform.transformerName = "imageTransform"
-    outputLayer.inputTransform.informationType = "image"
-    transformInputSize1 =  outputLayer.inputTransform.transformSize.add()
-    transformInputSize1.dimension = 1
-    transformInputSize1.dimensionSize = 50
-    transformInputSize2 =  outputLayer.inputTransform.transformSize.add()
-    transformInputSize2.dimension = 1
-    transformInputSize2.dimensionSize = 50
-    transformParam1 = outputLayer.inputTransform.transformParam.add()
-    transformParam1.parameterName = "color"
-    transformParam1.parameterValue  = "grey"
-        
-    return dna
-    
-# # Write the new address book back to disk.
-# f = open("Family\Khandhasamy\Evolution 1\Khandhasamy.bin", "wb")
-# f.write(generateDNA().SerializeToString())
-# f.close()
+dnaDef.generateDnaDefinition(DNA_BLUEPRINT_PATH, DNA_DEF_PATH)
 
 
 # In[ ]:
