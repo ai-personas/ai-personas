@@ -11748,11 +11748,12 @@ div#notebook {
 
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">inspect</span>
 <span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">imp</span>
 
 <span class="n">PROTO_DEF_EXTENSION</span> <span class="o">=</span> <span class="s2">&quot;.bin&quot;</span>
 <span class="n">PROTO_PYTHON_EXTENSION</span> <span class="o">=</span> <span class="s2">&quot;_pb2.py&quot;</span>
@@ -11791,20 +11792,30 @@ div#notebook {
         <span class="n">dnaBlueprint</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">load_source</span><span class="p">(</span><span class="s1">&#39;DNA&#39;</span><span class="p">,</span> <span class="n">dna_blueprint_path</span><span class="p">)</span><span class="o">.</span><span class="n">DNA</span><span class="p">()</span> 
         <span class="k">return</span> <span class="n">dnaBlueprint</span>
     
-    <span class="k">def</span> <span class="nf">loadDnaDefinition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">getDnaDefinition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dnaDefPath</span><span class="p">):</span>
         <span class="c1"># read dna definition</span>
-        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;Artist\Portraits\sketchToGreyImage\Khandhasamy\Khandhasamy.bin&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span>
-        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">generatePersonaDefinition</span><span class="p">()</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+        <span class="n">dna</span> <span class="o">=</span> <span class="n">getDnaBlueprint</span><span class="p">()</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">dnaDefPath</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+        <span class="n">dna</span><span class="o">.</span><span class="n">ParseFromString</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
         <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">getPersonaBlueprint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+    <span class="k">def</span> <span class="nf">getPersonaBlueprint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">personaBlueprintPath</span><span class="p">):</span> 
         <span class="c1">#persona blueprint path</span>
-        <span class="n">persona_blueprint_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TEST_PERSONA_BLUEPRINT</span><span class="p">))</span>
+        <span class="n">persona_blueprint_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">personaBlueprintPath</span><span class="p">))</span>
         <span class="k">print</span> <span class="p">(</span><span class="n">persona_blueprint_path</span><span class="p">)</span>
         <span class="c1">#persona blueprint</span>
         <span class="n">personaBlueprint</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">load_source</span><span class="p">(</span><span class="s1">&#39;Persona&#39;</span><span class="p">,</span> <span class="n">persona_blueprint_path</span><span class="p">)</span><span class="o">.</span><span class="n">Persona</span><span class="p">()</span> 
         <span class="k">return</span> <span class="n">personaBlueprint</span>
-    
+
+    <span class="k">def</span> <span class="nf">savePersonaDefinition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">):</span>
+        <span class="c1"># write persona definition</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">personaDefPath</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">generatePersonaDefinition</span><span class="p">()</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        
+<span class="n">personaDefinitionGeneration</span> <span class="o">=</span> <span class="n">PersonaDefinitionGeneration</span><span class="p">()</span>
+<span class="n">personaDefinitionGeneration</span><span class="o">.</span><span class="n">getPersonaBlueprint</span><span class="p">(</span><span class="n">PERSONA_BLUEPRINT</span><span class="p">)</span>
+
 <span class="c1">#generate persona definitions </span>
 <span class="k">def</span> <span class="nf">generatePersonaDefinition</span><span class="p">():</span>
     <span class="n">persona</span> <span class="o">=</span> <span class="n">personaDefinition_pb2</span><span class="o">.</span><span class="n">Persona</span><span class="p">()</span>
@@ -11830,9 +11841,9 @@ div#notebook {
     <span class="k">return</span> <span class="n">persona</span>
     
 <span class="c1"># Write persona to file</span>
-<span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">PERSONA_DEF_PATH</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span>
-<span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">generatePersonaDefinition</span><span class="p">()</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">())</span>
-<span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="c1"># f = open(PERSONA_DEF_PATH, &quot;wb&quot;)</span>
+<span class="c1"># f.write(generatePersonaDefinition().SerializeToString())</span>
+<span class="c1"># f.close()</span>
 </pre></div>
 
 </div>
@@ -11844,25 +11855,9 @@ div#notebook {
 
 
 <div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-3-abd8935b1b0b&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">     85</span> <span class="ansi-red-intense-fg ansi-bold"># Write persona to file</span>
-<span class="ansi-green-intense-fg ansi-bold">     86</span> f <span class="ansi-yellow-intense-fg ansi-bold">=</span> open<span class="ansi-yellow-intense-fg ansi-bold">(</span>PERSONA_DEF_PATH<span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-blue-intense-fg ansi-bold">&#34;wb&#34;</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">---&gt; 87</span><span class="ansi-red-fg"> </span>f<span class="ansi-yellow-intense-fg ansi-bold">.</span>write<span class="ansi-yellow-intense-fg ansi-bold">(</span>generatePersonaDefinition<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">.</span>SerializeToString<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     88</span> f<span class="ansi-yellow-intense-fg ansi-bold">.</span>close<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     89</span> 
-
-<span class="ansi-green-fg">&lt;ipython-input-3-abd8935b1b0b&gt;</span> in <span class="ansi-cyan-fg">generatePersonaDefinition</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">     61</span> <span class="ansi-red-intense-fg ansi-bold">#generate persona definitions</span>
-<span class="ansi-green-intense-fg ansi-bold">     62</span> <span class="ansi-green-intense-fg ansi-bold">def</span> generatePersonaDefinition<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
-<span class="ansi-green-fg">---&gt; 63</span><span class="ansi-red-fg">     </span>persona <span class="ansi-yellow-intense-fg ansi-bold">=</span> personaDefinition_pb2<span class="ansi-yellow-intense-fg ansi-bold">.</span>Persona<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     64</span>     persona<span class="ansi-yellow-intense-fg ansi-bold">.</span>physical <span class="ansi-yellow-intense-fg ansi-bold">=</span> <span class="ansi-blue-intense-fg ansi-bold">&#34;keras&#34;</span>
-<span class="ansi-green-intense-fg ansi-bold">     65</span> 
-
-<span class="ansi-red-fg">NameError</span>: global name &#39;personaDefinition_pb2&#39; is not defined</pre>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>C:\Users\rames\Documents\GitHub\ai-personas\Personas\personaBlueprint\version_1\personBlueprint_pb2.py
+</pre>
 </div>
 </div>
 

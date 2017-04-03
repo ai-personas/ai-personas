@@ -1,10 +1,11 @@
 
 # coding: utf-8
 
-# In[3]:
+# In[7]:
 
 import os, sys, inspect
 import copy
+import imp
 
 PROTO_DEF_EXTENSION = ".bin"
 PROTO_PYTHON_EXTENSION = "_pb2.py"
@@ -43,20 +44,30 @@ class PersonaDefinitionGeneration(object):
         dnaBlueprint = imp.load_source('DNA', dna_blueprint_path).DNA() 
         return dnaBlueprint
     
-    def loadDnaDefinition(self):
+    def getDnaDefinition(self, dnaDefPath):
         # read dna definition
-        f = open("Artist\Portraits\sketchToGreyImage\Khandhasamy\Khandhasamy.bin", "wb")
-        f.write(generatePersonaDefinition().SerializeToString())
+        dna = getDnaBlueprint()
+        f = open(dnaDefPath, "rb")
+        dna.ParseFromString(f.read())
         f.close()
 
-    def getPersonaBlueprint(self): 
+    def getPersonaBlueprint(self, personaBlueprintPath): 
         #persona blueprint path
-        persona_blueprint_path = os.path.abspath(os.path.join(self.TEST_PERSONA_BLUEPRINT))
+        persona_blueprint_path = os.path.abspath(os.path.join(personaBlueprintPath))
         print (persona_blueprint_path)
         #persona blueprint
         personaBlueprint = imp.load_source('Persona', persona_blueprint_path).Persona() 
         return personaBlueprint
-    
+
+    def savePersonaDefinition(self, personaDefPath):
+        # write persona definition
+        f = open(personaDefPath, "wb")
+        f.write(generatePersonaDefinition().SerializeToString())
+        f.close()
+        
+personaDefinitionGeneration = PersonaDefinitionGeneration()
+personaDefinitionGeneration.getPersonaBlueprint(PERSONA_BLUEPRINT)
+
 #generate persona definitions 
 def generatePersonaDefinition():
     persona = personaDefinition_pb2.Persona()
@@ -82,9 +93,9 @@ def generatePersonaDefinition():
     return persona
     
 # Write persona to file
-f = open(PERSONA_DEF_PATH, "wb")
-f.write(generatePersonaDefinition().SerializeToString())
-f.close()
+# f = open(PERSONA_DEF_PATH, "wb")
+# f.write(generatePersonaDefinition().SerializeToString())
+# f.close()
 
 
 
