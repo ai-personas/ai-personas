@@ -11748,7 +11748,7 @@ div#notebook {
 
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">inspect</span>
@@ -11758,13 +11758,14 @@ div#notebook {
 <span class="n">PROTO_DEF_EXTENSION</span> <span class="o">=</span> <span class="s2">&quot;.bin&quot;</span>
 <span class="n">PROTO_PYTHON_EXTENSION</span> <span class="o">=</span> <span class="s2">&quot;_pb2.py&quot;</span>
 <span class="n">PERSONA_BLUEPRINT</span> <span class="o">=</span> <span class="s2">&quot;version_1/personBlueprint&quot;</span> <span class="o">+</span> <span class="n">PROTO_PYTHON_EXTENSION</span>
+<span class="n">PERSONA_NAME</span> <span class="o">=</span> <span class="s2">&quot;Khandhasamy&quot;</span>
 <span class="n">PERSONA_NAME_QUALIFIER</span> <span class="o">=</span> <span class="s2">&quot;PersonaDefinition&quot;</span>
 <span class="n">PERSONA_AGE</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">PERSONA_DEF_PATH</span><span class="o">=</span><span class="s2">&quot;../Artist/Portraits/sketchToGreyImage/Khandhasamy/Evolution_1/age_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">PERSONA_AGE</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">PERSONA_NAME_QUALIFIER</span> <span class="o">+</span> <span class="n">PROTO_DEF_EXTENSION</span>
+<span class="n">PERSONA_DEF_PATH</span><span class="o">=</span><span class="s2">&quot;../Artist/Portraits/sketchToGreyImage/Khandhasamy/Evolution_1/age_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">PERSONA_AGE</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">PERSONA_NAME</span> <span class="o">+</span> <span class="n">PERSONA_NAME_QUALIFIER</span> <span class="o">+</span> <span class="n">PROTO_DEF_EXTENSION</span>
 <span class="n">DNA_BLUEPRINT</span> <span class="o">=</span> <span class="s2">&quot;../../DNA/dnaBlueprint/version_1/dnaBlueprint&quot;</span> <span class="o">+</span>  <span class="n">PROTO_PYTHON_EXTENSION</span>
 <span class="n">DNA_NAME_QUALIFIER</span> <span class="o">=</span> <span class="s2">&quot;DnaDefinition&quot;</span>
 <span class="n">DNA_NAME</span> <span class="o">=</span> <span class="s2">&quot;Khandhasamy&quot;</span> <span class="o">+</span> <span class="n">DNA_NAME_QUALIFIER</span> <span class="o">+</span> <span class="n">PROTO_DEF_EXTENSION</span>
-<span class="n">DNA_DEF_PATH</span> <span class="o">=</span> <span class="s2">&quot;../DNA/dnaFamily/Khandhasamy/Evolution_1/&quot;</span> <span class="o">+</span> <span class="n">DNA_NAME</span>
+<span class="n">DNA_DEF_PATH</span> <span class="o">=</span> <span class="s2">&quot;../../DNA/dnaFamily/Khandhasamy/Evolution_1/&quot;</span> <span class="o">+</span> <span class="n">DNA_NAME</span>
 
 <span class="k">def</span> <span class="nf">loadDNA</span><span class="p">(</span><span class="n">dnaName</span><span class="p">,</span> <span class="n">evolution</span><span class="p">,</span> <span class="n">dnaInstance</span><span class="p">):</span>
     <span class="n">dna_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;DNA&#39;</span><span class="p">,</span> <span class="s1">&#39;Family&#39;</span><span class="p">,</span> <span class="n">dnaName</span><span class="p">,</span> <span class="s1">&#39;Evolution &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">evolution</span><span class="p">)))</span>
@@ -11784,22 +11785,24 @@ div#notebook {
 
 <span class="k">class</span> <span class="nc">PersonaDefinitionGeneration</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     
-    <span class="k">def</span> <span class="nf">getDnaBlueprint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">getDnaBlueprint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dnaBlueprintPath</span><span class="p">):</span>
         <span class="c1">#DNA blueprint path</span>
-        <span class="n">dna_blueprint_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DNA_BLUEPRINT</span><span class="p">))</span>
+        <span class="n">dna_blueprint_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dnaBlueprintPath</span><span class="p">))</span>
         <span class="k">print</span> <span class="p">(</span><span class="n">dna_blueprint_path</span><span class="p">)</span>
         <span class="c1">#dna blueprint</span>
         <span class="n">dnaBlueprint</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">load_source</span><span class="p">(</span><span class="s1">&#39;DNA&#39;</span><span class="p">,</span> <span class="n">dna_blueprint_path</span><span class="p">)</span><span class="o">.</span><span class="n">DNA</span><span class="p">()</span> 
         <span class="k">return</span> <span class="n">dnaBlueprint</span>
     
-    <span class="k">def</span> <span class="nf">getDnaDefinition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dnaDefPath</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">getDnaDefinition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dnaBlueprintPath</span><span class="p">,</span> <span class="n">dnaDefPath</span><span class="p">):</span>
         <span class="c1"># read dna definition</span>
-        <span class="n">dna</span> <span class="o">=</span> <span class="n">getDnaBlueprint</span><span class="p">()</span>
+        <span class="n">dna</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDnaBlueprint</span><span class="p">(</span><span class="n">dnaBlueprintPath</span><span class="p">)</span>
         <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">dnaDefPath</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
         <span class="n">dna</span><span class="o">.</span><span class="n">ParseFromString</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
         <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">dna</span> 
 
-    <span class="k">def</span> <span class="nf">getPersonaBlueprint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">personaBlueprintPath</span><span class="p">):</span> 
+    <span class="k">def</span> <span class="nf">getPersonaBlueprint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dnaBlueprintPath</span><span class="p">,</span> <span class="n">dnaDefPath</span><span class="p">,</span> <span class="n">personaBlueprintPath</span><span class="p">):</span> 
+        <span class="n">dna</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDnaDefinition</span><span class="p">(</span><span class="n">dnaBlueprintPath</span><span class="p">,</span> <span class="n">dnaDefPath</span><span class="p">)</span>
         <span class="c1">#persona blueprint path</span>
         <span class="n">persona_blueprint_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">personaBlueprintPath</span><span class="p">))</span>
         <span class="k">print</span> <span class="p">(</span><span class="n">persona_blueprint_path</span><span class="p">)</span>
@@ -11807,14 +11810,21 @@ div#notebook {
         <span class="n">personaBlueprint</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">load_source</span><span class="p">(</span><span class="s1">&#39;Persona&#39;</span><span class="p">,</span> <span class="n">persona_blueprint_path</span><span class="p">)</span><span class="o">.</span><span class="n">Persona</span><span class="p">()</span> 
         <span class="k">return</span> <span class="n">personaBlueprint</span>
 
-    <span class="k">def</span> <span class="nf">savePersonaDefinition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">savePersonaDefinition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">,</span> <span class="n">persona</span><span class="p">):</span>
         <span class="c1"># write persona definition</span>
         <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">personaDefPath</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span>
-        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">generatePersonaDefinition</span><span class="p">()</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">persona</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">())</span>
         <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         
+    <span class="k">def</span> <span class="nf">generatePersonaDefinition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dnaBlueprintPath</span><span class="p">,</span> <span class="n">dnaDefPath</span><span class="p">,</span> <span class="n">personaBlueprintPath</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">):</span>
+        <span class="n">persona</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPersonaBlueprint</span><span class="p">(</span><span class="n">dnaBlueprintPath</span><span class="p">,</span> <span class="n">dnaDefPath</span><span class="p">,</span> <span class="n">personaBlueprintPath</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">savePersonaDefinition</span><span class="p">(</span><span class="n">personaDefPath</span><span class="p">,</span> <span class="n">persona</span><span class="p">)</span>
+        <span class="k">return</span>
+    
+    
+        
 <span class="n">personaDefinitionGeneration</span> <span class="o">=</span> <span class="n">PersonaDefinitionGeneration</span><span class="p">()</span>
-<span class="n">personaDefinitionGeneration</span><span class="o">.</span><span class="n">getPersonaBlueprint</span><span class="p">(</span><span class="n">PERSONA_BLUEPRINT</span><span class="p">)</span>
+<span class="n">personaDefinitionGeneration</span><span class="o">.</span><span class="n">generatePersonaDefinition</span><span class="p">(</span><span class="n">DNA_BLUEPRINT</span><span class="p">,</span> <span class="n">DNA_DEF_PATH</span><span class="p">,</span>  <span class="n">PERSONA_BLUEPRINT</span><span class="p">,</span> <span class="n">PERSONA_DEF_PATH</span><span class="p">)</span>
 
 <span class="c1">#generate persona definitions </span>
 <span class="k">def</span> <span class="nf">generatePersonaDefinition</span><span class="p">():</span>
@@ -11856,7 +11866,8 @@ div#notebook {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>C:\Users\rames\Documents\GitHub\ai-personas\Personas\personaBlueprint\version_1\personBlueprint_pb2.py
+<pre>C:\Users\rames\Documents\GitHub\ai-personas\DNA\dnaBlueprint\version_1\dnaBlueprint_pb2.py
+C:\Users\rames\Documents\GitHub\ai-personas\Personas\personaBlueprint\version_1\personBlueprint_pb2.py
 </pre>
 </div>
 </div>

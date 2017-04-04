@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[7]:
+# In[8]:
 
 import os, sys, inspect
 import copy
@@ -10,13 +10,14 @@ import imp
 PROTO_DEF_EXTENSION = ".bin"
 PROTO_PYTHON_EXTENSION = "_pb2.py"
 PERSONA_BLUEPRINT = "version_1/personBlueprint" + PROTO_PYTHON_EXTENSION
+PERSONA_NAME = "Khandhasamy"
 PERSONA_NAME_QUALIFIER = "PersonaDefinition"
 PERSONA_AGE = 1
-PERSONA_DEF_PATH="../Artist/Portraits/sketchToGreyImage/Khandhasamy/Evolution_1/age_" + str(PERSONA_AGE) + "/" + PERSONA_NAME_QUALIFIER + PROTO_DEF_EXTENSION
+PERSONA_DEF_PATH="../Artist/Portraits/sketchToGreyImage/Khandhasamy/Evolution_1/age_" + str(PERSONA_AGE) + "/" + PERSONA_NAME + PERSONA_NAME_QUALIFIER + PROTO_DEF_EXTENSION
 DNA_BLUEPRINT = "../../DNA/dnaBlueprint/version_1/dnaBlueprint" +  PROTO_PYTHON_EXTENSION
 DNA_NAME_QUALIFIER = "DnaDefinition"
 DNA_NAME = "Khandhasamy" + DNA_NAME_QUALIFIER + PROTO_DEF_EXTENSION
-DNA_DEF_PATH = "../DNA/dnaFamily/Khandhasamy/Evolution_1/" + DNA_NAME
+DNA_DEF_PATH = "../../DNA/dnaFamily/Khandhasamy/Evolution_1/" + DNA_NAME
 
 def loadDNA(dnaName, evolution, dnaInstance):
     dna_path = os.path.abspath(os.path.join('..', 'DNA', 'Family', dnaName, 'Evolution ' + str(evolution)))
@@ -36,22 +37,24 @@ def loadDNA(dnaName, evolution, dnaInstance):
 
 class PersonaDefinitionGeneration(object):
     
-    def getDnaBlueprint(self):
+    def getDnaBlueprint(self, dnaBlueprintPath):
         #DNA blueprint path
-        dna_blueprint_path = os.path.abspath(os.path.join(DNA_BLUEPRINT))
+        dna_blueprint_path = os.path.abspath(os.path.join(dnaBlueprintPath))
         print (dna_blueprint_path)
         #dna blueprint
         dnaBlueprint = imp.load_source('DNA', dna_blueprint_path).DNA() 
         return dnaBlueprint
     
-    def getDnaDefinition(self, dnaDefPath):
+    def getDnaDefinition(self, dnaBlueprintPath, dnaDefPath):
         # read dna definition
-        dna = getDnaBlueprint()
+        dna = self.getDnaBlueprint(dnaBlueprintPath)
         f = open(dnaDefPath, "rb")
         dna.ParseFromString(f.read())
         f.close()
+        return dna 
 
-    def getPersonaBlueprint(self, personaBlueprintPath): 
+    def getPersonaBlueprint(self, dnaBlueprintPath, dnaDefPath, personaBlueprintPath): 
+        dna = self.getDnaDefinition(dnaBlueprintPath, dnaDefPath)
         #persona blueprint path
         persona_blueprint_path = os.path.abspath(os.path.join(personaBlueprintPath))
         print (persona_blueprint_path)
@@ -59,14 +62,21 @@ class PersonaDefinitionGeneration(object):
         personaBlueprint = imp.load_source('Persona', persona_blueprint_path).Persona() 
         return personaBlueprint
 
-    def savePersonaDefinition(self, personaDefPath):
+    def savePersonaDefinition(self, personaDefPath, persona):
         # write persona definition
         f = open(personaDefPath, "wb")
-        f.write(generatePersonaDefinition().SerializeToString())
+        f.write(persona.SerializeToString())
         f.close()
         
+    def generatePersonaDefinition(self, dnaBlueprintPath, dnaDefPath, personaBlueprintPath, personaDefPath):
+        persona = self.getPersonaBlueprint(dnaBlueprintPath, dnaDefPath, personaBlueprintPath)
+        self.savePersonaDefinition(personaDefPath, persona)
+        return
+    
+    
+        
 personaDefinitionGeneration = PersonaDefinitionGeneration()
-personaDefinitionGeneration.getPersonaBlueprint(PERSONA_BLUEPRINT)
+personaDefinitionGeneration.generatePersonaDefinition(DNA_BLUEPRINT, DNA_DEF_PATH,  PERSONA_BLUEPRINT, PERSONA_DEF_PATH)
 
 #generate persona definitions 
 def generatePersonaDefinition():
