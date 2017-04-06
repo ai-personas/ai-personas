@@ -19,63 +19,12 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='dnaBlueprint.proto',
   package='dna',
   syntax='proto3',
-  serialized_pb=_b('\n\x12\x64naBlueprint.proto\x12\x03\x64na\"\xf8\n\n\x03\x44NA\x12\x0b\n\x03\x44NA\x18\x01 \x01(\t\x12\x1e\n\x06inputs\x18\x02 \x03(\x0b\x32\x0e.dna.DNA.Input\x12\x1e\n\x06layers\x18\x03 \x03(\x0b\x32\x0e.dna.DNA.Layer\x12 \n\x07outputs\x18\x04 \x03(\x0b\x32\x0f.dna.DNA.Output\x12(\n\x0b\x63onnections\x18\x05 \x03(\x0b\x32\x13.dna.DNA.Connection\x1a\x9d\x01\n\x05Input\x12\x11\n\tlayerName\x18\x01 \x01(\t\x12(\n\x0b\x63onnections\x18\x02 \x03(\x0b\x32\x13.dna.DNA.Connection\x12*\n\x0einputTransform\x18\x03 \x01(\x0b\x32\x12.dna.DNA.Transform\x12+\n\x0foutputTransform\x18\x04 \x01(\x0b\x32\x12.dna.DNA.Transform\x1a\xe6\x02\n\x05Layer\x12\x11\n\tlayerName\x18\x01 \x01(\t\x12 \n\tlayerSize\x18\x02 \x03(\x0b\x32\r.dna.DNA.Size\x12(\n\x0b\x63onnections\x18\x03 \x03(\x0b\x32\x13.dna.DNA.Connection\x12*\n\x0einputTransform\x18\x04 \x01(\x0b\x32\x12.dna.DNA.Transform\x12+\n\x0foutputTransform\x18\x05 \x01(\x0b\x32\x12.dna.DNA.Transform\x12\x35\n\x10layerConvolution\x18\x06 \x01(\x0b\x32\x19.dna.DNA.LayerConvolutionH\x00\x12\x33\n\x0flayerActivation\x18\x07 \x01(\x0b\x32\x18.dna.DNA.LayerActivationH\x00\x12-\n\x0clayerDropout\x18\x08 \x01(\x0b\x32\x15.dna.DNA.LayerDropoutH\x00\x42\n\n\x08SubLayer\x1a}\n\x10LayerConvolution\x12\x1c\n\x14\x63onvolutionDimension\x18\x01 \x01(\x04\x12\x0f\n\x07\x66ilters\x18\x02 \x01(\x04\x12\x12\n\nkernelSize\x18\x03 \x03(\x04\x12\x12\n\nborderMode\x18\x04 \x01(\t\x12\x12\n\ninputShape\x18\x05 \x03(\x04\x1a)\n\x0fLayerActivation\x12\x16\n\x0e\x61\x63tivationType\x18\x01 \x01(\t\x1a&\n\x0cLayerDropout\x12\x16\n\x0e\x64ropPercentage\x18\x01 \x01(\x01\x1a\xb7\x01\n\x06Output\x12\x11\n\tlayerName\x18\x01 \x01(\t\x12\x17\n\x0foutputLayerType\x18\x02 \x01(\t\x12(\n\x0b\x63onnections\x18\x03 \x03(\x0b\x32\x13.dna.DNA.Connection\x12*\n\x0einputTransform\x18\x04 \x01(\x0b\x32\x12.dna.DNA.Transform\x12+\n\x0foutputTransform\x18\x05 \x01(\x0b\x32\x12.dna.DNA.Transform\x1a\x8f\x01\n\tTransform\x12\x17\n\x0ftransformerName\x18\x01 \x01(\t\x12\x17\n\x0finformationType\x18\x02 \x01(\t\x12$\n\rtransformSize\x18\x03 \x03(\x0b\x32\r.dna.DNA.Size\x12*\n\x0etransformParam\x18\x04 \x03(\x0b\x32\x12.dna.DNA.Parameter\x1a\x43\n\nConnection\x12\x17\n\x0fsourceLayerName\x18\x01 \x01(\t\x12\x1c\n\x14\x64\x65stinationLayerName\x18\x02 \x01(\t\x1a\x30\n\x04Size\x12\x11\n\tdimension\x18\x01 \x01(\x04\x12\x15\n\rdimensionSize\x18\x02 \x01(\x04\x1a:\n\tParameter\x12\x15\n\rparameterName\x18\x01 \x01(\t\x12\x16\n\x0eparameterValue\x18\x02 \x01(\tb\x06proto3')
+  serialized_pb=_b('\n\x12\x64naBlueprint.proto\x12\x03\x64na\"\xb5\x05\n\x03\x44NA\x12\x0b\n\x03\x44NA\x18\x01 \x01(\t\x12\x1e\n\x06layers\x18\x03 \x03(\x0b\x32\x0e.dna.DNA.Layer\x12(\n\x0b\x63onnections\x18\x05 \x03(\x0b\x32\x13.dna.DNA.Connection\x1a\x8d\x02\n\x05Layer\x12\x11\n\tlayerName\x18\x01 \x01(\t\x12 \n\tlayerSize\x18\x02 \x03(\x0b\x32\r.dna.DNA.Size\x12(\n\x0b\x63onnections\x18\x03 \x03(\x0b\x32\x13.dna.DNA.Connection\x12\x35\n\x10layerConvolution\x18\x06 \x01(\x0b\x32\x19.dna.DNA.LayerConvolutionH\x00\x12\x33\n\x0flayerActivation\x18\x07 \x01(\x0b\x32\x18.dna.DNA.LayerActivationH\x00\x12-\n\x0clayerDropout\x18\x08 \x01(\x0b\x32\x15.dna.DNA.LayerDropoutH\x00\x42\n\n\x08SubLayer\x1a}\n\x10LayerConvolution\x12\x1c\n\x14\x63onvolutionDimension\x18\x01 \x01(\x04\x12\x0f\n\x07\x66ilters\x18\x02 \x01(\x04\x12\x12\n\nkernelSize\x18\x03 \x03(\x04\x12\x12\n\nborderMode\x18\x04 \x01(\t\x12\x12\n\ninputShape\x18\x05 \x03(\x04\x1a)\n\x0fLayerActivation\x12\x16\n\x0e\x61\x63tivationType\x18\x01 \x01(\t\x1a&\n\x0cLayerDropout\x12\x16\n\x0e\x64ropPercentage\x18\x01 \x01(\x01\x1a\x43\n\nConnection\x12\x17\n\x0fsourceLayerName\x18\x01 \x01(\t\x12\x1c\n\x14\x64\x65stinationLayerName\x18\x02 \x01(\t\x1a\x30\n\x04Size\x12\x11\n\tdimension\x18\x01 \x01(\x04\x12\x15\n\rdimensionSize\x18\x02 \x01(\x04\x62\x06proto3')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
-
-_DNA_INPUT = _descriptor.Descriptor(
-  name='Input',
-  full_name='dna.DNA.Input',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='layerName', full_name='dna.DNA.Input.layerName', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='connections', full_name='dna.DNA.Input.connections', index=1,
-      number=2, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='inputTransform', full_name='dna.DNA.Input.inputTransform', index=2,
-      number=3, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='outputTransform', full_name='dna.DNA.Input.outputTransform', index=3,
-      number=4, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=189,
-  serialized_end=346,
-)
 
 _DNA_LAYER = _descriptor.Descriptor(
   name='Layer',
@@ -106,35 +55,21 @@ _DNA_LAYER = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='inputTransform', full_name='dna.DNA.Layer.inputTransform', index=3,
-      number=4, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='outputTransform', full_name='dna.DNA.Layer.outputTransform', index=4,
-      number=5, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='layerConvolution', full_name='dna.DNA.Layer.layerConvolution', index=5,
+      name='layerConvolution', full_name='dna.DNA.Layer.layerConvolution', index=3,
       number=6, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='layerActivation', full_name='dna.DNA.Layer.layerActivation', index=6,
+      name='layerActivation', full_name='dna.DNA.Layer.layerActivation', index=4,
       number=7, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='layerDropout', full_name='dna.DNA.Layer.layerDropout', index=7,
+      name='layerDropout', full_name='dna.DNA.Layer.layerDropout', index=5,
       number=8, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -155,8 +90,8 @@ _DNA_LAYER = _descriptor.Descriptor(
       name='SubLayer', full_name='dna.DNA.Layer.SubLayer',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=349,
-  serialized_end=707,
+  serialized_start=123,
+  serialized_end=392,
 )
 
 _DNA_LAYERCONVOLUTION = _descriptor.Descriptor(
@@ -213,8 +148,8 @@ _DNA_LAYERCONVOLUTION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=709,
-  serialized_end=834,
+  serialized_start=394,
+  serialized_end=519,
 )
 
 _DNA_LAYERACTIVATION = _descriptor.Descriptor(
@@ -243,8 +178,8 @@ _DNA_LAYERACTIVATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=836,
-  serialized_end=877,
+  serialized_start=521,
+  serialized_end=562,
 )
 
 _DNA_LAYERDROPOUT = _descriptor.Descriptor(
@@ -273,117 +208,8 @@ _DNA_LAYERDROPOUT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=879,
-  serialized_end=917,
-)
-
-_DNA_OUTPUT = _descriptor.Descriptor(
-  name='Output',
-  full_name='dna.DNA.Output',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='layerName', full_name='dna.DNA.Output.layerName', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='outputLayerType', full_name='dna.DNA.Output.outputLayerType', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='connections', full_name='dna.DNA.Output.connections', index=2,
-      number=3, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='inputTransform', full_name='dna.DNA.Output.inputTransform', index=3,
-      number=4, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='outputTransform', full_name='dna.DNA.Output.outputTransform', index=4,
-      number=5, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=920,
-  serialized_end=1103,
-)
-
-_DNA_TRANSFORM = _descriptor.Descriptor(
-  name='Transform',
-  full_name='dna.DNA.Transform',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='transformerName', full_name='dna.DNA.Transform.transformerName', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='informationType', full_name='dna.DNA.Transform.informationType', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='transformSize', full_name='dna.DNA.Transform.transformSize', index=2,
-      number=3, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='transformParam', full_name='dna.DNA.Transform.transformParam', index=3,
-      number=4, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1106,
-  serialized_end=1249,
+  serialized_start=564,
+  serialized_end=602,
 )
 
 _DNA_CONNECTION = _descriptor.Descriptor(
@@ -419,8 +245,8 @@ _DNA_CONNECTION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1251,
-  serialized_end=1318,
+  serialized_start=604,
+  serialized_end=671,
 )
 
 _DNA_SIZE = _descriptor.Descriptor(
@@ -456,45 +282,8 @@ _DNA_SIZE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1320,
-  serialized_end=1368,
-)
-
-_DNA_PARAMETER = _descriptor.Descriptor(
-  name='Parameter',
-  full_name='dna.DNA.Parameter',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='parameterName', full_name='dna.DNA.Parameter.parameterName', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='parameterValue', full_name='dna.DNA.Parameter.parameterValue', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1370,
-  serialized_end=1428,
+  serialized_start=673,
+  serialized_end=721,
 )
 
 _DNA = _descriptor.Descriptor(
@@ -512,28 +301,14 @@ _DNA = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='inputs', full_name='dna.DNA.inputs', index=1,
-      number=2, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='layers', full_name='dna.DNA.layers', index=2,
+      name='layers', full_name='dna.DNA.layers', index=1,
       number=3, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='outputs', full_name='dna.DNA.outputs', index=3,
-      number=4, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='connections', full_name='dna.DNA.connections', index=4,
+      name='connections', full_name='dna.DNA.connections', index=2,
       number=5, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -542,7 +317,7 @@ _DNA = _descriptor.Descriptor(
   ],
   extensions=[
   ],
-  nested_types=[_DNA_INPUT, _DNA_LAYER, _DNA_LAYERCONVOLUTION, _DNA_LAYERACTIVATION, _DNA_LAYERDROPOUT, _DNA_OUTPUT, _DNA_TRANSFORM, _DNA_CONNECTION, _DNA_SIZE, _DNA_PARAMETER, ],
+  nested_types=[_DNA_LAYER, _DNA_LAYERCONVOLUTION, _DNA_LAYERACTIVATION, _DNA_LAYERDROPOUT, _DNA_CONNECTION, _DNA_SIZE, ],
   enum_types=[
   ],
   options=None,
@@ -552,17 +327,11 @@ _DNA = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=28,
-  serialized_end=1428,
+  serialized_end=721,
 )
 
-_DNA_INPUT.fields_by_name['connections'].message_type = _DNA_CONNECTION
-_DNA_INPUT.fields_by_name['inputTransform'].message_type = _DNA_TRANSFORM
-_DNA_INPUT.fields_by_name['outputTransform'].message_type = _DNA_TRANSFORM
-_DNA_INPUT.containing_type = _DNA
 _DNA_LAYER.fields_by_name['layerSize'].message_type = _DNA_SIZE
 _DNA_LAYER.fields_by_name['connections'].message_type = _DNA_CONNECTION
-_DNA_LAYER.fields_by_name['inputTransform'].message_type = _DNA_TRANSFORM
-_DNA_LAYER.fields_by_name['outputTransform'].message_type = _DNA_TRANSFORM
 _DNA_LAYER.fields_by_name['layerConvolution'].message_type = _DNA_LAYERCONVOLUTION
 _DNA_LAYER.fields_by_name['layerActivation'].message_type = _DNA_LAYERACTIVATION
 _DNA_LAYER.fields_by_name['layerDropout'].message_type = _DNA_LAYERDROPOUT
@@ -579,30 +348,13 @@ _DNA_LAYER.fields_by_name['layerDropout'].containing_oneof = _DNA_LAYER.oneofs_b
 _DNA_LAYERCONVOLUTION.containing_type = _DNA
 _DNA_LAYERACTIVATION.containing_type = _DNA
 _DNA_LAYERDROPOUT.containing_type = _DNA
-_DNA_OUTPUT.fields_by_name['connections'].message_type = _DNA_CONNECTION
-_DNA_OUTPUT.fields_by_name['inputTransform'].message_type = _DNA_TRANSFORM
-_DNA_OUTPUT.fields_by_name['outputTransform'].message_type = _DNA_TRANSFORM
-_DNA_OUTPUT.containing_type = _DNA
-_DNA_TRANSFORM.fields_by_name['transformSize'].message_type = _DNA_SIZE
-_DNA_TRANSFORM.fields_by_name['transformParam'].message_type = _DNA_PARAMETER
-_DNA_TRANSFORM.containing_type = _DNA
 _DNA_CONNECTION.containing_type = _DNA
 _DNA_SIZE.containing_type = _DNA
-_DNA_PARAMETER.containing_type = _DNA
-_DNA.fields_by_name['inputs'].message_type = _DNA_INPUT
 _DNA.fields_by_name['layers'].message_type = _DNA_LAYER
-_DNA.fields_by_name['outputs'].message_type = _DNA_OUTPUT
 _DNA.fields_by_name['connections'].message_type = _DNA_CONNECTION
 DESCRIPTOR.message_types_by_name['DNA'] = _DNA
 
 DNA = _reflection.GeneratedProtocolMessageType('DNA', (_message.Message,), dict(
-
-  Input = _reflection.GeneratedProtocolMessageType('Input', (_message.Message,), dict(
-    DESCRIPTOR = _DNA_INPUT,
-    __module__ = 'dnaBlueprint_pb2'
-    # @@protoc_insertion_point(class_scope:dna.DNA.Input)
-    ))
-  ,
 
   Layer = _reflection.GeneratedProtocolMessageType('Layer', (_message.Message,), dict(
     DESCRIPTOR = _DNA_LAYER,
@@ -632,20 +384,6 @@ DNA = _reflection.GeneratedProtocolMessageType('DNA', (_message.Message,), dict(
     ))
   ,
 
-  Output = _reflection.GeneratedProtocolMessageType('Output', (_message.Message,), dict(
-    DESCRIPTOR = _DNA_OUTPUT,
-    __module__ = 'dnaBlueprint_pb2'
-    # @@protoc_insertion_point(class_scope:dna.DNA.Output)
-    ))
-  ,
-
-  Transform = _reflection.GeneratedProtocolMessageType('Transform', (_message.Message,), dict(
-    DESCRIPTOR = _DNA_TRANSFORM,
-    __module__ = 'dnaBlueprint_pb2'
-    # @@protoc_insertion_point(class_scope:dna.DNA.Transform)
-    ))
-  ,
-
   Connection = _reflection.GeneratedProtocolMessageType('Connection', (_message.Message,), dict(
     DESCRIPTOR = _DNA_CONNECTION,
     __module__ = 'dnaBlueprint_pb2'
@@ -659,28 +397,17 @@ DNA = _reflection.GeneratedProtocolMessageType('DNA', (_message.Message,), dict(
     # @@protoc_insertion_point(class_scope:dna.DNA.Size)
     ))
   ,
-
-  Parameter = _reflection.GeneratedProtocolMessageType('Parameter', (_message.Message,), dict(
-    DESCRIPTOR = _DNA_PARAMETER,
-    __module__ = 'dnaBlueprint_pb2'
-    # @@protoc_insertion_point(class_scope:dna.DNA.Parameter)
-    ))
-  ,
   DESCRIPTOR = _DNA,
   __module__ = 'dnaBlueprint_pb2'
   # @@protoc_insertion_point(class_scope:dna.DNA)
   ))
 _sym_db.RegisterMessage(DNA)
-_sym_db.RegisterMessage(DNA.Input)
 _sym_db.RegisterMessage(DNA.Layer)
 _sym_db.RegisterMessage(DNA.LayerConvolution)
 _sym_db.RegisterMessage(DNA.LayerActivation)
 _sym_db.RegisterMessage(DNA.LayerDropout)
-_sym_db.RegisterMessage(DNA.Output)
-_sym_db.RegisterMessage(DNA.Transform)
 _sym_db.RegisterMessage(DNA.Connection)
 _sym_db.RegisterMessage(DNA.Size)
-_sym_db.RegisterMessage(DNA.Parameter)
 
 
 # @@protoc_insertion_point(module_scope)

@@ -11,8 +11,6 @@ message DNA {
 		string layerName = 1;
 		repeated Size layerSize = 2;
 		repeated Connection connections = 3;
-		Transform inputTransform = 4;
-		Transform outputTransform = 5;		
 		
 		oneof SubLayer {
 			LayerConvolution layerConvolution = 6;

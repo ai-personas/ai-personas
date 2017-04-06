@@ -1,11 +1,13 @@
 
 # coding: utf-8
 
-# In[8]:
+# In[17]:
 
 import os, sys, inspect
 import copy
 import imp
+
+INSTALLATION_PATH = "C:\Users\rames\Documents\GitHub\ai-personas"
 
 PROTO_DEF_EXTENSION = ".bin"
 PROTO_PYTHON_EXTENSION = "_pb2.py"
@@ -18,22 +20,7 @@ DNA_BLUEPRINT = "../../DNA/dnaBlueprint/version_1/dnaBlueprint" +  PROTO_PYTHON_
 DNA_NAME_QUALIFIER = "DnaDefinition"
 DNA_NAME = "Khandhasamy" + DNA_NAME_QUALIFIER + PROTO_DEF_EXTENSION
 DNA_DEF_PATH = "../../DNA/dnaFamily/Khandhasamy/Evolution_1/" + DNA_NAME
-
-def loadDNA(dnaName, evolution, dnaInstance):
-    dna_path = os.path.abspath(os.path.join('..', 'DNA', 'Family', dnaName, 'Evolution ' + str(evolution)))
-
-    # use this if you want to include modules from a subfolder
-    cmd_subfolder = os.path.realpath(os.path.abspath(os.path.join(os.path.split(inspect.getfile( inspect.currentframe() ))[0],dna_path)))
-    if cmd_subfolder not in sys.path:
-        print (cmd_subfolder)
-    sys.path.insert(0, cmd_subfolder)
-
-    f = open(dna_path + "\\" + dnaName + ".bin", "rb")
-    #dnaInstance = DynamicImporter(dnaName+"_pb2", "DNA")
-    dnaInstance.ParseFromString(f.read())
-    f.close()
-
-    return dnaInstance
+SOURCE_PATH = INSTALLATION_PATH + "\Environment\Informations\Category\Portraits\scientists.bin"
 
 class PersonaDefinitionGeneration(object):
     
@@ -45,24 +32,22 @@ class PersonaDefinitionGeneration(object):
         dnaBlueprint = imp.load_source('DNA', dna_blueprint_path).DNA() 
         return dnaBlueprint
     
-    def getDnaDefinition(self, dnaBlueprintPath, dnaDefPath):
+    def getDnaDefinition(self, dna, dnaDefPath):
         # read dna definition
-        dna = self.getDnaBlueprint(dnaBlueprintPath)
         f = open(dnaDefPath, "rb")
         dna.ParseFromString(f.read())
         f.close()
         return dna 
 
     def getPersonaBlueprint(self, dnaBlueprintPath, dnaDefPath, personaBlueprintPath): 
-        dna = self.getDnaDefinition(dnaBlueprintPath, dnaDefPath)
         #persona blueprint path
-        persona_blueprint_path = os.path.abspath(os.path.join(personaBlueprintPath))
-        print (persona_blueprint_path)
+        persona_blueprint_path = os.path.abspath(os.path.join(personaBlueprintPath))        
         #persona blueprint
         personaBlueprint = imp.load_source('Persona', persona_blueprint_path).Persona() 
         return personaBlueprint
 
     def savePersonaDefinition(self, personaDefPath, persona):
+        print (personaDefPath)
         # write persona definition
         f = open(personaDefPath, "wb")
         f.write(persona.SerializeToString())
@@ -70,43 +55,52 @@ class PersonaDefinitionGeneration(object):
         
     def generatePersonaDefinition(self, dnaBlueprintPath, dnaDefPath, personaBlueprintPath, personaDefPath):
         persona = self.getPersonaBlueprint(dnaBlueprintPath, dnaDefPath, personaBlueprintPath)
+        dna = persona.DNAs.add()
+        # load dna definition
+        dna = self.getDnaDefinition(dna, dnaDefPath)
+        # generate physical 
+        self.generatePhysical(persona)
+        #generate age
+        self.generateAge(persona)
+        # save persona
         self.savePersonaDefinition(personaDefPath, persona)
         return
     
+    def generatePhysical(self, persona):
+        persona.physical = "keras"
+        return persona
     
+    def generateAge(self, persona):
+        persona.age.old = 1
+        persona.age.learningCycle = 50
+        persona.age.learningBatchSize = 3
+        self.generateEnvironment(persona)
+        return persona
+    
+    def generateEnvironment(self, persona):
+        environment = persona.age.environments.add()
+        environment.society = ""
+        self.generateLibrary(environment)
+        return environment
+    
+    def generateLibrary(self, environment):
+        source = environment.library.sources.add()
+        source.sourceName = SOURCE_PATH
+        self.generateSourceConnectionLayer(source)
+        return environment.library
+    
+    def generateSourceConnectionLayer(self, source):
+        sourceConnectionLayer = source.sourceConnectionLayers.add()
+        sourceConnectionLayer.connectedLayerName = "Layer1"
+        sourceConnectionLayer.imageSource.imageWidth = 50
+        sourceConnectionLayer.imageSource.imageHeight = 50
+        sourceConnectionLayer.imageSource.imageProcess.append("grey")
+        sourceConnectionLayer.imageSource.imageProcess.append("edge")
+        return sourceConnectionLayer
         
+    
 personaDefinitionGeneration = PersonaDefinitionGeneration()
 personaDefinitionGeneration.generatePersonaDefinition(DNA_BLUEPRINT, DNA_DEF_PATH,  PERSONA_BLUEPRINT, PERSONA_DEF_PATH)
-
-#generate persona definitions 
-def generatePersonaDefinition():
-    persona = personaDefinition_pb2.Persona()
-    persona.physical = "keras"
-    
-    persona.age.old = 1
-    persona.age.learningCycle = 50
-    persona.age.learningBatchSize = 3
-    
-    ################ environments #############################
-    environment = persona.age.environments.add()
-
-    ################ environments #############################
-    information = environment.informations.add()
-    information.informationSource = "Informations\Category\Portraits\scientists"
-    information.connectedLayerName.append("imageInput")
-    information.connectedLayerName.append("imageOutput")
-    
-    ################# get DNA from file######################
-    dna = persona.DNAs.add()
-    dna = loadDNA("Khandhasamy", 1, dna)
-    
-    return persona
-    
-# Write persona to file
-# f = open(PERSONA_DEF_PATH, "wb")
-# f.write(generatePersonaDefinition().SerializeToString())
-# f.close()
-
 
 
 # In[ ]:
