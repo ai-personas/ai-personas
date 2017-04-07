@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>extractImageFromImageArray</title>
+<title>generatePersonaDefinition</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -11748,201 +11748,107 @@ div#notebook {
 
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">imp</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
-<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">ImageFilter</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">logging</span>
 
-<span class="n">INFORMATION_BLUEPRINT</span> <span class="o">=</span> <span class="s2">&quot;../../informationBlueprint&quot;</span>
-<span class="n">INFORMATION_BASE</span> <span class="o">=</span> <span class="s2">&quot;../../&quot;</span>
-<span class="n">PROTO_PYTHON_EXTENSION</span> <span class="o">=</span> <span class="s2">&quot;_pb2.py&quot;</span>
+<span class="n">INSTALLATION_PATH</span> <span class="o">=</span> <span class="s2">&quot;C:\Users</span><span class="se">\r</span><span class="s2">ames\Documents\GitHub</span><span class="se">\a</span><span class="s2">i-personas&quot;</span>
+
 <span class="n">PROTO_DEF_EXTENSION</span> <span class="o">=</span> <span class="s2">&quot;.bin&quot;</span>
+<span class="n">PROTO_PYTHON_EXTENSION</span> <span class="o">=</span> <span class="s2">&quot;_pb2.py&quot;</span>
+<span class="n">PERSONA_BLUEPRINT</span> <span class="o">=</span> <span class="s2">&quot;version_1/personBlueprint&quot;</span> <span class="o">+</span> <span class="n">PROTO_PYTHON_EXTENSION</span>
+<span class="n">PERSONA_NAME</span> <span class="o">=</span> <span class="s2">&quot;Khandhasamy&quot;</span>
+<span class="n">PERSONA_NAME_QUALIFIER</span> <span class="o">=</span> <span class="s2">&quot;PersonaDefinition&quot;</span>
+<span class="n">PERSONA_AGE</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">PERSONA_DEF_PATH</span><span class="o">=</span><span class="s2">&quot;../Artist/Portraits/sketchToGreyImage/Khandhasamy/Evolution_1/age_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">PERSONA_AGE</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">PERSONA_NAME</span> <span class="o">+</span> <span class="n">PERSONA_NAME_QUALIFIER</span> <span class="o">+</span> <span class="n">PROTO_DEF_EXTENSION</span>
+<span class="n">DNA_BLUEPRINT</span> <span class="o">=</span> <span class="s2">&quot;../../DNA/dnaBlueprint/version_1/dnaBlueprint&quot;</span> <span class="o">+</span>  <span class="n">PROTO_PYTHON_EXTENSION</span>
+<span class="n">DNA_NAME_QUALIFIER</span> <span class="o">=</span> <span class="s2">&quot;DnaDefinition&quot;</span>
+<span class="n">DNA_NAME</span> <span class="o">=</span> <span class="s2">&quot;Khandhasamy&quot;</span> <span class="o">+</span> <span class="n">DNA_NAME_QUALIFIER</span> <span class="o">+</span> <span class="n">PROTO_DEF_EXTENSION</span>
+<span class="n">DNA_DEF_PATH</span> <span class="o">=</span> <span class="s2">&quot;../../DNA/dnaFamily/Khandhasamy/Evolution_1/&quot;</span> <span class="o">+</span> <span class="n">DNA_NAME</span>
+<span class="n">SOURCE_PATH</span> <span class="o">=</span> <span class="n">INSTALLATION_PATH</span> <span class="o">+</span> <span class="s2">&quot;\Environment\Informations\Category\Portraits\scientists.bin&quot;</span>
 
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;Extractor&#39;</span><span class="p">)</span>
-
-<span class="k">class</span> <span class="nc">Extractor</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-        
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="n">source</span>
-        <span class="c1">#load information</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">informationDefinition</span> <span class="o">=</span> <span class="n">loadInformationDefinition</span><span class="p">(</span><span class="n">getInformationBlueprint</span><span class="p">())</span>
-        
-    <span class="k">def</span> <span class="nf">getInformationBlueprint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">informationBluePrintPath</span><span class="p">):</span>
-        <span class="c1">#information blueprint path</span>
-        <span class="n">information_blueprint_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">informationBluePrintPath</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;information blue print path: &quot;</span> <span class="o">+</span> <span class="n">information_blueprint_path</span><span class="p">)</span>
-        <span class="c1">#import information blueprint</span>
-        <span class="n">informationBlueprint</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">load_source</span><span class="p">(</span><span class="s1">&#39;Information&#39;</span><span class="p">,</span> <span class="n">information_blueprint_path</span><span class="p">)</span><span class="o">.</span><span class="n">Information</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">informationBlueprint</span>
-        
-    <span class="k">def</span> <span class="nf">loadInformationDefinition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">informationBluePrintPath</span><span class="p">):</span>
-        <span class="c1">#load information</span>
-        <span class="n">information_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">sourceName</span> <span class="o">+</span> <span class="n">PROTO_DEF_EXTENSION</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;information path: &quot;</span> <span class="o">+</span> <span class="n">information_path</span><span class="p">)</span>
-        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">information_path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
-        <span class="n">information</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInformationBlueprint</span><span class="p">()</span>
-        <span class="n">information</span><span class="o">.</span><span class="n">ParseFromString</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+<span class="k">class</span> <span class="nc">PersonaDefinitionGeneration</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    
+    <span class="k">def</span> <span class="nf">getDnaBlueprint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dnaBlueprintPath</span><span class="p">):</span>
+        <span class="c1">#DNA blueprint path</span>
+        <span class="n">dna_blueprint_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dnaBlueprintPath</span><span class="p">))</span>
+        <span class="k">print</span> <span class="p">(</span><span class="n">dna_blueprint_path</span><span class="p">)</span>
+        <span class="c1">#dna blueprint</span>
+        <span class="n">dnaBlueprint</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">load_source</span><span class="p">(</span><span class="s1">&#39;DNA&#39;</span><span class="p">,</span> <span class="n">dna_blueprint_path</span><span class="p">)</span><span class="o">.</span><span class="n">DNA</span><span class="p">()</span> 
+        <span class="k">return</span> <span class="n">dnaBlueprint</span>
+    
+    <span class="k">def</span> <span class="nf">getDnaDefinition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dna</span><span class="p">,</span> <span class="n">dnaDefPath</span><span class="p">):</span>
+        <span class="c1"># read dna definition</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">dnaDefPath</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+        <span class="n">dna</span><span class="o">.</span><span class="n">ParseFromString</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
         <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">informationBluePrint</span>
+        <span class="k">return</span> <span class="n">dna</span> 
 
-    <span class="k">def</span> <span class="nf">getImages</span><span class="p">(</span><span class="n">dataPercentage</span><span class="p">):</span>
-        <span class="k">return</span>
-        
-    <span class="k">def</span> <span class="nf">getExtractedData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputTransform</span><span class="p">,</span> <span class="n">images</span><span class="p">):</span>
-        <span class="k">return</span>
-
-    
-<span class="c1"># ext = Extractor()</span>
-<span class="c1"># ext.loadInformationDefinition(INFORMATION_BLUEPRINT)</span>
-
-<span class="k">class</span> <span class="nc">test</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> 
-        
-    <span class="k">def</span> <span class="nf">getPersonaBlueprint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">personaBlueprintPath</span><span class="p">):</span> 
+    <span class="k">def</span> <span class="nf">getPersonaBlueprint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dnaBlueprintPath</span><span class="p">,</span> <span class="n">dnaDefPath</span><span class="p">,</span> <span class="n">personaBlueprintPath</span><span class="p">):</span> 
         <span class="c1">#persona blueprint path</span>
-        <span class="n">persona_blueprint_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">personaBlueprintPath</span><span class="p">))</span>
-        <span class="k">print</span> <span class="p">(</span><span class="n">persona_blueprint_path</span><span class="p">)</span>
+        <span class="n">persona_blueprint_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">personaBlueprintPath</span><span class="p">))</span>        
         <span class="c1">#persona blueprint</span>
         <span class="n">personaBlueprint</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">load_source</span><span class="p">(</span><span class="s1">&#39;Persona&#39;</span><span class="p">,</span> <span class="n">persona_blueprint_path</span><span class="p">)</span><span class="o">.</span><span class="n">Persona</span><span class="p">()</span> 
         <span class="k">return</span> <span class="n">personaBlueprint</span>
+
+    <span class="k">def</span> <span class="nf">savePersonaDefinition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">,</span> <span class="n">persona</span><span class="p">):</span>
+        <span class="k">print</span> <span class="p">(</span><span class="n">personaDefPath</span><span class="p">)</span>
+        <span class="c1"># write persona definition</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">personaDefPath</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">persona</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        
+    <span class="k">def</span> <span class="nf">generatePersonaDefinition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dnaBlueprintPath</span><span class="p">,</span> <span class="n">dnaDefPath</span><span class="p">,</span> <span class="n">personaBlueprintPath</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">):</span>
+        <span class="n">persona</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPersonaBlueprint</span><span class="p">(</span><span class="n">dnaBlueprintPath</span><span class="p">,</span> <span class="n">dnaDefPath</span><span class="p">,</span> <span class="n">personaBlueprintPath</span><span class="p">)</span>
+        <span class="n">dna</span> <span class="o">=</span> <span class="n">persona</span><span class="o">.</span><span class="n">DNAs</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+        <span class="c1"># load dna definition</span>
+        <span class="n">dna</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDnaDefinition</span><span class="p">(</span><span class="n">dna</span><span class="p">,</span> <span class="n">dnaDefPath</span><span class="p">)</span>
+        <span class="c1"># generate physical </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generatePhysical</span><span class="p">(</span><span class="n">persona</span><span class="p">)</span>
+        <span class="c1">#generate age</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generateAge</span><span class="p">(</span><span class="n">persona</span><span class="p">)</span>
+        <span class="c1"># save persona</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">savePersonaDefinition</span><span class="p">(</span><span class="n">personaDefPath</span><span class="p">,</span> <span class="n">persona</span><span class="p">)</span>
+        <span class="k">return</span>
     
-    <span class="k">def</span> <span class="nf">loadPersona</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">personaBlueprintPath</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">):</span>
-        <span class="c1"># persona blueprint</span>
-        <span class="n">persona</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPersonaBlueprint</span><span class="p">(</span><span class="n">personaBlueprintPath</span><span class="p">)</span>
-        <span class="c1">#load persona</span>
-        <span class="n">persona_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">personaDefPath</span><span class="p">))</span>
-        <span class="k">print</span> <span class="p">(</span><span class="n">persona_path</span><span class="p">)</span>
-        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">personaDefPath</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
-        <span class="n">persona</span><span class="o">.</span><span class="n">ParseFromString</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
-        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>        
+    <span class="k">def</span> <span class="nf">generatePhysical</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">persona</span><span class="p">):</span>
+        <span class="n">persona</span><span class="o">.</span><span class="n">physical</span> <span class="o">=</span> <span class="s2">&quot;keras&quot;</span>
         <span class="k">return</span> <span class="n">persona</span>
     
-    <span class="k">def</span> <span class="nf">testExtractedData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">personaBlueprintPath</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">):</span>
-        <span class="n">persona</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loadPersona</span><span class="p">(</span><span class="n">personaBlueprintPath</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">generateAge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">persona</span><span class="p">):</span>
+        <span class="n">persona</span><span class="o">.</span><span class="n">age</span><span class="o">.</span><span class="n">old</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">persona</span><span class="o">.</span><span class="n">age</span><span class="o">.</span><span class="n">learningCycle</span> <span class="o">=</span> <span class="mi">50</span>
+        <span class="n">persona</span><span class="o">.</span><span class="n">age</span><span class="o">.</span><span class="n">learningBatchSize</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generateEnvironment</span><span class="p">(</span><span class="n">persona</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">persona</span>
+    
+    <span class="k">def</span> <span class="nf">generateEnvironment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">persona</span><span class="p">):</span>
+        <span class="n">environment</span> <span class="o">=</span> <span class="n">persona</span><span class="o">.</span><span class="n">age</span><span class="o">.</span><span class="n">environments</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+        <span class="n">environment</span><span class="o">.</span><span class="n">society</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generateLibrary</span><span class="p">(</span><span class="n">environment</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">environment</span>
+    
+    <span class="k">def</span> <span class="nf">generateLibrary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environment</span><span class="p">):</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="n">environment</span><span class="o">.</span><span class="n">library</span><span class="o">.</span><span class="n">sources</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+        <span class="n">source</span><span class="o">.</span><span class="n">sourceName</span> <span class="o">=</span> <span class="n">SOURCE_PATH</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generateSourceConnectionLayer</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">environment</span><span class="o">.</span><span class="n">library</span>
+    
+    <span class="k">def</span> <span class="nf">generateSourceConnectionLayer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
+        <span class="n">sourceConnectionLayer</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">sourceConnectionLayers</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+        <span class="n">sourceConnectionLayer</span><span class="o">.</span><span class="n">connectedLayerName</span> <span class="o">=</span> <span class="s2">&quot;Layer1&quot;</span>
+        <span class="n">sourceConnectionLayer</span><span class="o">.</span><span class="n">imageSource</span><span class="o">.</span><span class="n">imageWidth</span> <span class="o">=</span> <span class="mi">50</span>
+        <span class="n">sourceConnectionLayer</span><span class="o">.</span><span class="n">imageSource</span><span class="o">.</span><span class="n">imageHeight</span> <span class="o">=</span> <span class="mi">50</span>
+        <span class="n">sourceConnectionLayer</span><span class="o">.</span><span class="n">imageSource</span><span class="o">.</span><span class="n">imageProcess</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;grey&quot;</span><span class="p">)</span>
+        <span class="n">sourceConnectionLayer</span><span class="o">.</span><span class="n">imageSource</span><span class="o">.</span><span class="n">imageProcess</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;edge&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sourceConnectionLayer</span>
         
-        <span class="k">return</span> 
     
-<span class="n">PERSONA_NAME_QUALIFIER</span> <span class="o">=</span> <span class="s2">&quot;PersonaDefinition&quot;</span>
-<span class="n">TEST_PERSONA_BLUEPRINT</span> <span class="o">=</span> <span class="s2">&quot;../../../../Personas/personaBlueprint/version_1/personBlueprint&quot;</span> <span class="o">+</span> <span class="n">PROTO_PYTHON_EXTENSION</span>
-<span class="n">TEST_PERSONA_NAME</span> <span class="o">=</span> <span class="s2">&quot;Khandhasamy&quot;</span> <span class="o">+</span> <span class="n">PERSONA_NAME_QUALIFIER</span> <span class="o">+</span> <span class="n">PROTO_DEF_EXTENSION</span>
-<span class="n">TEST_PERSONA_DEF</span> <span class="o">=</span> <span class="s2">&quot;../../../../Personas/Artist/Portraits/sketchToGreyImage/Khandhasamy/Evolution_1/age_1/&quot;</span> <span class="o">+</span> <span class="n">TEST_PERSONA_NAME</span>
-    
-<span class="n">tst</span> <span class="o">=</span> <span class="n">test</span><span class="p">()</span>
-<span class="n">tst</span><span class="o">.</span><span class="n">loadPersona</span><span class="p">(</span><span class="n">TEST_PERSONA_BLUEPRINT</span><span class="p">,</span> <span class="n">TEST_PERSONA_DEF</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">testExtractor</span><span class="p">():</span>
-    <span class="c1">#persona blueprint path</span>
-    <span class="n">information_blueprint_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">)</span>
-    <span class="n">information_blueprint_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">information_blueprint_path</span><span class="p">,</span> <span class="n">INFORMATION_BLUEPRINT</span> <span class="o">+</span> <span class="n">PROTO_PYTHON_EXTENSION</span><span class="p">))</span>
-    <span class="c1">#import information blueprint</span>
-    <span class="n">informationBlueprint</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">load_source</span><span class="p">(</span><span class="s1">&#39;Information&#39;</span><span class="p">,</span> <span class="n">information_blueprint_path</span><span class="p">)</span><span class="o">.</span><span class="n">Information</span><span class="p">()</span>
-
-    <span class="c1">#Testing</span>
-    <span class="n">persona</span> <span class="o">=</span> <span class="n">personaDefinition_pb2</span><span class="o">.</span><span class="n">Persona</span><span class="p">()</span>
-    <span class="n">dna</span> <span class="o">=</span> <span class="n">persona</span><span class="o">.</span><span class="n">DNAs</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
-    <span class="n">inputLayer</span> <span class="o">=</span> <span class="n">dna</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
-    <span class="n">inputLayer</span><span class="o">.</span><span class="n">inputTransform</span><span class="o">.</span><span class="n">transformerName</span> <span class="o">=</span> <span class="s2">&quot;imageTransform&quot;</span>
-    <span class="n">inputLayer</span><span class="o">.</span><span class="n">inputTransform</span><span class="o">.</span><span class="n">informationType</span> <span class="o">=</span> <span class="s2">&quot;image&quot;</span>
-    <span class="n">transformInputSize1</span> <span class="o">=</span>  <span class="n">inputLayer</span><span class="o">.</span><span class="n">inputTransform</span><span class="o">.</span><span class="n">transformSize</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
-    <span class="n">transformInputSize1</span><span class="o">.</span><span class="n">dimension</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">transformInputSize1</span><span class="o">.</span><span class="n">dimensionSize</span> <span class="o">=</span> <span class="mi">50</span>
-    <span class="n">transformInputSize2</span> <span class="o">=</span>  <span class="n">inputLayer</span><span class="o">.</span><span class="n">inputTransform</span><span class="o">.</span><span class="n">transformSize</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
-    <span class="n">transformInputSize2</span><span class="o">.</span><span class="n">dimension</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">transformInputSize2</span><span class="o">.</span><span class="n">dimensionSize</span> <span class="o">=</span> <span class="mi">50</span>
-    <span class="n">transformParam1</span> <span class="o">=</span> <span class="n">inputLayer</span><span class="o">.</span><span class="n">inputTransform</span><span class="o">.</span><span class="n">transformParam</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
-    <span class="n">transformParam1</span><span class="o">.</span><span class="n">parameterName</span> <span class="o">=</span> <span class="s2">&quot;color&quot;</span>
-    <span class="n">transformParam1</span><span class="o">.</span><span class="n">parameterValue</span>  <span class="o">=</span> <span class="s2">&quot;grey&quot;</span>
-    <span class="c1"># transformParam2 = inputLayer.inputTransform.transformParam.add()</span>
-    <span class="c1"># transformParam2.parameterName = &quot;process&quot;</span>
-    <span class="c1"># transformParam2.parameterValue  = &quot;edge&quot;</span>
-
-
-    <span class="c1"># Read the existing address book.</span>
-    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;test.bin&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
-    <span class="n">information</span><span class="o">.</span><span class="n">ParseFromString</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-
-    <span class="n">imageURLExtractor</span> <span class="o">=</span> <span class="n">ImageURLExtractor</span><span class="p">(</span><span class="n">information</span><span class="p">)</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">imageURLExtractor</span><span class="o">.</span><span class="n">getTestData</span><span class="p">(</span><span class="n">inputLayer</span><span class="o">.</span><span class="n">inputTransform</span><span class="p">)</span>
-
-    <span class="k">for</span> <span class="n">imgIndex</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">imgIndex</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">255</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">Greys_r</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-    <span class="k">return</span>
-
-<span class="k">def</span> <span class="nf">testPopulatePersonaInformation</span><span class="p">():</span>
-    <span class="k">return</span>
-
-<span class="c1"># testExtractor()</span>
-
-<span class="k">def</span> <span class="nf">getTrainingData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputTransform</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">trainingData</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">information</span><span class="o">.</span><span class="n">trainingDataList</span><span class="p">:</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">trainingData</span><span class="o">.</span><span class="n">URL</span><span class="p">)</span>
-        <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">))</span>
-
-        <span class="c1">#FIXME: move transformer to transform package</span>
-        <span class="n">img_rows</span> <span class="o">=</span> <span class="n">inputTransform</span><span class="o">.</span><span class="n">transformSize</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dimensionSize</span>
-        <span class="n">img_cols</span> <span class="o">=</span> <span class="n">inputTransform</span><span class="o">.</span><span class="n">transformSize</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dimensionSize</span>
-        <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="n">img_rows</span><span class="p">,</span><span class="n">img_cols</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">ANTIALIAS</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="n">inputTransform</span><span class="o">.</span><span class="n">transformParam</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">parameter</span><span class="o">.</span><span class="n">parameterName</span> <span class="o">==</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">parameter</span><span class="o">.</span><span class="n">parameterValue</span> <span class="o">==</span> <span class="s1">&#39;grey&#39;</span><span class="p">:</span>
-                    <span class="k">print</span> <span class="p">(</span><span class="s2">&quot;transform grey&quot;</span><span class="p">)</span>
-                    <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s2">&quot;L&quot;</span><span class="p">)</span>         
-            <span class="k">if</span> <span class="n">parameter</span><span class="o">.</span><span class="n">parameterName</span> <span class="o">==</span> <span class="s1">&#39;process&#39;</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">parameter</span><span class="o">.</span><span class="n">parameterValue</span> <span class="o">==</span> <span class="s1">&#39;edge&#39;</span><span class="p">:</span>
-                    <span class="k">print</span> <span class="p">(</span><span class="s2">&quot;transform edge&quot;</span><span class="p">)</span>
-                    <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ImageFilter</span><span class="o">.</span><span class="n">FIND_EDGES</span><span class="p">)</span>
-
-        <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>     
-        <span class="n">data</span><span class="p">[</span><span class="n">image_index</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">img</span>
-        <span class="k">print</span> <span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-        <span class="k">print</span> <span class="p">(</span><span class="n">trainingData</span><span class="o">.</span><span class="n">URL</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">data</span>
-
-<span class="k">def</span> <span class="nf">getTestData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputTransform</span><span class="p">):</span>
-    <span class="n">no_of_images</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">information</span><span class="o">.</span><span class="n">testDataList</span><span class="p">)</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">no_of_images</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">inputTransform</span><span class="o">.</span><span class="n">transformSize</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dimensionSize</span><span class="p">,</span> <span class="n">inputTransform</span><span class="o">.</span><span class="n">transformSize</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dimensionSize</span><span class="p">))</span>
-    <span class="n">image_index</span> <span class="o">=</span> <span class="mi">0</span>
-
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">information</span><span class="o">.</span><span class="n">extractor</span> <span class="o">==</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">testData</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">information</span><span class="o">.</span><span class="n">testDataList</span><span class="p">:</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">testData</span><span class="o">.</span><span class="n">URL</span><span class="p">)</span>
-            <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">))</span>
-
-            <span class="c1">#FIXME: move transformer to transform package</span>
-            <span class="n">img_rows</span> <span class="o">=</span> <span class="n">inputTransform</span><span class="o">.</span><span class="n">transformSize</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dimensionSize</span>
-            <span class="n">img_cols</span> <span class="o">=</span> <span class="n">inputTransform</span><span class="o">.</span><span class="n">transformSize</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dimensionSize</span>
-            <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="n">img_rows</span><span class="p">,</span><span class="n">img_cols</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">ANTIALIAS</span><span class="p">)</span>
-
-            <span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="n">inputTransform</span><span class="o">.</span><span class="n">transformParam</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">parameter</span><span class="o">.</span><span class="n">parameterName</span> <span class="o">==</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">parameter</span><span class="o">.</span><span class="n">parameterValue</span> <span class="o">==</span> <span class="s1">&#39;grey&#39;</span><span class="p">:</span>
-                        <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s2">&quot;L&quot;</span><span class="p">)</span>         
-                <span class="k">if</span> <span class="n">parameter</span><span class="o">.</span><span class="n">parameterName</span> <span class="o">==</span> <span class="s1">&#39;process&#39;</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">parameter</span><span class="o">.</span><span class="n">parameterValue</span> <span class="o">==</span> <span class="s1">&#39;edge&#39;</span><span class="p">:</span>
-                        <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ImageFilter</span><span class="o">.</span><span class="n">FIND_EDGES</span><span class="p">)</span>
-
-            <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>     
-            <span class="n">data</span><span class="p">[</span><span class="n">image_index</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">img</span>
-            <span class="k">print</span> <span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-            <span class="k">print</span> <span class="p">(</span><span class="n">testData</span><span class="o">.</span><span class="n">URL</span><span class="p">)</span>
-
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">print</span> <span class="p">(</span><span class="s2">&quot;Extractor in the information file and running extractor is not matching.&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">data</span>   
+<span class="n">personaDefinitionGeneration</span> <span class="o">=</span> <span class="n">PersonaDefinitionGeneration</span><span class="p">()</span>
+<span class="n">personaDefinitionGeneration</span><span class="o">.</span><span class="n">generatePersonaDefinition</span><span class="p">(</span><span class="n">DNA_BLUEPRINT</span><span class="p">,</span> <span class="n">DNA_DEF_PATH</span><span class="p">,</span>  <span class="n">PERSONA_BLUEPRINT</span><span class="p">,</span> <span class="n">PERSONA_DEF_PATH</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -11954,12 +11860,8 @@ div#notebook {
 
 
 <div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-cyan-fg">  File </span><span class="ansi-green-fg">&#34;&lt;ipython-input-14-aacf0e5e3929&gt;&#34;</span><span class="ansi-cyan-fg">, line </span><span class="ansi-green-fg">76</span>
-<span class="ansi-red-fg">    def test</span>
-            ^
-<span class="ansi-red-fg">SyntaxError</span><span class="ansi-red-fg">:</span> invalid syntax
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>../Artist/Portraits/sketchToGreyImage/Khandhasamy/Evolution_1/age_1/KhandhasamyPersonaDefinition.bin
 </pre>
 </div>
 </div>
