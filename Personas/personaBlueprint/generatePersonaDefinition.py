@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[2]:
 
 import os, sys, inspect
 import copy
@@ -20,7 +20,7 @@ DNA_BLUEPRINT = "../../DNA/dnaBlueprint/version_1/dnaBlueprint" +  PROTO_PYTHON_
 DNA_NAME_QUALIFIER = "DnaDefinition"
 DNA_NAME = "Khandhasamy" + DNA_NAME_QUALIFIER + PROTO_DEF_EXTENSION
 DNA_DEF_PATH = "../../DNA/dnaFamily/Khandhasamy/Evolution_1/" + DNA_NAME
-SOURCE_PATH = INSTALLATION_PATH + "\Environment\Informations\Category\Portraits\scientists.bin"
+SOURCE_PATH = "Environment\Informations\Category\Portraits\scientists.bin"
 
 class PersonaDefinitionGeneration(object):
     

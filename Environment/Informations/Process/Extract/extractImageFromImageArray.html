@@ -11748,7 +11748,7 @@ div#notebook {
 
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
@@ -11760,49 +11760,69 @@ div#notebook {
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
-<span class="n">INFORMATION_BLUEPRINT</span> <span class="o">=</span> <span class="s2">&quot;../../informationBlueprint&quot;</span>
-<span class="n">INFORMATION_BASE</span> <span class="o">=</span> <span class="s2">&quot;../../&quot;</span>
+<span class="n">INSTALLATION_PATH</span> <span class="o">=</span> <span class="s2">&quot;C:</span><span class="se">\\</span><span class="s2">Users</span><span class="se">\\</span><span class="s2">rames</span><span class="se">\\</span><span class="s2">Documents</span><span class="se">\\</span><span class="s2">GitHub</span><span class="se">\\</span><span class="s2">ai-personas</span><span class="se">\\</span><span class="s2">&quot;</span>
+
 <span class="n">PROTO_PYTHON_EXTENSION</span> <span class="o">=</span> <span class="s2">&quot;_pb2.py&quot;</span>
 <span class="n">PROTO_DEF_EXTENSION</span> <span class="o">=</span> <span class="s2">&quot;.bin&quot;</span>
+<span class="n">INFORMATION_BLUEPRINT</span> <span class="o">=</span> <span class="s2">&quot;../../informationBlueprint&quot;</span> <span class="o">+</span> <span class="n">PROTO_PYTHON_EXTENSION</span>
+<span class="n">LOADER_PATH</span> <span class="o">=</span> <span class="s2">&quot;Environment\Informations\Process\Load&quot;</span>
 
+
+<span class="c1">#------------- Logging configuration ------------------#</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">()</span>
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;Extractor&#39;</span><span class="p">)</span>
-
+<span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+<span class="c1">#------------------------------------------------------#</span>
+              
 <span class="k">class</span> <span class="nc">Extractor</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
         
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="n">source</span>
-        <span class="c1">#load information</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">informationDefinition</span> <span class="o">=</span> <span class="n">loadInformationDefinition</span><span class="p">(</span><span class="n">getInformationBlueprint</span><span class="p">())</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">informationBlueprintPath</span><span class="p">,</span> <span class="n">sourceName</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">informationDefinition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loadInformationDefinition</span><span class="p">(</span><span class="n">informationBlueprintPath</span><span class="p">,</span> <span class="n">sourceName</span><span class="p">)</span>
         
-    <span class="k">def</span> <span class="nf">getInformationBlueprint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">informationBluePrintPath</span><span class="p">):</span>
-        <span class="c1">#information blueprint path</span>
-        <span class="n">information_blueprint_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">informationBluePrintPath</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;information blue print path: &quot;</span> <span class="o">+</span> <span class="n">information_blueprint_path</span><span class="p">)</span>
-        <span class="c1">#import information blueprint</span>
+    <span class="k">def</span> <span class="nf">getInformationBlueprint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">informationBlueprintPath</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;get information blueprint path&quot;</span><span class="p">)</span>
+        <span class="n">information_blueprint_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">informationBlueprintPath</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;information blue print path: &quot;</span> <span class="o">+</span> <span class="n">information_blueprint_path</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;import information blueprint&quot;</span><span class="p">)</span>
         <span class="n">informationBlueprint</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">load_source</span><span class="p">(</span><span class="s1">&#39;Information&#39;</span><span class="p">,</span> <span class="n">information_blueprint_path</span><span class="p">)</span><span class="o">.</span><span class="n">Information</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">informationBlueprint</span>
         
-    <span class="k">def</span> <span class="nf">loadInformationDefinition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">informationBluePrintPath</span><span class="p">):</span>
-        <span class="c1">#load information</span>
-        <span class="n">information_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">sourceName</span> <span class="o">+</span> <span class="n">PROTO_DEF_EXTENSION</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;information path: &quot;</span> <span class="o">+</span> <span class="n">information_path</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">loadInformationDefinition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">informationBlueprintPath</span><span class="p">,</span> <span class="n">informationSourcename</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;get information path&quot;</span><span class="p">)</span>
+        <span class="n">information_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">informationSourcename</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;information path: &quot;</span> <span class="o">+</span> <span class="n">information_path</span><span class="p">)</span>
         <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">information_path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
-        <span class="n">information</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInformationBlueprint</span><span class="p">()</span>
+        <span class="n">information</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInformationBlueprint</span><span class="p">(</span><span class="n">informationBlueprintPath</span><span class="p">)</span>
         <span class="n">information</span><span class="o">.</span><span class="n">ParseFromString</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
         <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">informationBluePrint</span>
-
-    <span class="k">def</span> <span class="nf">getImages</span><span class="p">(</span><span class="n">dataPercentage</span><span class="p">):</span>
-        <span class="k">return</span>
-        
-    <span class="k">def</span> <span class="nf">getExtractedData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputTransform</span><span class="p">,</span> <span class="n">images</span><span class="p">):</span>
-        <span class="k">return</span>
-
+        <span class="k">return</span> <span class="n">information</span>
     
-<span class="c1"># ext = Extractor()</span>
-<span class="c1"># ext.loadInformationDefinition(INFORMATION_BLUEPRINT)</span>
+    <span class="k">def</span> <span class="nf">getLoader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">processor</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;get loader path&quot;</span><span class="p">)</span>
+        <span class="n">loader_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">INSTALLATION_PATH</span><span class="p">,</span> <span class="n">LOADER_PATH</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;loader path: &quot;</span> <span class="o">+</span> <span class="n">loader_path</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;import loader&quot;</span><span class="p">)</span>
+        <span class="n">loader</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">load_source</span><span class="p">(</span><span class="s1">&#39;Loader&#39;</span><span class="p">,</span> <span class="n">loader_path</span><span class="p">)</span><span class="o">.</span><span class="n">Loader</span><span class="p">(</span><span class="n">processor</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">loader</span>
+    
+    <span class="k">def</span> <span class="nf">getExtractedData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">processor</span><span class="p">,</span> <span class="n">sourceConnectionLayer</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;call loader: &quot;</span> <span class="o">+</span> <span class="n">processor</span><span class="o">.</span><span class="n">WhichOneof</span><span class="p">(</span><span class="s2">&quot;Loader&quot;</span><span class="p">))</span>
+        <span class="c1">#call loader</span>
+        <span class="n">loader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getLoader</span><span class="p">(</span><span class="n">processor</span><span class="p">)</span>
+        <span class="k">return</span>
+</pre></div>
 
-<span class="k">class</span> <span class="nc">test</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">class</span> <span class="nc">test</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> 
@@ -11810,7 +11830,7 @@ div#notebook {
     <span class="k">def</span> <span class="nf">getPersonaBlueprint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">personaBlueprintPath</span><span class="p">):</span> 
         <span class="c1">#persona blueprint path</span>
         <span class="n">persona_blueprint_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">personaBlueprintPath</span><span class="p">))</span>
-        <span class="k">print</span> <span class="p">(</span><span class="n">persona_blueprint_path</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;TEST - Persona blueprint path: &quot;</span> <span class="o">+</span> <span class="n">persona_blueprint_path</span><span class="p">)</span>
         <span class="c1">#persona blueprint</span>
         <span class="n">personaBlueprint</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">load_source</span><span class="p">(</span><span class="s1">&#39;Persona&#39;</span><span class="p">,</span> <span class="n">persona_blueprint_path</span><span class="p">)</span><span class="o">.</span><span class="n">Persona</span><span class="p">()</span> 
         <span class="k">return</span> <span class="n">personaBlueprint</span>
@@ -11820,7 +11840,7 @@ div#notebook {
         <span class="n">persona</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPersonaBlueprint</span><span class="p">(</span><span class="n">personaBlueprintPath</span><span class="p">)</span>
         <span class="c1">#load persona</span>
         <span class="n">persona_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">personaDefPath</span><span class="p">))</span>
-        <span class="k">print</span> <span class="p">(</span><span class="n">persona_path</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;TEST - Persona definition path:&quot;</span> <span class="o">+</span> <span class="n">persona_path</span><span class="p">)</span>
         <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">personaDefPath</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
         <span class="n">persona</span><span class="o">.</span><span class="n">ParseFromString</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
         <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>        
@@ -11828,7 +11848,16 @@ div#notebook {
     
     <span class="k">def</span> <span class="nf">testExtractedData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">personaBlueprintPath</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">):</span>
         <span class="n">persona</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loadPersona</span><span class="p">(</span><span class="n">personaBlueprintPath</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">)</span>
-        
+        <span class="c1">#get source name</span>
+        <span class="n">environment</span> <span class="o">=</span> <span class="n">persona</span><span class="o">.</span><span class="n">age</span><span class="o">.</span><span class="n">environments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="n">environment</span><span class="o">.</span><span class="n">library</span><span class="o">.</span><span class="n">sources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;TEST - information source: &quot;</span> <span class="o">+</span> <span class="n">source</span><span class="o">.</span><span class="n">sourceName</span><span class="p">)</span>
+        <span class="n">extractor</span> <span class="o">=</span> <span class="n">Extractor</span><span class="p">(</span><span class="n">INFORMATION_BLUEPRINT</span><span class="p">,</span> <span class="n">INSTALLATION_PATH</span> <span class="o">+</span> <span class="n">source</span><span class="o">.</span><span class="n">sourceName</span><span class="p">)</span>
+        <span class="n">sourceConnectionLayer</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">sourceConnectionLayers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">informationDef</span> <span class="o">=</span> <span class="n">extractor</span><span class="o">.</span><span class="n">loadInformationDefinition</span><span class="p">(</span><span class="n">INFORMATION_BLUEPRINT</span><span class="p">,</span> <span class="n">INSTALLATION_PATH</span> <span class="o">+</span> <span class="n">source</span><span class="o">.</span><span class="n">sourceName</span><span class="p">)</span>
+        <span class="n">processor</span> <span class="o">=</span> <span class="n">informationDef</span><span class="o">.</span><span class="n">processors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;get extracted data&quot;</span><span class="p">)</span>
+        <span class="n">extractor</span><span class="o">.</span><span class="n">getExtractedData</span><span class="p">(</span><span class="n">processor</span><span class="p">,</span><span class="n">sourceConnectionLayer</span><span class="p">)</span>
         <span class="k">return</span> 
     
 <span class="n">PERSONA_NAME_QUALIFIER</span> <span class="o">=</span> <span class="s2">&quot;PersonaDefinition&quot;</span>
@@ -11837,9 +11866,85 @@ div#notebook {
 <span class="n">TEST_PERSONA_DEF</span> <span class="o">=</span> <span class="s2">&quot;../../../../Personas/Artist/Portraits/sketchToGreyImage/Khandhasamy/Evolution_1/age_1/&quot;</span> <span class="o">+</span> <span class="n">TEST_PERSONA_NAME</span>
     
 <span class="n">tst</span> <span class="o">=</span> <span class="n">test</span><span class="p">()</span>
-<span class="n">tst</span><span class="o">.</span><span class="n">loadPersona</span><span class="p">(</span><span class="n">TEST_PERSONA_BLUEPRINT</span><span class="p">,</span> <span class="n">TEST_PERSONA_DEF</span><span class="p">)</span>
+<span class="n">tst</span><span class="o">.</span><span class="n">testExtractedData</span><span class="p">(</span><span class="n">TEST_PERSONA_BLUEPRINT</span><span class="p">,</span> <span class="n">TEST_PERSONA_DEF</span><span class="p">)</span>
+</pre></div>
 
-<span class="k">def</span> <span class="nf">testExtractor</span><span class="p">():</span>
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>DEBUG:Extractor:TEST - Persona blueprint path: C:\Users\rames\Documents\GitHub\ai-personas\Personas\personaBlueprint\version_1\personBlueprint_pb2.py
+DEBUG:Extractor:TEST - Persona definition path:C:\Users\rames\Documents\GitHub\ai-personas\Personas\Artist\Portraits\sketchToGreyImage\Khandhasamy\Evolution_1\age_1\KhandhasamyPersonaDefinition.bin
+DEBUG:Extractor:TEST - information source: Environment\Informations\Category\Portraits\scientists.bin
+DEBUG:Extractor:get information path
+DEBUG:Extractor:information path: C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\Category\Portraits\scientists.bin
+DEBUG:Extractor:get information blueprint path
+DEBUG:Extractor:information blue print path: C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\informationBlueprint_pb2.py
+DEBUG:Extractor:import information blueprint
+DEBUG:Extractor:get information path
+DEBUG:Extractor:information path: C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\Category\Portraits\scientists.bin
+DEBUG:Extractor:get information blueprint path
+DEBUG:Extractor:information blue print path: C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\informationBlueprint_pb2.py
+DEBUG:Extractor:import information blueprint
+DEBUG:Extractor:get extracted data
+DEBUG:Extractor:call loader: downloadZipImageFile
+DEBUG:Extractor:get loader path
+DEBUG:Extractor:loader path: C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\Process\Load
+DEBUG:Extractor:import loader
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">IOError</span>                                   Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-31-8c2e92f88f4a&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">     43</span> 
+<span class="ansi-green-intense-fg ansi-bold">     44</span> tst <span class="ansi-yellow-intense-fg ansi-bold">=</span> test<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">---&gt; 45</span><span class="ansi-red-fg"> </span>tst<span class="ansi-yellow-intense-fg ansi-bold">.</span>testExtractedData<span class="ansi-yellow-intense-fg ansi-bold">(</span>TEST_PERSONA_BLUEPRINT<span class="ansi-yellow-intense-fg ansi-bold">,</span> TEST_PERSONA_DEF<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+
+<span class="ansi-green-fg">&lt;ipython-input-31-8c2e92f88f4a&gt;</span> in <span class="ansi-cyan-fg">testExtractedData</span><span class="ansi-blue-fg">(self, personaBlueprintPath, personaDefPath)</span>
+<span class="ansi-green-intense-fg ansi-bold">     34</span>         processor <span class="ansi-yellow-intense-fg ansi-bold">=</span> informationDef<span class="ansi-yellow-intense-fg ansi-bold">.</span>processors<span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">0</span><span class="ansi-yellow-intense-fg ansi-bold">]</span>
+<span class="ansi-green-intense-fg ansi-bold">     35</span>         logger<span class="ansi-yellow-intense-fg ansi-bold">.</span>debug<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#34;get extracted data&#34;</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">---&gt; 36</span><span class="ansi-red-fg">         </span>extractor<span class="ansi-yellow-intense-fg ansi-bold">.</span>getExtractedData<span class="ansi-yellow-intense-fg ansi-bold">(</span>processor<span class="ansi-yellow-intense-fg ansi-bold">,</span>sourceConnectionLayer<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     37</span>         <span class="ansi-green-intense-fg ansi-bold">return</span>
+<span class="ansi-green-intense-fg ansi-bold">     38</span> 
+
+<span class="ansi-green-fg">&lt;ipython-input-30-6abfb8bdf445&gt;</span> in <span class="ansi-cyan-fg">getExtractedData</span><span class="ansi-blue-fg">(self, processor, sourceConnectionLayer)</span>
+<span class="ansi-green-intense-fg ansi-bold">     56</span>         logger<span class="ansi-yellow-intense-fg ansi-bold">.</span>debug<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#34;call loader: &#34;</span> <span class="ansi-yellow-intense-fg ansi-bold">+</span> processor<span class="ansi-yellow-intense-fg ansi-bold">.</span>WhichOneof<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#34;Loader&#34;</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     57</span>         <span class="ansi-red-intense-fg ansi-bold">#call loader</span>
+<span class="ansi-green-fg">---&gt; 58</span><span class="ansi-red-fg">         </span>loader <span class="ansi-yellow-intense-fg ansi-bold">=</span> self<span class="ansi-yellow-intense-fg ansi-bold">.</span>getLoader<span class="ansi-yellow-intense-fg ansi-bold">(</span>processor<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     59</span>         <span class="ansi-green-intense-fg ansi-bold">return</span>
+
+<span class="ansi-green-fg">&lt;ipython-input-30-6abfb8bdf445&gt;</span> in <span class="ansi-cyan-fg">getLoader</span><span class="ansi-blue-fg">(self, processor)</span>
+<span class="ansi-green-intense-fg ansi-bold">     50</span>         logger<span class="ansi-yellow-intense-fg ansi-bold">.</span>debug<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#34;loader path: &#34;</span> <span class="ansi-yellow-intense-fg ansi-bold">+</span> loader_path<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     51</span>         logger<span class="ansi-yellow-intense-fg ansi-bold">.</span>debug<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#34;import loader&#34;</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">---&gt; 52</span><span class="ansi-red-fg">         </span>loader <span class="ansi-yellow-intense-fg ansi-bold">=</span> imp<span class="ansi-yellow-intense-fg ansi-bold">.</span>load_source<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#39;Loader&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> loader_path<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">.</span>Loader<span class="ansi-yellow-intense-fg ansi-bold">(</span>processor<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     53</span>         <span class="ansi-green-intense-fg ansi-bold">return</span> loader
+<span class="ansi-green-intense-fg ansi-bold">     54</span> 
+
+<span class="ansi-red-fg">IOError</span>: [Errno 13] Permission denied</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">testExtractor</span><span class="p">():</span>
     <span class="c1">#persona blueprint path</span>
     <span class="n">information_blueprint_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">)</span>
     <span class="n">information_blueprint_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">information_blueprint_path</span><span class="p">,</span> <span class="n">INFORMATION_BLUEPRINT</span> <span class="o">+</span> <span class="n">PROTO_PYTHON_EXTENSION</span><span class="p">))</span>
@@ -11946,24 +12051,6 @@ div#notebook {
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-cyan-fg">  File </span><span class="ansi-green-fg">&#34;&lt;ipython-input-14-aacf0e5e3929&gt;&#34;</span><span class="ansi-cyan-fg">, line </span><span class="ansi-green-fg">76</span>
-<span class="ansi-red-fg">    def test</span>
-            ^
-<span class="ansi-red-fg">SyntaxError</span><span class="ansi-red-fg">:</span> invalid syntax
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 

@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[14]:
+# In[30]:
 
 import sys
 import imp
@@ -12,47 +12,59 @@ from PIL import Image, ImageFilter
 import numpy as np
 import logging
 
-INFORMATION_BLUEPRINT = "../../informationBlueprint"
-INFORMATION_BASE = "../../"
+INSTALLATION_PATH = "C:\\Users\\rames\\Documents\\GitHub\\ai-personas\\"
+
 PROTO_PYTHON_EXTENSION = "_pb2.py"
 PROTO_DEF_EXTENSION = ".bin"
+INFORMATION_BLUEPRINT = "../../informationBlueprint" + PROTO_PYTHON_EXTENSION
+LOADER_PATH = "Environment\Informations\Process\Load"
 
+
+#------------- Logging configuration ------------------#
+logging.basicConfig()
 logger = logging.getLogger('Extractor')
-
+logger.setLevel(logging.DEBUG)
+#------------------------------------------------------#
+              
 class Extractor(object):
         
-    def __init__(self, source):
-        self.source = source
-        #load information
-        self.informationDefinition = loadInformationDefinition(getInformationBlueprint())
+    def __init__(self, informationBlueprintPath, sourceName):
+        self.informationDefinition = self.loadInformationDefinition(informationBlueprintPath, sourceName)
         
-    def getInformationBlueprint(self, informationBluePrintPath):
-        #information blueprint path
-        information_blueprint_path = os.path.abspath(os.path.join(informationBluePrintPath))
-        logger.info("information blue print path: " + information_blueprint_path)
-        #import information blueprint
+    def getInformationBlueprint(self, informationBlueprintPath):
+        logger.debug("get information blueprint path")
+        information_blueprint_path = os.path.abspath(os.path.join(informationBlueprintPath))
+        logger.debug("information blue print path: " + information_blueprint_path)
+        logger.debug("import information blueprint")
         informationBlueprint = imp.load_source('Information', information_blueprint_path).Information()
         return informationBlueprint
         
-    def loadInformationDefinition(self, informationBluePrintPath):
-        #load information
-        information_path = os.path.abspath(os.path.join(self.source.sourceName + PROTO_DEF_EXTENSION))
-        logger.info("information path: " + information_path)
+    def loadInformationDefinition(self, informationBlueprintPath, informationSourcename):
+        logger.debug("get information path")
+        information_path = os.path.abspath(os.path.join(informationSourcename))
+        logger.debug("information path: " + information_path)
         f = open(information_path, "rb")
-        information = self.getInformationBlueprint()
+        information = self.getInformationBlueprint(informationBlueprintPath)
         information.ParseFromString(f.read())
         f.close()
-        return informationBluePrint
-
-    def getImages(dataPercentage):
-        return
-        
-    def getExtractedData(self, inputTransform, images):
-        return
-
+        return information
     
-# ext = Extractor()
-# ext.loadInformationDefinition(INFORMATION_BLUEPRINT)
+    def getLoader(self, processor):
+        logger.debug("get loader path")
+        loader_path = os.path.abspath(os.path.join(INSTALLATION_PATH, LOADER_PATH))
+        logger.debug("loader path: " + loader_path)
+        logger.debug("import loader")
+        loader = imp.load_source('Loader', loader_path).Loader(processor)
+        return loader
+    
+    def getExtractedData(self, processor, sourceConnectionLayer):
+        logger.debug("call loader: " + processor.WhichOneof("Loader"))
+        #call loader
+        loader = self.getLoader(processor)
+        return
+
+
+# In[31]:
 
 class test(object):
     
@@ -62,7 +74,7 @@ class test(object):
     def getPersonaBlueprint(self, personaBlueprintPath): 
         #persona blueprint path
         persona_blueprint_path = os.path.abspath(os.path.join(personaBlueprintPath))
-        print (persona_blueprint_path)
+        logger.debug("TEST - Persona blueprint path: " + persona_blueprint_path)
         #persona blueprint
         personaBlueprint = imp.load_source('Persona', persona_blueprint_path).Persona() 
         return personaBlueprint
@@ -72,7 +84,7 @@ class test(object):
         persona = self.getPersonaBlueprint(personaBlueprintPath)
         #load persona
         persona_path = os.path.abspath(os.path.join(personaDefPath))
-        print (persona_path)
+        logger.debug("TEST - Persona definition path:" + persona_path)
         f = open(personaDefPath, "rb")
         persona.ParseFromString(f.read())
         f.close()        
@@ -80,7 +92,16 @@ class test(object):
     
     def testExtractedData(self, personaBlueprintPath, personaDefPath):
         persona = self.loadPersona(personaBlueprintPath, personaDefPath)
-        
+        #get source name
+        environment = persona.age.environments[0]
+        source = environment.library.sources[0]
+        logger.debug("TEST - information source: " + source.sourceName)
+        extractor = Extractor(INFORMATION_BLUEPRINT, INSTALLATION_PATH + source.sourceName)
+        sourceConnectionLayer = source.sourceConnectionLayers[0]
+        informationDef = extractor.loadInformationDefinition(INFORMATION_BLUEPRINT, INSTALLATION_PATH + source.sourceName)
+        processor = informationDef.processors[0]
+        logger.debug("get extracted data")
+        extractor.getExtractedData(processor,sourceConnectionLayer)
         return 
     
 PERSONA_NAME_QUALIFIER = "PersonaDefinition"
@@ -89,7 +110,10 @@ TEST_PERSONA_NAME = "Khandhasamy" + PERSONA_NAME_QUALIFIER + PROTO_DEF_EXTENSION
 TEST_PERSONA_DEF = "../../../../Personas/Artist/Portraits/sketchToGreyImage/Khandhasamy/Evolution_1/age_1/" + TEST_PERSONA_NAME
     
 tst = test()
-tst.loadPersona(TEST_PERSONA_BLUEPRINT, TEST_PERSONA_DEF)
+tst.testExtractedData(TEST_PERSONA_BLUEPRINT, TEST_PERSONA_DEF)
+
+
+# In[ ]:
 
 def testExtractor():
     #persona blueprint path
