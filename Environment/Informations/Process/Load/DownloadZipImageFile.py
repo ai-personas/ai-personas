@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[7]:
+# In[1]:
 
 import sys
 import imp
@@ -34,7 +34,7 @@ class Loader(object):
                 try:
                     imgFile = input_zip.open(fileName)
                     img = Image.open(imgFile)
-                    img = np.asarray(img, dtype=np.float32)
+#                     img = np.asarray(img, dtype=np.float32)
                     imgDataList.append(img)
                 except Exception as e: 
                     pass

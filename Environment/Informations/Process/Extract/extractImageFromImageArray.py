@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[30]:
+# In[23]:
 
 import sys
 import imp
@@ -17,7 +17,8 @@ INSTALLATION_PATH = "C:\\Users\\rames\\Documents\\GitHub\\ai-personas\\"
 PROTO_PYTHON_EXTENSION = "_pb2.py"
 PROTO_DEF_EXTENSION = ".bin"
 INFORMATION_BLUEPRINT = "../../informationBlueprint" + PROTO_PYTHON_EXTENSION
-LOADER_PATH = "Environment\Informations\Process\Load"
+LOADER_NAME = "Loader.py"
+LOADER_PATH = "Environment/Informations/Process/Load/" + LOADER_NAME
 
 
 #------------- Logging configuration ------------------#
@@ -28,6 +29,8 @@ logger.setLevel(logging.DEBUG)
               
 class Extractor(object):
         
+    SOURCE_TRANSFORMATION = "imageSource"
+    
     def __init__(self, informationBlueprintPath, sourceName):
         self.informationDefinition = self.loadInformationDefinition(informationBlueprintPath, sourceName)
         
@@ -57,14 +60,37 @@ class Extractor(object):
         loader = imp.load_source('Loader', loader_path).Loader(processor)
         return loader
     
+    def transformImage(self, imageSourceParameter, img):
+        img_width = int(imageSourceParameter.imageWidth)
+        img_height = int(imageSourceParameter.imageHeight)
+        img = img.resize((img_width, img_height), Image.ANTIALIAS)
+        imageProcess = imageSourceParameter.imageProcess
+        for pIndex in range(len(imageProcess)):
+            if imageProcess[pIndex] == 'grey':
+                img = img.convert("L")         
+            if imageProcess[pIndex] == 'edge':
+                img = img.filter(ImageFilter.FIND_EDGES)        
+        return img
+    
     def getExtractedData(self, processor, sourceConnectionLayer):
         logger.debug("call loader: " + processor.WhichOneof("Loader"))
         #call loader
         loader = self.getLoader(processor)
+        logger.debug("source parameter: " + sourceConnectionLayer.WhichOneof("SourceParameter"))
+        processedImgDataList = []
+        if sourceConnectionLayer.WhichOneof("SourceParameter") == self.SOURCE_TRANSFORMATION:      
+            imgList = loader.getData()
+            for imgIndex in range(len(imgList)):
+                img = self.transformImage(sourceConnectionLayer.imageSource, imgList[imgIndex])
+                imgToArray = np.asarray(img, dtype=np.float32)
+                processedImgDataList.append(imgToArray)
+            processedImgDataList = np.asarray(processedImgDataList)
+            logger.debug("data shape: " + str(processedImgDataList.shape))
+            return processedImgDataList
         return
 
 
-# In[31]:
+# In[24]:
 
 class test(object):
     

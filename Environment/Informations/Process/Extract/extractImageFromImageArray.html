@@ -11748,7 +11748,7 @@ div#notebook {
 
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
@@ -11765,7 +11765,8 @@ div#notebook {
 <span class="n">PROTO_PYTHON_EXTENSION</span> <span class="o">=</span> <span class="s2">&quot;_pb2.py&quot;</span>
 <span class="n">PROTO_DEF_EXTENSION</span> <span class="o">=</span> <span class="s2">&quot;.bin&quot;</span>
 <span class="n">INFORMATION_BLUEPRINT</span> <span class="o">=</span> <span class="s2">&quot;../../informationBlueprint&quot;</span> <span class="o">+</span> <span class="n">PROTO_PYTHON_EXTENSION</span>
-<span class="n">LOADER_PATH</span> <span class="o">=</span> <span class="s2">&quot;Environment\Informations\Process\Load&quot;</span>
+<span class="n">LOADER_NAME</span> <span class="o">=</span> <span class="s2">&quot;Loader.py&quot;</span>
+<span class="n">LOADER_PATH</span> <span class="o">=</span> <span class="s2">&quot;Environment/Informations/Process/Load/&quot;</span> <span class="o">+</span> <span class="n">LOADER_NAME</span>
 
 
 <span class="c1">#------------- Logging configuration ------------------#</span>
@@ -11776,6 +11777,8 @@ div#notebook {
               
 <span class="k">class</span> <span class="nc">Extractor</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
         
+    <span class="n">SOURCE_TRANSFORMATION</span> <span class="o">=</span> <span class="s2">&quot;imageSource&quot;</span>
+    
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">informationBlueprintPath</span><span class="p">,</span> <span class="n">sourceName</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">informationDefinition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loadInformationDefinition</span><span class="p">(</span><span class="n">informationBlueprintPath</span><span class="p">,</span> <span class="n">sourceName</span><span class="p">)</span>
         
@@ -11805,10 +11808,33 @@ div#notebook {
         <span class="n">loader</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">load_source</span><span class="p">(</span><span class="s1">&#39;Loader&#39;</span><span class="p">,</span> <span class="n">loader_path</span><span class="p">)</span><span class="o">.</span><span class="n">Loader</span><span class="p">(</span><span class="n">processor</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">loader</span>
     
+    <span class="k">def</span> <span class="nf">transformImage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">imageSourceParameter</span><span class="p">,</span> <span class="n">img</span><span class="p">):</span>
+        <span class="n">img_width</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">imageSourceParameter</span><span class="o">.</span><span class="n">imageWidth</span><span class="p">)</span>
+        <span class="n">img_height</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">imageSourceParameter</span><span class="o">.</span><span class="n">imageHeight</span><span class="p">)</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="n">img_width</span><span class="p">,</span> <span class="n">img_height</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">ANTIALIAS</span><span class="p">)</span>
+        <span class="n">imageProcess</span> <span class="o">=</span> <span class="n">imageSourceParameter</span><span class="o">.</span><span class="n">imageProcess</span>
+        <span class="k">for</span> <span class="n">pIndex</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">imageProcess</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">imageProcess</span><span class="p">[</span><span class="n">pIndex</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;grey&#39;</span><span class="p">:</span>
+                <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s2">&quot;L&quot;</span><span class="p">)</span>         
+            <span class="k">if</span> <span class="n">imageProcess</span><span class="p">[</span><span class="n">pIndex</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;edge&#39;</span><span class="p">:</span>
+                <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ImageFilter</span><span class="o">.</span><span class="n">FIND_EDGES</span><span class="p">)</span>        
+        <span class="k">return</span> <span class="n">img</span>
+    
     <span class="k">def</span> <span class="nf">getExtractedData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">processor</span><span class="p">,</span> <span class="n">sourceConnectionLayer</span><span class="p">):</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;call loader: &quot;</span> <span class="o">+</span> <span class="n">processor</span><span class="o">.</span><span class="n">WhichOneof</span><span class="p">(</span><span class="s2">&quot;Loader&quot;</span><span class="p">))</span>
         <span class="c1">#call loader</span>
         <span class="n">loader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getLoader</span><span class="p">(</span><span class="n">processor</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;source parameter: &quot;</span> <span class="o">+</span> <span class="n">sourceConnectionLayer</span><span class="o">.</span><span class="n">WhichOneof</span><span class="p">(</span><span class="s2">&quot;SourceParameter&quot;</span><span class="p">))</span>
+        <span class="n">processedImgDataList</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">sourceConnectionLayer</span><span class="o">.</span><span class="n">WhichOneof</span><span class="p">(</span><span class="s2">&quot;SourceParameter&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">SOURCE_TRANSFORMATION</span><span class="p">:</span>      
+            <span class="n">imgList</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">getData</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">imgIndex</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">imgList</span><span class="p">)):</span>
+                <span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transformImage</span><span class="p">(</span><span class="n">sourceConnectionLayer</span><span class="o">.</span><span class="n">imageSource</span><span class="p">,</span> <span class="n">imgList</span><span class="p">[</span><span class="n">imgIndex</span><span class="p">])</span>
+                <span class="n">imgToArray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+                <span class="n">processedImgDataList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">imgToArray</span><span class="p">)</span>
+            <span class="n">processedImgDataList</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">processedImgDataList</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;data shape: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">processedImgDataList</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">processedImgDataList</span>
         <span class="k">return</span>
 </pre></div>
 
@@ -11819,7 +11845,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">class</span> <span class="nc">test</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -11895,43 +11921,18 @@ DEBUG:Extractor:import information blueprint
 DEBUG:Extractor:get extracted data
 DEBUG:Extractor:call loader: downloadZipImageFile
 DEBUG:Extractor:get loader path
-DEBUG:Extractor:loader path: C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\Process\Load
+DEBUG:Extractor:loader path: C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\Process\Load\Loader.py
 DEBUG:Extractor:import loader
+DEBUG:Extractor:source parameter: imageSource
+DEBUG:Extractor:data shape: (121L, 50L, 50L)
 </pre>
 </div>
 </div>
 
 <div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">IOError</span>                                   Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-31-8c2e92f88f4a&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">     43</span> 
-<span class="ansi-green-intense-fg ansi-bold">     44</span> tst <span class="ansi-yellow-intense-fg ansi-bold">=</span> test<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">---&gt; 45</span><span class="ansi-red-fg"> </span>tst<span class="ansi-yellow-intense-fg ansi-bold">.</span>testExtractedData<span class="ansi-yellow-intense-fg ansi-bold">(</span>TEST_PERSONA_BLUEPRINT<span class="ansi-yellow-intense-fg ansi-bold">,</span> TEST_PERSONA_DEF<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-
-<span class="ansi-green-fg">&lt;ipython-input-31-8c2e92f88f4a&gt;</span> in <span class="ansi-cyan-fg">testExtractedData</span><span class="ansi-blue-fg">(self, personaBlueprintPath, personaDefPath)</span>
-<span class="ansi-green-intense-fg ansi-bold">     34</span>         processor <span class="ansi-yellow-intense-fg ansi-bold">=</span> informationDef<span class="ansi-yellow-intense-fg ansi-bold">.</span>processors<span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">0</span><span class="ansi-yellow-intense-fg ansi-bold">]</span>
-<span class="ansi-green-intense-fg ansi-bold">     35</span>         logger<span class="ansi-yellow-intense-fg ansi-bold">.</span>debug<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#34;get extracted data&#34;</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">---&gt; 36</span><span class="ansi-red-fg">         </span>extractor<span class="ansi-yellow-intense-fg ansi-bold">.</span>getExtractedData<span class="ansi-yellow-intense-fg ansi-bold">(</span>processor<span class="ansi-yellow-intense-fg ansi-bold">,</span>sourceConnectionLayer<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     37</span>         <span class="ansi-green-intense-fg ansi-bold">return</span>
-<span class="ansi-green-intense-fg ansi-bold">     38</span> 
-
-<span class="ansi-green-fg">&lt;ipython-input-30-6abfb8bdf445&gt;</span> in <span class="ansi-cyan-fg">getExtractedData</span><span class="ansi-blue-fg">(self, processor, sourceConnectionLayer)</span>
-<span class="ansi-green-intense-fg ansi-bold">     56</span>         logger<span class="ansi-yellow-intense-fg ansi-bold">.</span>debug<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#34;call loader: &#34;</span> <span class="ansi-yellow-intense-fg ansi-bold">+</span> processor<span class="ansi-yellow-intense-fg ansi-bold">.</span>WhichOneof<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#34;Loader&#34;</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     57</span>         <span class="ansi-red-intense-fg ansi-bold">#call loader</span>
-<span class="ansi-green-fg">---&gt; 58</span><span class="ansi-red-fg">         </span>loader <span class="ansi-yellow-intense-fg ansi-bold">=</span> self<span class="ansi-yellow-intense-fg ansi-bold">.</span>getLoader<span class="ansi-yellow-intense-fg ansi-bold">(</span>processor<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     59</span>         <span class="ansi-green-intense-fg ansi-bold">return</span>
-
-<span class="ansi-green-fg">&lt;ipython-input-30-6abfb8bdf445&gt;</span> in <span class="ansi-cyan-fg">getLoader</span><span class="ansi-blue-fg">(self, processor)</span>
-<span class="ansi-green-intense-fg ansi-bold">     50</span>         logger<span class="ansi-yellow-intense-fg ansi-bold">.</span>debug<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#34;loader path: &#34;</span> <span class="ansi-yellow-intense-fg ansi-bold">+</span> loader_path<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     51</span>         logger<span class="ansi-yellow-intense-fg ansi-bold">.</span>debug<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#34;import loader&#34;</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">---&gt; 52</span><span class="ansi-red-fg">         </span>loader <span class="ansi-yellow-intense-fg ansi-bold">=</span> imp<span class="ansi-yellow-intense-fg ansi-bold">.</span>load_source<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#39;Loader&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> loader_path<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">.</span>Loader<span class="ansi-yellow-intense-fg ansi-bold">(</span>processor<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     53</span>         <span class="ansi-green-intense-fg ansi-bold">return</span> loader
-<span class="ansi-green-intense-fg ansi-bold">     54</span> 
-
-<span class="ansi-red-fg">IOError</span>: [Errno 13] Permission denied</pre>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Loaded images: 121
+</pre>
 </div>
 </div>
 

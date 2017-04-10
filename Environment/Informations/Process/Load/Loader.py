@@ -1,11 +1,14 @@
 
 # coding: utf-8
 
-# In[16]:
+# In[3]:
 
 import sys
 import imp
 import os
+
+INSTALLATION_PATH = "C:\\Users\\rames\\Documents\\GitHub\\ai-personas\\"
+LOADER_PATH = "Environment/Informations/Process/Load/"
 
 class Loader(object):
 
@@ -15,7 +18,7 @@ class Loader(object):
     # get data 
     def getData(self):
         loaderName = self.processor.WhichOneof("Loader")
-        loader_path = os.path.abspath(os.path.join(loaderName + '.py'))
+        loader_path = os.path.abspath(os.path.join(INSTALLATION_PATH, LOADER_PATH, loaderName + '.py'))
         loader = imp.load_source('Loader', loader_path).Loader(self.processor)
         return loader.getData()          
     
