@@ -31,26 +31,8 @@ class Extractor(object):
         
     SOURCE_TRANSFORMATION = "imageSource"
     
-    def __init__(self, informationBlueprintPath, sourceName):
-        self.informationDefinition = self.loadInformationDefinition(informationBlueprintPath, sourceName)
-        
-    def getInformationBlueprint(self, informationBlueprintPath):
-        logger.debug("get information blueprint path")
-        information_blueprint_path = os.path.abspath(os.path.join(informationBlueprintPath))
-        logger.debug("information blue print path: " + information_blueprint_path)
-        logger.debug("import information blueprint")
-        informationBlueprint = imp.load_source('Information', information_blueprint_path).Information()
-        return informationBlueprint
-        
-    def loadInformationDefinition(self, informationBlueprintPath, informationSourcename):
-        logger.debug("get information path")
-        information_path = os.path.abspath(os.path.join(informationSourcename))
-        logger.debug("information path: " + information_path)
-        f = open(information_path, "rb")
-        information = self.getInformationBlueprint(informationBlueprintPath)
-        information.ParseFromString(f.read())
-        f.close()
-        return information
+    def __init__(self, informationDef, sourceName):
+        self.informationDefinition = informationDef
     
     def getLoader(self, processor):
         logger.debug("get loader path")
@@ -120,6 +102,24 @@ class test(object):
         persona.ParseFromString(f.read())
         f.close()        
         return persona
+        
+    def getInformationBlueprint(self, informationBlueprintPath):
+        logger.debug("get information blueprint path")
+        information_blueprint_path = os.path.abspath(os.path.join(informationBlueprintPath))
+        logger.debug("information blue print path: " + information_blueprint_path)
+        logger.debug("import information blueprint")
+        informationBlueprint = imp.load_source('Information', information_blueprint_path).Information()
+        return informationBlueprint
+        
+    def loadInformationDefinition(self, informationBlueprintPath, informationSourcename):
+        logger.debug("get information path")
+        information_path = os.path.abspath(os.path.join(informationSourcename))
+        logger.debug("information path: " + information_path)
+        f = open(information_path, "rb")
+        information = self.getInformationBlueprint(informationBlueprintPath)
+        information.ParseFromString(f.read())
+        f.close()
+        return information
     
     def testExtractedData(self, personaBlueprintPath, personaDefPath):
         persona = self.loadPersona(personaBlueprintPath, personaDefPath)
@@ -127,9 +127,9 @@ class test(object):
         environment = persona.age.environments[0]
         source = environment.library.sources[0]
         logger.debug("TEST - information source: " + source.sourceName)
-        extractor = Extractor(INFORMATION_BLUEPRINT, INSTALLATION_PATH + source.sourceName)
+        informationDef = self.loadInformationDefinition(INFORMATION_BLUEPRINT, INSTALLATION_PATH + source.sourceName)
+        extractor = Extractor(informationDef, INSTALLATION_PATH + source.sourceName)
         sourceConnectionLayer = source.sourceConnectionLayers[0]
-        informationDef = extractor.loadInformationDefinition(INFORMATION_BLUEPRINT, INSTALLATION_PATH + source.sourceName)
         processor = informationDef.processors[0]
         logger.debug("get extracted data")
         extractor.getExtractedData(processor,sourceConnectionLayer)
