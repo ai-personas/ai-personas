@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[23]:
+# In[1]:
 
 import sys
 import imp
@@ -83,14 +83,19 @@ class Extractor(object):
             for imgIndex in range(len(imgList)):
                 img = self.transformImage(sourceConnectionLayer.imageSource, imgList[imgIndex])
                 imgToArray = np.asarray(img, dtype=np.float32)
-                processedImgDataList.append(imgToArray)
+                #if 2d array, then its grey color and append as list to make it as 3d array in conversion 
+                if len(imgToArray.shape) == 2:
+                    processedImgDataList.append([imgToArray])
+                else:
+                    #else, its multi array, append as its.
+                    processedImgDataList.append(imgToArray)
             processedImgDataList = np.asarray(processedImgDataList)
             logger.debug("data shape: " + str(processedImgDataList.shape))
             return processedImgDataList
         return
 
 
-# In[24]:
+# In[2]:
 
 class test(object):
     
@@ -137,114 +142,6 @@ TEST_PERSONA_DEF = "../../../../Personas/Artist/Portraits/sketchToGreyImage/Khan
     
 tst = test()
 tst.testExtractedData(TEST_PERSONA_BLUEPRINT, TEST_PERSONA_DEF)
-
-
-# In[ ]:
-
-def testExtractor():
-    #persona blueprint path
-    information_blueprint_path = os.path.join("..", "..")
-    information_blueprint_path = os.path.abspath(os.path.join(information_blueprint_path, INFORMATION_BLUEPRINT + PROTO_PYTHON_EXTENSION))
-    #import information blueprint
-    informationBlueprint = imp.load_source('Information', information_blueprint_path).Information()
-
-    #Testing
-    persona = personaDefinition_pb2.Persona()
-    dna = persona.DNAs.add()
-    inputLayer = dna.inputs.add()
-    inputLayer.inputTransform.transformerName = "imageTransform"
-    inputLayer.inputTransform.informationType = "image"
-    transformInputSize1 =  inputLayer.inputTransform.transformSize.add()
-    transformInputSize1.dimension = 1
-    transformInputSize1.dimensionSize = 50
-    transformInputSize2 =  inputLayer.inputTransform.transformSize.add()
-    transformInputSize2.dimension = 1
-    transformInputSize2.dimensionSize = 50
-    transformParam1 = inputLayer.inputTransform.transformParam.add()
-    transformParam1.parameterName = "color"
-    transformParam1.parameterValue  = "grey"
-    # transformParam2 = inputLayer.inputTransform.transformParam.add()
-    # transformParam2.parameterName = "process"
-    # transformParam2.parameterValue  = "edge"
-
-
-    # Read the existing address book.
-    f = open("test.bin", "rb")
-    information.ParseFromString(f.read())
-    f.close()
-
-    imageURLExtractor = ImageURLExtractor(information)
-    x = imageURLExtractor.getTestData(inputLayer.inputTransform)
-
-    for imgIndex in range(x.shape[0]):
-        plt.imshow(x[imgIndex][0]*255, cmap = cm.Greys_r)
-        plt.show()
-
-    return
-
-def testPopulatePersonaInformation():
-    return
-
-# testExtractor()
-
-def getTrainingData(self, inputTransform):
-    for trainingData in self.information.trainingDataList:
-        response = requests.get(trainingData.URL)
-        img = Image.open(BytesIO(response.content))
-
-        #FIXME: move transformer to transform package
-        img_rows = inputTransform.transformSize[0].dimensionSize
-        img_cols = inputTransform.transformSize[1].dimensionSize
-        img = img.resize((img_rows,img_cols), Image.ANTIALIAS)
-
-        for parameter in inputTransform.transformParam:
-            if parameter.parameterName == 'color':
-                if parameter.parameterValue == 'grey':
-                    print ("transform grey")
-                    img = img.convert("L")         
-            if parameter.parameterName == 'process':
-                if parameter.parameterValue == 'edge':
-                    print ("transform edge")
-                    img = img.filter(ImageFilter.FIND_EDGES)
-
-        img = np.asarray(img, dtype=np.float32)     
-        data[image_index, 0, :, :] = img
-        print (img.shape)
-        print (trainingData.URL)
-
-    return data
-
-def getTestData(self, inputTransform):
-    no_of_images = len(self.information.testDataList)
-    data = np.random.random((no_of_images, self.dim, inputTransform.transformSize[0].dimensionSize, inputTransform.transformSize[1].dimensionSize))
-    image_index = 0
-
-    if self.information.extractor == type(self).__name__:
-        for testData in self.information.testDataList:
-            response = requests.get(testData.URL)
-            img = Image.open(BytesIO(response.content))
-
-            #FIXME: move transformer to transform package
-            img_rows = inputTransform.transformSize[0].dimensionSize
-            img_cols = inputTransform.transformSize[1].dimensionSize
-            img = img.resize((img_rows,img_cols), Image.ANTIALIAS)
-
-            for parameter in inputTransform.transformParam:
-                if parameter.parameterName == 'color':
-                    if parameter.parameterValue == 'grey':
-                        img = img.convert("L")         
-                if parameter.parameterName == 'process':
-                    if parameter.parameterValue == 'edge':
-                        img = img.filter(ImageFilter.FIND_EDGES)
-
-            img = np.asarray(img, dtype=np.float32)     
-            data[image_index, 0, :, :] = img
-            print (img.shape)
-            print (testData.URL)
-
-    else:
-        print ("Extractor in the information file and running extractor is not matching.")
-    return data   
 
 
 # In[ ]:

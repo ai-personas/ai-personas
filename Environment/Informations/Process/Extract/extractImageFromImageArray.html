@@ -11748,7 +11748,7 @@ div#notebook {
 
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
@@ -11831,7 +11831,12 @@ div#notebook {
             <span class="k">for</span> <span class="n">imgIndex</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">imgList</span><span class="p">)):</span>
                 <span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transformImage</span><span class="p">(</span><span class="n">sourceConnectionLayer</span><span class="o">.</span><span class="n">imageSource</span><span class="p">,</span> <span class="n">imgList</span><span class="p">[</span><span class="n">imgIndex</span><span class="p">])</span>
                 <span class="n">imgToArray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-                <span class="n">processedImgDataList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">imgToArray</span><span class="p">)</span>
+                <span class="c1">#if 2d array, then its grey color and append as list to make it as 3d array in conversion </span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">imgToArray</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="n">processedImgDataList</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">imgToArray</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1">#else, its multi array, append as its.</span>
+                    <span class="n">processedImgDataList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">imgToArray</span><span class="p">)</span>
             <span class="n">processedImgDataList</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">processedImgDataList</span><span class="p">)</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;data shape: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">processedImgDataList</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">processedImgDataList</span>
@@ -11845,7 +11850,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">class</span> <span class="nc">test</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -11924,7 +11929,6 @@ DEBUG:Extractor:get loader path
 DEBUG:Extractor:loader path: C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\Process\Load\Loader.py
 DEBUG:Extractor:import loader
 DEBUG:Extractor:source parameter: imageSource
-DEBUG:Extractor:data shape: (121L, 50L, 50L)
 </pre>
 </div>
 </div>
@@ -11936,122 +11940,13 @@ DEBUG:Extractor:data shape: (121L, 50L, 50L)
 </div>
 </div>
 
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>DEBUG:Extractor:data shape: (121L, 1L, 50L, 50L)
+</pre>
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">testExtractor</span><span class="p">():</span>
-    <span class="c1">#persona blueprint path</span>
-    <span class="n">information_blueprint_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">)</span>
-    <span class="n">information_blueprint_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">information_blueprint_path</span><span class="p">,</span> <span class="n">INFORMATION_BLUEPRINT</span> <span class="o">+</span> <span class="n">PROTO_PYTHON_EXTENSION</span><span class="p">))</span>
-    <span class="c1">#import information blueprint</span>
-    <span class="n">informationBlueprint</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">load_source</span><span class="p">(</span><span class="s1">&#39;Information&#39;</span><span class="p">,</span> <span class="n">information_blueprint_path</span><span class="p">)</span><span class="o">.</span><span class="n">Information</span><span class="p">()</span>
-
-    <span class="c1">#Testing</span>
-    <span class="n">persona</span> <span class="o">=</span> <span class="n">personaDefinition_pb2</span><span class="o">.</span><span class="n">Persona</span><span class="p">()</span>
-    <span class="n">dna</span> <span class="o">=</span> <span class="n">persona</span><span class="o">.</span><span class="n">DNAs</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
-    <span class="n">inputLayer</span> <span class="o">=</span> <span class="n">dna</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
-    <span class="n">inputLayer</span><span class="o">.</span><span class="n">inputTransform</span><span class="o">.</span><span class="n">transformerName</span> <span class="o">=</span> <span class="s2">&quot;imageTransform&quot;</span>
-    <span class="n">inputLayer</span><span class="o">.</span><span class="n">inputTransform</span><span class="o">.</span><span class="n">informationType</span> <span class="o">=</span> <span class="s2">&quot;image&quot;</span>
-    <span class="n">transformInputSize1</span> <span class="o">=</span>  <span class="n">inputLayer</span><span class="o">.</span><span class="n">inputTransform</span><span class="o">.</span><span class="n">transformSize</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
-    <span class="n">transformInputSize1</span><span class="o">.</span><span class="n">dimension</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">transformInputSize1</span><span class="o">.</span><span class="n">dimensionSize</span> <span class="o">=</span> <span class="mi">50</span>
-    <span class="n">transformInputSize2</span> <span class="o">=</span>  <span class="n">inputLayer</span><span class="o">.</span><span class="n">inputTransform</span><span class="o">.</span><span class="n">transformSize</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
-    <span class="n">transformInputSize2</span><span class="o">.</span><span class="n">dimension</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">transformInputSize2</span><span class="o">.</span><span class="n">dimensionSize</span> <span class="o">=</span> <span class="mi">50</span>
-    <span class="n">transformParam1</span> <span class="o">=</span> <span class="n">inputLayer</span><span class="o">.</span><span class="n">inputTransform</span><span class="o">.</span><span class="n">transformParam</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
-    <span class="n">transformParam1</span><span class="o">.</span><span class="n">parameterName</span> <span class="o">=</span> <span class="s2">&quot;color&quot;</span>
-    <span class="n">transformParam1</span><span class="o">.</span><span class="n">parameterValue</span>  <span class="o">=</span> <span class="s2">&quot;grey&quot;</span>
-    <span class="c1"># transformParam2 = inputLayer.inputTransform.transformParam.add()</span>
-    <span class="c1"># transformParam2.parameterName = &quot;process&quot;</span>
-    <span class="c1"># transformParam2.parameterValue  = &quot;edge&quot;</span>
-
-
-    <span class="c1"># Read the existing address book.</span>
-    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;test.bin&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
-    <span class="n">information</span><span class="o">.</span><span class="n">ParseFromString</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-
-    <span class="n">imageURLExtractor</span> <span class="o">=</span> <span class="n">ImageURLExtractor</span><span class="p">(</span><span class="n">information</span><span class="p">)</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">imageURLExtractor</span><span class="o">.</span><span class="n">getTestData</span><span class="p">(</span><span class="n">inputLayer</span><span class="o">.</span><span class="n">inputTransform</span><span class="p">)</span>
-
-    <span class="k">for</span> <span class="n">imgIndex</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">imgIndex</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">255</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">Greys_r</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-    <span class="k">return</span>
-
-<span class="k">def</span> <span class="nf">testPopulatePersonaInformation</span><span class="p">():</span>
-    <span class="k">return</span>
-
-<span class="c1"># testExtractor()</span>
-
-<span class="k">def</span> <span class="nf">getTrainingData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputTransform</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">trainingData</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">information</span><span class="o">.</span><span class="n">trainingDataList</span><span class="p">:</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">trainingData</span><span class="o">.</span><span class="n">URL</span><span class="p">)</span>
-        <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">))</span>
-
-        <span class="c1">#FIXME: move transformer to transform package</span>
-        <span class="n">img_rows</span> <span class="o">=</span> <span class="n">inputTransform</span><span class="o">.</span><span class="n">transformSize</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dimensionSize</span>
-        <span class="n">img_cols</span> <span class="o">=</span> <span class="n">inputTransform</span><span class="o">.</span><span class="n">transformSize</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dimensionSize</span>
-        <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="n">img_rows</span><span class="p">,</span><span class="n">img_cols</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">ANTIALIAS</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="n">inputTransform</span><span class="o">.</span><span class="n">transformParam</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">parameter</span><span class="o">.</span><span class="n">parameterName</span> <span class="o">==</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">parameter</span><span class="o">.</span><span class="n">parameterValue</span> <span class="o">==</span> <span class="s1">&#39;grey&#39;</span><span class="p">:</span>
-                    <span class="k">print</span> <span class="p">(</span><span class="s2">&quot;transform grey&quot;</span><span class="p">)</span>
-                    <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s2">&quot;L&quot;</span><span class="p">)</span>         
-            <span class="k">if</span> <span class="n">parameter</span><span class="o">.</span><span class="n">parameterName</span> <span class="o">==</span> <span class="s1">&#39;process&#39;</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">parameter</span><span class="o">.</span><span class="n">parameterValue</span> <span class="o">==</span> <span class="s1">&#39;edge&#39;</span><span class="p">:</span>
-                    <span class="k">print</span> <span class="p">(</span><span class="s2">&quot;transform edge&quot;</span><span class="p">)</span>
-                    <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ImageFilter</span><span class="o">.</span><span class="n">FIND_EDGES</span><span class="p">)</span>
-
-        <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>     
-        <span class="n">data</span><span class="p">[</span><span class="n">image_index</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">img</span>
-        <span class="k">print</span> <span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-        <span class="k">print</span> <span class="p">(</span><span class="n">trainingData</span><span class="o">.</span><span class="n">URL</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">data</span>
-
-<span class="k">def</span> <span class="nf">getTestData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputTransform</span><span class="p">):</span>
-    <span class="n">no_of_images</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">information</span><span class="o">.</span><span class="n">testDataList</span><span class="p">)</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">no_of_images</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">inputTransform</span><span class="o">.</span><span class="n">transformSize</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dimensionSize</span><span class="p">,</span> <span class="n">inputTransform</span><span class="o">.</span><span class="n">transformSize</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dimensionSize</span><span class="p">))</span>
-    <span class="n">image_index</span> <span class="o">=</span> <span class="mi">0</span>
-
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">information</span><span class="o">.</span><span class="n">extractor</span> <span class="o">==</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">testData</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">information</span><span class="o">.</span><span class="n">testDataList</span><span class="p">:</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">testData</span><span class="o">.</span><span class="n">URL</span><span class="p">)</span>
-            <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">))</span>
-
-            <span class="c1">#FIXME: move transformer to transform package</span>
-            <span class="n">img_rows</span> <span class="o">=</span> <span class="n">inputTransform</span><span class="o">.</span><span class="n">transformSize</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dimensionSize</span>
-            <span class="n">img_cols</span> <span class="o">=</span> <span class="n">inputTransform</span><span class="o">.</span><span class="n">transformSize</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dimensionSize</span>
-            <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="n">img_rows</span><span class="p">,</span><span class="n">img_cols</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">ANTIALIAS</span><span class="p">)</span>
-
-            <span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="n">inputTransform</span><span class="o">.</span><span class="n">transformParam</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">parameter</span><span class="o">.</span><span class="n">parameterName</span> <span class="o">==</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">parameter</span><span class="o">.</span><span class="n">parameterValue</span> <span class="o">==</span> <span class="s1">&#39;grey&#39;</span><span class="p">:</span>
-                        <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s2">&quot;L&quot;</span><span class="p">)</span>         
-                <span class="k">if</span> <span class="n">parameter</span><span class="o">.</span><span class="n">parameterName</span> <span class="o">==</span> <span class="s1">&#39;process&#39;</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">parameter</span><span class="o">.</span><span class="n">parameterValue</span> <span class="o">==</span> <span class="s1">&#39;edge&#39;</span><span class="p">:</span>
-                        <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ImageFilter</span><span class="o">.</span><span class="n">FIND_EDGES</span><span class="p">)</span>
-
-            <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>     
-            <span class="n">data</span><span class="p">[</span><span class="n">image_index</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">img</span>
-            <span class="k">print</span> <span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-            <span class="k">print</span> <span class="p">(</span><span class="n">testData</span><span class="o">.</span><span class="n">URL</span><span class="p">)</span>
-
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">print</span> <span class="p">(</span><span class="s2">&quot;Extractor in the information file and running extractor is not matching.&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">data</span>   
-</pre></div>
-
-</div>
 </div>
 </div>
 
