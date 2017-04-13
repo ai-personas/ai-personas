@@ -11796,7 +11796,7 @@ div#notebook {
 <span class="n">PYTHON_EXTENSION</span> <span class="o">=</span> <span class="s2">&quot;.py&quot;</span>
 <span class="n">PROTO_PYTHON_EXTENSION</span> <span class="o">=</span> <span class="s2">&quot;_pb2.py&quot;</span>
 <span class="n">PROTO_DEF_EXTENSION</span> <span class="o">=</span> <span class="s2">&quot;.bin&quot;</span>
-<span class="n">INFORMATION_BLUEPRINT</span> <span class="o">=</span> <span class="s2">&quot;../../informationBlueprint&quot;</span> <span class="o">+</span> <span class="n">PROTO_PYTHON_EXTENSION</span>
+<span class="n">INFORMATION_BLUEPRINT</span> <span class="o">=</span> <span class="s2">&quot;../../Environment/Informations/informationBlueprint&quot;</span> <span class="o">+</span> <span class="n">PROTO_PYTHON_EXTENSION</span>
 
 <span class="n">PERSONA_NAME_QUALIFIER</span> <span class="o">=</span> <span class="s2">&quot;PersonaDefinition&quot;</span>
 <span class="n">PERSONA_BLUEPRINT</span> <span class="o">=</span> <span class="s2">&quot;../../Personas/personaBlueprint/version_1/personBlueprint&quot;</span> <span class="o">+</span> <span class="n">PROTO_PYTHON_EXTENSION</span>
@@ -11827,15 +11827,35 @@ div#notebook {
         <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>        
         <span class="k">return</span> <span class="n">persona</span>   
     
-    <span class="k">def</span> <span class="nf">getExtractor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">getInformationBlueprint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">informationBlueprintPath</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;get information blueprint path&quot;</span><span class="p">)</span>
+        <span class="n">information_blueprint_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">informationBlueprintPath</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;information blue print path: &quot;</span> <span class="o">+</span> <span class="n">information_blueprint_path</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;import information blueprint&quot;</span><span class="p">)</span>
+        <span class="n">informationBlueprint</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">load_source</span><span class="p">(</span><span class="s1">&#39;Information&#39;</span><span class="p">,</span> <span class="n">information_blueprint_path</span><span class="p">)</span><span class="o">.</span><span class="n">Information</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">informationBlueprint</span>
+    
+    <span class="k">def</span> <span class="nf">loadInformationDefinition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">informationBlueprintPath</span><span class="p">,</span> <span class="n">sourceName</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;get source path&quot;</span><span class="p">)</span>
+        <span class="n">source_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sourceName</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;source path: &quot;</span> <span class="o">+</span> <span class="n">source_path</span><span class="p">)</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">source_path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+        <span class="n">information</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInformationBlueprint</span><span class="p">(</span><span class="n">informationBlueprintPath</span><span class="p">)</span>
+        <span class="n">information</span><span class="o">.</span><span class="n">ParseFromString</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">information</span>    
+    
+    <span class="k">def</span> <span class="nf">getExtractor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">informationBlueprint</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
+        
         <span class="k">return</span>
 
 <span class="k">class</span> <span class="nc">Test</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     
+    
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> 
     
-    <span class="k">def</span> <span class="nf">testExtractor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">personaBlueprintPath</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">testExtractor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">personaBlueprintPath</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">,</span> <span class="n">informationBlueprintPath</span><span class="p">):</span>
         <span class="n">kerasPhysical</span> <span class="o">=</span> <span class="n">KerasPhysical</span><span class="p">()</span>
         <span class="n">persona</span> <span class="o">=</span> <span class="n">kerasPhysical</span><span class="o">.</span><span class="n">loadPersona</span><span class="p">(</span><span class="n">personaBlueprintPath</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">)</span>   
         <span class="k">for</span> <span class="n">environment</span> <span class="ow">in</span> <span class="n">persona</span><span class="o">.</span><span class="n">age</span><span class="o">.</span><span class="n">environments</span><span class="p">:</span>

@@ -40,7 +40,7 @@ INSTALLATION_PATH = "C:\\Users\\rames\\Documents\\GitHub\\ai-personas\\"
 PYTHON_EXTENSION = ".py"
 PROTO_PYTHON_EXTENSION = "_pb2.py"
 PROTO_DEF_EXTENSION = ".bin"
-INFORMATION_BLUEPRINT = "../../informationBlueprint" + PROTO_PYTHON_EXTENSION
+INFORMATION_BLUEPRINT = "../../Environment/Informations/informationBlueprint" + PROTO_PYTHON_EXTENSION
 
 PERSONA_NAME_QUALIFIER = "PersonaDefinition"
 PERSONA_BLUEPRINT = "../../Personas/personaBlueprint/version_1/personBlueprint" + PROTO_PYTHON_EXTENSION
@@ -71,15 +71,35 @@ class KerasPhysical(object):
         f.close()        
         return persona   
     
-    def getExtractor(self, source):
+    def getInformationBlueprint(self, informationBlueprintPath):
+        logger.debug("get information blueprint path")
+        information_blueprint_path = os.path.abspath(os.path.join(informationBlueprintPath))
+        logger.debug("information blue print path: " + information_blueprint_path)
+        logger.debug("import information blueprint")
+        informationBlueprint = imp.load_source('Information', information_blueprint_path).Information()
+        return informationBlueprint
+    
+    def loadInformationDefinition(self, informationBlueprintPath, sourceName):
+        logger.debug("get source path")
+        source_path = os.path.abspath(os.path.join(sourceName))
+        logger.debug("source path: " + source_path)
+        f = open(source_path, "rb")
+        information = self.getInformationBlueprint(informationBlueprintPath)
+        information.ParseFromString(f.read())
+        f.close()
+        return information    
+    
+    def getExtractor(self, informationBlueprint, source):
+        
         return
 
 class Test(object):
     
+    
     def __init__(self):
         return 
     
-    def testExtractor(self, personaBlueprintPath, personaDefPath):
+    def testExtractor(self, personaBlueprintPath, personaDefPath, informationBlueprintPath):
         kerasPhysical = KerasPhysical()
         persona = kerasPhysical.loadPersona(personaBlueprintPath, personaDefPath)   
         for environment in persona.age.environments:
