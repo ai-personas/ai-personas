@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[24]:
+# In[5]:
 
 import sys
 import imp
@@ -47,11 +47,11 @@ class Extractor(object):
         f.close()
         return information
         
-    def loadSpecificExtractor(self, extractorName, sourceName):
+    def loadSpecificExtractor(self, extractorName):
         logger.debug("load extractor: " + extractorName)
         specific_extractor_path = os.path.abspath(os.path.join(extractorName + PYTHON_EXTENSION))
         logger.debug("import extractor " + specific_extractor_path)
-        specificExtractor = imp.load_source('Extractor', specific_extractor_path).Extractor(self.informationDefinition, sourceName)
+        specificExtractor = imp.load_source('Extractor', specific_extractor_path).Extractor(self.informationDefinition)
         return specificExtractor
         
     def getExtractedData(self, sourceConnectionLayer):
@@ -63,7 +63,7 @@ class Extractor(object):
         return dataArray
 
 
-# In[25]:
+# In[6]:
 
 class test(object):
     
@@ -100,7 +100,7 @@ class test(object):
         informationDef = extractor.loadInformationDefinition(INFORMATION_BLUEPRINT, INSTALLATION_PATH + source.sourceName)
         processor = informationDef.processors[0]
         logger.debug("get extracted data")
-        extractor.getExtractedData(sourceConnectionLayer)
+        extractor.getExtractedData(sourceConnectionLayer, )
         return 
     
 PERSONA_NAME_QUALIFIER = "PersonaDefinition"

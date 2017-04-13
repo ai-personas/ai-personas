@@ -11779,7 +11779,7 @@ div#notebook {
         
     <span class="n">SOURCE_TRANSFORMATION</span> <span class="o">=</span> <span class="s2">&quot;imageSource&quot;</span>
     
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">informationDef</span><span class="p">,</span> <span class="n">sourceName</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">informationDef</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">informationDefinition</span> <span class="o">=</span> <span class="n">informationDef</span>
     
     <span class="k">def</span> <span class="nf">getLoader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">processor</span><span class="p">):</span>
@@ -11891,13 +11891,13 @@ div#notebook {
         <span class="n">extractor</span><span class="o">.</span><span class="n">getExtractedData</span><span class="p">(</span><span class="n">processor</span><span class="p">,</span><span class="n">sourceConnectionLayer</span><span class="p">)</span>
         <span class="k">return</span> 
     
-<span class="n">PERSONA_NAME_QUALIFIER</span> <span class="o">=</span> <span class="s2">&quot;PersonaDefinition&quot;</span>
-<span class="n">TEST_PERSONA_BLUEPRINT</span> <span class="o">=</span> <span class="s2">&quot;../../../../Personas/personaBlueprint/version_1/personBlueprint&quot;</span> <span class="o">+</span> <span class="n">PROTO_PYTHON_EXTENSION</span>
-<span class="n">TEST_PERSONA_NAME</span> <span class="o">=</span> <span class="s2">&quot;Khandhasamy&quot;</span> <span class="o">+</span> <span class="n">PERSONA_NAME_QUALIFIER</span> <span class="o">+</span> <span class="n">PROTO_DEF_EXTENSION</span>
-<span class="n">TEST_PERSONA_DEF</span> <span class="o">=</span> <span class="s2">&quot;../../../../Personas/Artist/Portraits/sketchToGreyImage/Khandhasamy/Evolution_1/age_1/&quot;</span> <span class="o">+</span> <span class="n">TEST_PERSONA_NAME</span>
+<span class="c1"># PERSONA_NAME_QUALIFIER = &quot;PersonaDefinition&quot;</span>
+<span class="c1"># TEST_PERSONA_BLUEPRINT = &quot;../../../../Personas/personaBlueprint/version_1/personBlueprint&quot; + PROTO_PYTHON_EXTENSION</span>
+<span class="c1"># TEST_PERSONA_NAME = &quot;Khandhasamy&quot; + PERSONA_NAME_QUALIFIER + PROTO_DEF_EXTENSION</span>
+<span class="c1"># TEST_PERSONA_DEF = &quot;../../../../Personas/Artist/Portraits/sketchToGreyImage/Khandhasamy/Evolution_1/age_1/&quot; + TEST_PERSONA_NAME</span>
     
-<span class="n">tst</span> <span class="o">=</span> <span class="n">test</span><span class="p">()</span>
-<span class="n">tst</span><span class="o">.</span><span class="n">testExtractedData</span><span class="p">(</span><span class="n">TEST_PERSONA_BLUEPRINT</span><span class="p">,</span> <span class="n">TEST_PERSONA_DEF</span><span class="p">)</span>
+<span class="c1"># tst = test()</span>
+<span class="c1"># tst.testExtractedData(TEST_PERSONA_BLUEPRINT, TEST_PERSONA_DEF)</span>
 </pre></div>
 
 </div>

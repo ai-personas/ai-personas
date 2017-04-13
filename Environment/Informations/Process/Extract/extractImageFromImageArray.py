@@ -31,7 +31,7 @@ class Extractor(object):
         
     SOURCE_TRANSFORMATION = "imageSource"
     
-    def __init__(self, informationDef, sourceName):
+    def __init__(self, informationDef):
         self.informationDefinition = informationDef
     
     def getLoader(self, processor):
@@ -135,13 +135,13 @@ class test(object):
         extractor.getExtractedData(processor,sourceConnectionLayer)
         return 
     
-PERSONA_NAME_QUALIFIER = "PersonaDefinition"
-TEST_PERSONA_BLUEPRINT = "../../../../Personas/personaBlueprint/version_1/personBlueprint" + PROTO_PYTHON_EXTENSION
-TEST_PERSONA_NAME = "Khandhasamy" + PERSONA_NAME_QUALIFIER + PROTO_DEF_EXTENSION
-TEST_PERSONA_DEF = "../../../../Personas/Artist/Portraits/sketchToGreyImage/Khandhasamy/Evolution_1/age_1/" + TEST_PERSONA_NAME
+# PERSONA_NAME_QUALIFIER = "PersonaDefinition"
+# TEST_PERSONA_BLUEPRINT = "../../../../Personas/personaBlueprint/version_1/personBlueprint" + PROTO_PYTHON_EXTENSION
+# TEST_PERSONA_NAME = "Khandhasamy" + PERSONA_NAME_QUALIFIER + PROTO_DEF_EXTENSION
+# TEST_PERSONA_DEF = "../../../../Personas/Artist/Portraits/sketchToGreyImage/Khandhasamy/Evolution_1/age_1/" + TEST_PERSONA_NAME
     
-tst = test()
-tst.testExtractedData(TEST_PERSONA_BLUEPRINT, TEST_PERSONA_DEF)
+# tst = test()
+# tst.testExtractedData(TEST_PERSONA_BLUEPRINT, TEST_PERSONA_DEF)
 
 
 # In[ ]:
