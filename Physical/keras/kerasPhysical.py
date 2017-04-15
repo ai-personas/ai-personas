@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[6]:
+# In[2]:
 
 import os
 os.environ["KERAS_BACKEND"] = "theano"
@@ -34,12 +34,14 @@ logger.setLevel(logging.DEBUG)
 #------------------------------------------------------#
 
 
-# In[9]:
+# In[3]:
 
 INSTALLATION_PATH = "C:\\Users\\rames\\Documents\\GitHub\\ai-personas\\"
 PYTHON_EXTENSION = ".py"
 PROTO_PYTHON_EXTENSION = "_pb2.py"
 PROTO_DEF_EXTENSION = ".bin"
+PERSONA_VERSION = "0_1"
+EXTRACTOR_MODULE = "../../Environment/Informations/Process/Extract/Extractor.py"
 INFORMATION_BLUEPRINT = "../../Environment/Informations/informationBlueprint" + PROTO_PYTHON_EXTENSION
 
 PERSONA_NAME_QUALIFIER = "PersonaDefinition"
@@ -71,26 +73,34 @@ class KerasPhysical(object):
         f.close()        
         return persona   
     
-    def getInformationBlueprint(self, informationBlueprintPath):
+    def getInformationBlueprint(self, version):
         logger.debug("get information blueprint path")
-        information_blueprint_path = os.path.abspath(os.path.join(informationBlueprintPath))
+        information_blueprint_path = os.path.abspath(os.path.join(INFORMATION_BLUEPRINT))
         logger.debug("information blue print path: " + information_blueprint_path)
         logger.debug("import information blueprint")
         informationBlueprint = imp.load_source('Information', information_blueprint_path).Information()
         return informationBlueprint
     
-    def loadInformationDefinition(self, informationBlueprintPath, sourceName):
+    def loadInformationDefinition(self, version, sourceName):
         logger.debug("get source path")
         source_path = os.path.abspath(os.path.join(sourceName))
         logger.debug("source path: " + source_path)
         f = open(source_path, "rb")
-        information = self.getInformationBlueprint(informationBlueprintPath)
+        information = self.getInformationBlueprint(version)
         information.ParseFromString(f.read())
         f.close()
         return information    
     
-    def getExtractor(self, informationBlueprint, source):
-        
+    def loadExtractor(self, version, source):
+        logger.debug("get extractor path")
+        extractor_path = os.path.abspath(os.path.join(EXTRACTOR_MODULE))
+        logger.debug("extractor path: " + extractor_path)
+        logger.debug("import extractor")
+        extractor = imp.load_source('Extractor', extractor_path).Extractor(INFORMATION_BLUEPRINT, source.sourceName)
+        return extractor
+    
+    def getExtractedData(self, version, source):
+        information = self.loadInformationDefinition(informationBlueprintPath, source.sourceName)
         return
 
 class Test(object):
