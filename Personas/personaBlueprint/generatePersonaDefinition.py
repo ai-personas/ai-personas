@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[2]:
+# In[1]:
 
 import os, sys, inspect
 import copy
@@ -92,6 +92,9 @@ class PersonaDefinitionGeneration(object):
     def generateSourceConnectionLayer(self, source):
         sourceConnectionLayer = source.sourceConnectionLayers.add()
         sourceConnectionLayer.connectedLayerName = "Layer1"
+        sourceConnectionLayer.teachingDataPercentage = 50
+        sourceConnectionLayer.validationDataPercentage = 10
+        sourceConnectionLayer.testDataPercentage = 40
         sourceConnectionLayer.imageSource.imageWidth = 50
         sourceConnectionLayer.imageSource.imageHeight = 50
         sourceConnectionLayer.imageSource.imageProcess.append("grey")

@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='personBlueprint.proto',
   package='persona',
   syntax='proto3',
-  serialized_pb=_b('\n\x15personBlueprint.proto\x12\x07persona\"\xe7\x0c\n\x07Persona\x12\"\n\x04\x44NAs\x18\x01 \x03(\x0b\x32\x14.persona.Persona.DNA\x12\x10\n\x08physical\x18\x02 \x01(\t\x12!\n\x03\x61ge\x18\x03 \x01(\x0b\x32\x14.persona.Persona.Age\x1a\x89\x06\n\x03\x44NA\x12\x0b\n\x03\x44NA\x18\x01 \x01(\t\x12*\n\x06layers\x18\x03 \x03(\x0b\x32\x1a.persona.Persona.DNA.Layer\x12\x34\n\x0b\x63onnections\x18\x05 \x03(\x0b\x32\x1f.persona.Persona.DNA.Connection\x1a\xc9\x02\n\x05Layer\x12\x11\n\tlayerName\x18\x01 \x01(\t\x12,\n\tlayerSize\x18\x02 \x03(\x0b\x32\x19.persona.Persona.DNA.Size\x12\x34\n\x0b\x63onnections\x18\x03 \x03(\x0b\x32\x1f.persona.Persona.DNA.Connection\x12\x41\n\x10layerConvolution\x18\x06 \x01(\x0b\x32%.persona.Persona.DNA.LayerConvolutionH\x00\x12?\n\x0flayerActivation\x18\x07 \x01(\x0b\x32$.persona.Persona.DNA.LayerActivationH\x00\x12\x39\n\x0clayerDropout\x18\x08 \x01(\x0b\x32!.persona.Persona.DNA.LayerDropoutH\x00\x42\n\n\x08SubLayer\x1a}\n\x10LayerConvolution\x12\x1c\n\x14\x63onvolutionDimension\x18\x01 \x01(\x04\x12\x0f\n\x07\x66ilters\x18\x02 \x01(\x04\x12\x12\n\nkernelSize\x18\x03 \x03(\x04\x12\x12\n\nborderMode\x18\x04 \x01(\t\x12\x12\n\ninputShape\x18\x05 \x03(\x04\x1a)\n\x0fLayerActivation\x12\x16\n\x0e\x61\x63tivationType\x18\x01 \x01(\t\x1a&\n\x0cLayerDropout\x12\x16\n\x0e\x64ropPercentage\x18\x01 \x01(\x01\x1a\x43\n\nConnection\x12\x17\n\x0fsourceLayerName\x18\x01 \x01(\t\x12\x1c\n\x14\x64\x65stinationLayerName\x18\x02 \x01(\t\x1a\x30\n\x04Size\x12\x11\n\tdimension\x18\x01 \x01(\x04\x12\x15\n\rdimensionSize\x18\x02 \x01(\x04\x1ax\n\x03\x41ge\x12\x0b\n\x03old\x18\x01 \x01(\x04\x12\x15\n\rlearningCycle\x18\x02 \x01(\x04\x12\x19\n\x11learningBatchSize\x18\x03 \x01(\x04\x12\x32\n\x0c\x65nvironments\x18\x04 \x03(\x0b\x32\x1c.persona.Persona.Environment\x1a\xfc\x04\n\x0b\x45nvironment\x12\x0f\n\x07society\x18\x01 \x01(\t\x12\x35\n\x07library\x18\x02 \x01(\x0b\x32$.persona.Persona.Environment.Library\x1a\xa4\x04\n\x07Library\x12<\n\x07sources\x18\x01 \x03(\x0b\x32+.persona.Persona.Environment.Library.Source\x1a\xda\x03\n\x06Source\x12\x12\n\nsourceName\x18\x01 \x01(\t\x12\x1e\n\x16teachingDataPercentage\x18\x02 \x01(\x02\x12 \n\x18validationDataPercentage\x18\x03 \x01(\x02\x12\x1a\n\x12testDataPercentage\x18\x04 \x01(\x02\x12\x61\n\x16sourceConnectionLayers\x18\x05 \x03(\x0b\x32\x41.persona.Persona.Environment.Library.Source.SourceConnectionLayer\x1a\xfa\x01\n\x15SourceConnectionLayer\x12\x1a\n\x12\x63onnectedLayerName\x18\x06 \x01(\t\x12\x64\n\x0bimageSource\x18\x01 \x01(\x0b\x32M.persona.Persona.Environment.Library.Source.SourceConnectionLayer.ImageSourceH\x00\x1aL\n\x0bImageSource\x12\x12\n\nimageWidth\x18\x01 \x01(\x04\x12\x13\n\x0bimageHeight\x18\x02 \x01(\x04\x12\x14\n\x0cimageProcess\x18\x03 \x03(\tB\x11\n\x0fSourceParameterb\x06proto3')
+  serialized_pb=_b('\n\x15personBlueprint.proto\x12\x07persona\"\xe7\x0c\n\x07Persona\x12\"\n\x04\x44NAs\x18\x01 \x03(\x0b\x32\x14.persona.Persona.DNA\x12\x10\n\x08physical\x18\x02 \x01(\t\x12!\n\x03\x61ge\x18\x03 \x01(\x0b\x32\x14.persona.Persona.Age\x1a\x89\x06\n\x03\x44NA\x12\x0b\n\x03\x44NA\x18\x01 \x01(\t\x12*\n\x06layers\x18\x03 \x03(\x0b\x32\x1a.persona.Persona.DNA.Layer\x12\x34\n\x0b\x63onnections\x18\x05 \x03(\x0b\x32\x1f.persona.Persona.DNA.Connection\x1a\xc9\x02\n\x05Layer\x12\x11\n\tlayerName\x18\x01 \x01(\t\x12,\n\tlayerSize\x18\x02 \x03(\x0b\x32\x19.persona.Persona.DNA.Size\x12\x34\n\x0b\x63onnections\x18\x03 \x03(\x0b\x32\x1f.persona.Persona.DNA.Connection\x12\x41\n\x10layerConvolution\x18\x06 \x01(\x0b\x32%.persona.Persona.DNA.LayerConvolutionH\x00\x12?\n\x0flayerActivation\x18\x07 \x01(\x0b\x32$.persona.Persona.DNA.LayerActivationH\x00\x12\x39\n\x0clayerDropout\x18\x08 \x01(\x0b\x32!.persona.Persona.DNA.LayerDropoutH\x00\x42\n\n\x08SubLayer\x1a}\n\x10LayerConvolution\x12\x1c\n\x14\x63onvolutionDimension\x18\x01 \x01(\x04\x12\x0f\n\x07\x66ilters\x18\x02 \x01(\x04\x12\x12\n\nkernelSize\x18\x03 \x03(\x04\x12\x12\n\nborderMode\x18\x04 \x01(\t\x12\x12\n\ninputShape\x18\x05 \x03(\x04\x1a)\n\x0fLayerActivation\x12\x16\n\x0e\x61\x63tivationType\x18\x01 \x01(\t\x1a&\n\x0cLayerDropout\x12\x16\n\x0e\x64ropPercentage\x18\x01 \x01(\x01\x1a\x43\n\nConnection\x12\x17\n\x0fsourceLayerName\x18\x01 \x01(\t\x12\x1c\n\x14\x64\x65stinationLayerName\x18\x02 \x01(\t\x1a\x30\n\x04Size\x12\x11\n\tdimension\x18\x01 \x01(\x04\x12\x15\n\rdimensionSize\x18\x02 \x01(\x04\x1ax\n\x03\x41ge\x12\x0b\n\x03old\x18\x01 \x01(\x04\x12\x15\n\rlearningCycle\x18\x02 \x01(\x04\x12\x19\n\x11learningBatchSize\x18\x03 \x01(\x04\x12\x32\n\x0c\x65nvironments\x18\x04 \x03(\x0b\x32\x1c.persona.Persona.Environment\x1a\xfc\x04\n\x0b\x45nvironment\x12\x0f\n\x07society\x18\x01 \x01(\t\x12\x35\n\x07library\x18\x02 \x01(\x0b\x32$.persona.Persona.Environment.Library\x1a\xa4\x04\n\x07Library\x12<\n\x07sources\x18\x01 \x03(\x0b\x32+.persona.Persona.Environment.Library.Source\x1a\xda\x03\n\x06Source\x12\x12\n\nsourceName\x18\x01 \x01(\t\x12\x61\n\x16sourceConnectionLayers\x18\x02 \x03(\x0b\x32\x41.persona.Persona.Environment.Library.Source.SourceConnectionLayer\x1a\xd8\x02\n\x15SourceConnectionLayer\x12\x1e\n\x16teachingDataPercentage\x18\x03 \x01(\x02\x12 \n\x18validationDataPercentage\x18\x04 \x01(\x02\x12\x1a\n\x12testDataPercentage\x18\x05 \x01(\x02\x12\x1a\n\x12\x63onnectedLayerName\x18\x06 \x01(\t\x12\x64\n\x0bimageSource\x18\x01 \x01(\x0b\x32M.persona.Persona.Environment.Library.Source.SourceConnectionLayer.ImageSourceH\x00\x1aL\n\x0bImageSource\x12\x12\n\nimageWidth\x18\x01 \x01(\x04\x12\x13\n\x0bimageHeight\x18\x02 \x01(\x04\x12\x14\n\x0cimageProcess\x18\x03 \x03(\tB\x11\n\x0fSourceParameterb\x06proto3')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -433,14 +433,35 @@ _PERSONA_ENVIRONMENT_LIBRARY_SOURCE_SOURCECONNECTIONLAYER = _descriptor.Descript
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='connectedLayerName', full_name='persona.Persona.Environment.Library.Source.SourceConnectionLayer.connectedLayerName', index=0,
+      name='teachingDataPercentage', full_name='persona.Persona.Environment.Library.Source.SourceConnectionLayer.teachingDataPercentage', index=0,
+      number=3, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='validationDataPercentage', full_name='persona.Persona.Environment.Library.Source.SourceConnectionLayer.validationDataPercentage', index=1,
+      number=4, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='testDataPercentage', full_name='persona.Persona.Environment.Library.Source.SourceConnectionLayer.testDataPercentage', index=2,
+      number=5, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='connectedLayerName', full_name='persona.Persona.Environment.Library.Source.SourceConnectionLayer.connectedLayerName', index=3,
       number=6, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='imageSource', full_name='persona.Persona.Environment.Library.Source.SourceConnectionLayer.imageSource', index=1,
+      name='imageSource', full_name='persona.Persona.Environment.Library.Source.SourceConnectionLayer.imageSource', index=4,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -461,7 +482,7 @@ _PERSONA_ENVIRONMENT_LIBRARY_SOURCE_SOURCECONNECTIONLAYER = _descriptor.Descript
       name='SourceParameter', full_name='persona.Persona.Environment.Library.Source.SourceConnectionLayer.SourceParameter',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=1424,
+  serialized_start=1330,
   serialized_end=1674,
 )
 
@@ -480,29 +501,8 @@ _PERSONA_ENVIRONMENT_LIBRARY_SOURCE = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='teachingDataPercentage', full_name='persona.Persona.Environment.Library.Source.teachingDataPercentage', index=1,
-      number=2, type=2, cpp_type=6, label=1,
-      has_default_value=False, default_value=float(0),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='validationDataPercentage', full_name='persona.Persona.Environment.Library.Source.validationDataPercentage', index=2,
-      number=3, type=2, cpp_type=6, label=1,
-      has_default_value=False, default_value=float(0),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='testDataPercentage', full_name='persona.Persona.Environment.Library.Source.testDataPercentage', index=3,
-      number=4, type=2, cpp_type=6, label=1,
-      has_default_value=False, default_value=float(0),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='sourceConnectionLayers', full_name='persona.Persona.Environment.Library.Source.sourceConnectionLayers', index=4,
-      number=5, type=11, cpp_type=10, label=3,
+      name='sourceConnectionLayers', full_name='persona.Persona.Environment.Library.Source.sourceConnectionLayers', index=1,
+      number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,

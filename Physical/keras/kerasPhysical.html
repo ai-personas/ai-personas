@@ -11748,7 +11748,7 @@ div#notebook {
 
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
@@ -11786,36 +11786,23 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>Using Theano backend.
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">INSTALLATION_PATH</span> <span class="o">=</span> <span class="s2">&quot;C:</span><span class="se">\\</span><span class="s2">Users</span><span class="se">\\</span><span class="s2">rames</span><span class="se">\\</span><span class="s2">Documents</span><span class="se">\\</span><span class="s2">GitHub</span><span class="se">\\</span><span class="s2">ai-personas</span><span class="se">\\</span><span class="s2">&quot;</span>
 <span class="n">PYTHON_EXTENSION</span> <span class="o">=</span> <span class="s2">&quot;.py&quot;</span>
 <span class="n">PROTO_PYTHON_EXTENSION</span> <span class="o">=</span> <span class="s2">&quot;_pb2.py&quot;</span>
 <span class="n">PROTO_DEF_EXTENSION</span> <span class="o">=</span> <span class="s2">&quot;.bin&quot;</span>
-<span class="n">PERSONA_VERSION</span> <span class="o">=</span> <span class="s2">&quot;0_1&quot;</span>
+<span class="n">PERSONA_VERSION</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span>
 <span class="n">EXTRACTOR_MODULE</span> <span class="o">=</span> <span class="s2">&quot;../../Environment/Informations/Process/Extract/Extractor.py&quot;</span>
 <span class="n">INFORMATION_BLUEPRINT</span> <span class="o">=</span> <span class="s2">&quot;../../Environment/Informations/informationBlueprint&quot;</span> <span class="o">+</span> <span class="n">PROTO_PYTHON_EXTENSION</span>
 
 <span class="n">PERSONA_NAME_QUALIFIER</span> <span class="o">=</span> <span class="s2">&quot;PersonaDefinition&quot;</span>
-<span class="n">PERSONA_BLUEPRINT</span> <span class="o">=</span> <span class="s2">&quot;../../Personas/personaBlueprint/version_1/personBlueprint&quot;</span> <span class="o">+</span> <span class="n">PROTO_PYTHON_EXTENSION</span>
+<span class="n">PERSONA_BLUEPRINT_BASE</span> <span class="o">=</span> <span class="s2">&quot;../../Personas/personaBlueprint/version_&quot;</span> 
+<span class="n">PERSONA_BLUEPRINT_NAME</span> <span class="o">=</span> <span class="s2">&quot;/personBlueprint&quot;</span> <span class="o">+</span> <span class="n">PROTO_PYTHON_EXTENSION</span>
 <span class="n">PERSONA_NAME</span> <span class="o">=</span> <span class="s2">&quot;Khandhasamy&quot;</span> <span class="o">+</span> <span class="n">PERSONA_NAME_QUALIFIER</span> <span class="o">+</span> <span class="n">PROTO_DEF_EXTENSION</span>
 <span class="n">PERSONA_DEF</span> <span class="o">=</span> <span class="s2">&quot;../../Personas/Artist/Portraits/sketchToGreyImage/Khandhasamy/Evolution_1/age_1/&quot;</span> <span class="o">+</span> <span class="n">PERSONA_NAME</span>
 
@@ -11823,18 +11810,23 @@ div#notebook {
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> 
-        
-    <span class="k">def</span> <span class="nf">getPersonaBlueprint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">personaBlueprintPath</span><span class="p">):</span> 
+    
+    <span class="sd">&#39;&#39;&#39; Load persona blue print (aka persona prototype). </span>
+<span class="sd">        Blue print path is constant. It won&#39;t change normally. From given version number, load respective persona blue print.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">getPersonaBlueprint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version</span><span class="p">):</span> 
         <span class="c1">#persona blueprint path</span>
-        <span class="n">persona_blueprint_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">personaBlueprintPath</span><span class="p">))</span>
+        <span class="n">persona_blueprint_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PERSONA_BLUEPRINT_BASE</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">version</span><span class="p">)</span> <span class="o">+</span> <span class="n">PERSONA_BLUEPRINT_NAME</span> <span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Persona blueprint path: &quot;</span> <span class="o">+</span> <span class="n">persona_blueprint_path</span><span class="p">)</span>
         <span class="c1">#persona blueprint</span>
         <span class="n">personaBlueprint</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">load_source</span><span class="p">(</span><span class="s1">&#39;Persona&#39;</span><span class="p">,</span> <span class="n">persona_blueprint_path</span><span class="p">)</span><span class="o">.</span><span class="n">Persona</span><span class="p">()</span> 
         <span class="k">return</span> <span class="n">personaBlueprint</span>
     
-    <span class="k">def</span> <span class="nf">loadPersona</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">personaBlueprintPath</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Load persona definition for given version persona blue print.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">loadPersona</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">):</span>
         <span class="c1"># persona blueprint</span>
-        <span class="n">persona</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPersonaBlueprint</span><span class="p">(</span><span class="n">personaBlueprintPath</span><span class="p">)</span>
+        <span class="n">persona</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPersonaBlueprint</span><span class="p">(</span><span class="n">version</span><span class="p">)</span>
         <span class="c1">#load persona</span>
         <span class="n">persona_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">personaDefPath</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Persona definition path:&quot;</span> <span class="o">+</span> <span class="n">persona_path</span><span class="p">)</span>
@@ -11843,52 +11835,32 @@ div#notebook {
         <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>        
         <span class="k">return</span> <span class="n">persona</span>   
     
-    <span class="k">def</span> <span class="nf">getInformationBlueprint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version</span><span class="p">):</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;get information blueprint path&quot;</span><span class="p">)</span>
-        <span class="n">information_blueprint_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">INFORMATION_BLUEPRINT</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;information blue print path: &quot;</span> <span class="o">+</span> <span class="n">information_blueprint_path</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;import information blueprint&quot;</span><span class="p">)</span>
-        <span class="n">informationBlueprint</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">load_source</span><span class="p">(</span><span class="s1">&#39;Information&#39;</span><span class="p">,</span> <span class="n">information_blueprint_path</span><span class="p">)</span><span class="o">.</span><span class="n">Information</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">informationBlueprint</span>
-    
-    <span class="k">def</span> <span class="nf">loadInformationDefinition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">sourceName</span><span class="p">):</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;get source path&quot;</span><span class="p">)</span>
-        <span class="n">source_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sourceName</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;source path: &quot;</span> <span class="o">+</span> <span class="n">source_path</span><span class="p">)</span>
-        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">source_path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
-        <span class="n">information</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInformationBlueprint</span><span class="p">(</span><span class="n">version</span><span class="p">)</span>
-        <span class="n">information</span><span class="o">.</span><span class="n">ParseFromString</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
-        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">information</span>    
-    
-    <span class="k">def</span> <span class="nf">loadExtractor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">getExtractor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;get extractor path&quot;</span><span class="p">)</span>
         <span class="n">extractor_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">EXTRACTOR_MODULE</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;extractor path: &quot;</span> <span class="o">+</span> <span class="n">extractor_path</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;import extractor&quot;</span><span class="p">)</span>
-        <span class="n">extractor</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">load_source</span><span class="p">(</span><span class="s1">&#39;Extractor&#39;</span><span class="p">,</span> <span class="n">extractor_path</span><span class="p">)</span><span class="o">.</span><span class="n">Extractor</span><span class="p">(</span><span class="n">INFORMATION_BLUEPRINT</span><span class="p">,</span> <span class="n">source</span><span class="o">.</span><span class="n">sourceName</span><span class="p">)</span>
+        <span class="n">extractor</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">load_source</span><span class="p">(</span><span class="s1">&#39;Extractor&#39;</span><span class="p">,</span> <span class="n">extractor_path</span><span class="p">)</span><span class="o">.</span><span class="n">Extractor</span><span class="p">(</span><span class="n">version</span><span class="p">,</span> <span class="n">source</span><span class="o">.</span><span class="n">sourceName</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">extractor</span>
-    
-    <span class="k">def</span> <span class="nf">getExtractedData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
-        <span class="n">information</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loadInformationDefinition</span><span class="p">(</span><span class="n">informationBlueprintPath</span><span class="p">,</span> <span class="n">source</span><span class="o">.</span><span class="n">sourceName</span><span class="p">)</span>
-        <span class="k">return</span>
 
 <span class="k">class</span> <span class="nc">Test</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> 
     
-    <span class="k">def</span> <span class="nf">testExtractor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">personaBlueprintPath</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">,</span> <span class="n">informationBlueprintPath</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">testExtractor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">personaBlueprintPath</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">,</span> <span class="n">version</span><span class="p">):</span>
         <span class="n">kerasPhysical</span> <span class="o">=</span> <span class="n">KerasPhysical</span><span class="p">()</span>
-        <span class="n">persona</span> <span class="o">=</span> <span class="n">kerasPhysical</span><span class="o">.</span><span class="n">loadPersona</span><span class="p">(</span><span class="n">personaBlueprintPath</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">)</span>   
+        <span class="n">persona</span> <span class="o">=</span> <span class="n">kerasPhysical</span><span class="o">.</span><span class="n">loadPersona</span><span class="p">(</span><span class="n">version</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">)</span>   
         <span class="k">for</span> <span class="n">environment</span> <span class="ow">in</span> <span class="n">persona</span><span class="o">.</span><span class="n">age</span><span class="o">.</span><span class="n">environments</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">source</span> <span class="ow">in</span> <span class="n">environment</span><span class="o">.</span><span class="n">library</span><span class="o">.</span><span class="n">sources</span><span class="p">:</span>
-                <span class="n">kerasPhysical</span><span class="o">.</span><span class="n">getExtractor</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;TEST source name: &quot;</span> <span class="o">+</span> <span class="n">source</span><span class="o">.</span><span class="n">sourceName</span><span class="p">)</span>
+                <span class="n">extractor</span> <span class="o">=</span> <span class="n">kerasPhysical</span><span class="o">.</span><span class="n">getExtractor</span><span class="p">(</span><span class="n">version</span><span class="p">,</span> <span class="n">source</span><span class="p">)</span>
+                <span class="n">sourceConnectionLayer</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">sourceConnectionLayers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">extractor</span><span class="o">.</span><span class="n">getTeachingData</span><span class="p">(</span><span class="n">sourceConnectionLayer</span><span class="p">)</span>
         <span class="k">return</span>
     
 <span class="n">tst</span> <span class="o">=</span> <span class="n">Test</span><span class="p">()</span>
-<span class="n">tst</span><span class="o">.</span><span class="n">testExtractor</span><span class="p">(</span><span class="n">PERSONA_BLUEPRINT</span><span class="p">,</span> <span class="n">PERSONA_DEF</span><span class="p">)</span>
+<span class="n">tst</span><span class="o">.</span><span class="n">testExtractor</span><span class="p">(</span><span class="n">PERSONA_BLUEPRINT</span><span class="p">,</span> <span class="n">PERSONA_DEF</span><span class="p">,</span> <span class="n">PERSONA_VERSION</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -11900,19 +11872,87 @@ div#notebook {
 
 
 <div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>DEBUG:Extractor:Persona blueprint path: C:\Users\rames\Documents\GitHub\ai-personas\Personas\personaBlueprint\version_1\personBlueprint_pb2.py
+DEBUG:Extractor:Persona definition path:C:\Users\rames\Documents\GitHub\ai-personas\Personas\Artist\Portraits\sketchToGreyImage\Khandhasamy\Evolution_1\age_1\KhandhasamyPersonaDefinition.bin
+DEBUG:Extractor:TEST source name: Environment\Informations\Category\Portraits\scientists.bin
+DEBUG:Extractor:get extractor path
+DEBUG:Extractor:extractor path: C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\Process\Extract\Extractor.py
+DEBUG:Extractor:import extractor
+DEBUG:Extractor:TEST - Persona blueprint path: C:\Users\rames\Documents\Personas\personaBlueprint\version_1\personBlueprint_pb2.py
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_text output_error">
 <pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-3-bfb6f500d6ff&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">     71</span> 
-<span class="ansi-green-intense-fg ansi-bold">     72</span> tst <span class="ansi-yellow-intense-fg ansi-bold">=</span> Test<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">---&gt; 73</span><span class="ansi-red-fg"> </span>tst<span class="ansi-yellow-intense-fg ansi-bold">.</span>testExtractor<span class="ansi-yellow-intense-fg ansi-bold">(</span>PERSONA_BLUEPRINT<span class="ansi-yellow-intense-fg ansi-bold">,</span> PERSONA_DEF<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-red-fg">IOError</span>                                   Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-31-5e179f2d966a&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">     67</span> 
+<span class="ansi-green-intense-fg ansi-bold">     68</span> tst <span class="ansi-yellow-intense-fg ansi-bold">=</span> Test<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">---&gt; 69</span><span class="ansi-red-fg"> </span>tst<span class="ansi-yellow-intense-fg ansi-bold">.</span>testExtractor<span class="ansi-yellow-intense-fg ansi-bold">(</span>PERSONA_BLUEPRINT<span class="ansi-yellow-intense-fg ansi-bold">,</span> PERSONA_DEF<span class="ansi-yellow-intense-fg ansi-bold">,</span> PERSONA_VERSION<span class="ansi-yellow-intense-fg ansi-bold">)</span>
 
-<span class="ansi-red-fg">TypeError</span>: testExtractor() takes exactly 4 arguments (3 given)</pre>
+<span class="ansi-green-fg">&lt;ipython-input-31-5e179f2d966a&gt;</span> in <span class="ansi-cyan-fg">testExtractor</span><span class="ansi-blue-fg">(self, personaBlueprintPath, personaDefPath, version)</span>
+<span class="ansi-green-intense-fg ansi-bold">     61</span>             <span class="ansi-green-intense-fg ansi-bold">for</span> source <span class="ansi-green-intense-fg ansi-bold">in</span> environment<span class="ansi-yellow-intense-fg ansi-bold">.</span>library<span class="ansi-yellow-intense-fg ansi-bold">.</span>sources<span class="ansi-yellow-intense-fg ansi-bold">:</span>
+<span class="ansi-green-intense-fg ansi-bold">     62</span>                 logger<span class="ansi-yellow-intense-fg ansi-bold">.</span>debug<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#34;TEST source name: &#34;</span> <span class="ansi-yellow-intense-fg ansi-bold">+</span> source<span class="ansi-yellow-intense-fg ansi-bold">.</span>sourceName<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">---&gt; 63</span><span class="ansi-red-fg">                 </span>extractor <span class="ansi-yellow-intense-fg ansi-bold">=</span> kerasPhysical<span class="ansi-yellow-intense-fg ansi-bold">.</span>getExtractor<span class="ansi-yellow-intense-fg ansi-bold">(</span>version<span class="ansi-yellow-intense-fg ansi-bold">,</span> source<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     64</span>                 sourceConnectionLayer <span class="ansi-yellow-intense-fg ansi-bold">=</span> source<span class="ansi-yellow-intense-fg ansi-bold">.</span>sourceConnectionLayers<span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">0</span><span class="ansi-yellow-intense-fg ansi-bold">]</span>
+<span class="ansi-green-intense-fg ansi-bold">     65</span>                 extractor<span class="ansi-yellow-intense-fg ansi-bold">.</span>getTeachingData<span class="ansi-yellow-intense-fg ansi-bold">(</span>sourceConnectionLayer<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+
+<span class="ansi-green-fg">&lt;ipython-input-31-5e179f2d966a&gt;</span> in <span class="ansi-cyan-fg">getExtractor</span><span class="ansi-blue-fg">(self, version, source)</span>
+<span class="ansi-green-intense-fg ansi-bold">     47</span>         logger<span class="ansi-yellow-intense-fg ansi-bold">.</span>debug<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#34;extractor path: &#34;</span> <span class="ansi-yellow-intense-fg ansi-bold">+</span> extractor_path<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     48</span>         logger<span class="ansi-yellow-intense-fg ansi-bold">.</span>debug<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#34;import extractor&#34;</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">---&gt; 49</span><span class="ansi-red-fg">         </span>extractor <span class="ansi-yellow-intense-fg ansi-bold">=</span> imp<span class="ansi-yellow-intense-fg ansi-bold">.</span>load_source<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#39;Extractor&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> extractor_path<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">.</span>Extractor<span class="ansi-yellow-intense-fg ansi-bold">(</span>version<span class="ansi-yellow-intense-fg ansi-bold">,</span> source<span class="ansi-yellow-intense-fg ansi-bold">.</span>sourceName<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     50</span>         <span class="ansi-green-intense-fg ansi-bold">return</span> extractor
+<span class="ansi-green-intense-fg ansi-bold">     51</span> 
+
+<span class="ansi-green-fg">C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\Process\Extract\Extractor.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">    125</span> 
+<span class="ansi-green-intense-fg ansi-bold">    126</span> tst <span class="ansi-yellow-intense-fg ansi-bold">=</span> test<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">--&gt; 127</span><span class="ansi-red-fg"> </span>tst<span class="ansi-yellow-intense-fg ansi-bold">.</span>testExtractedData<span class="ansi-yellow-intense-fg ansi-bold">(</span>TEST_PERSONA_BLUEPRINT<span class="ansi-yellow-intense-fg ansi-bold">,</span> TEST_PERSONA_DEF<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    128</span> 
+<span class="ansi-green-intense-fg ansi-bold">    129</span> 
+
+<span class="ansi-green-fg">C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\Process\Extract\Extractor.py</span> in <span class="ansi-cyan-fg">testExtractedData</span><span class="ansi-blue-fg">(self, personaBlueprintPath, personaDefPath)</span>
+<span class="ansi-green-intense-fg ansi-bold">    111</span> 
+<span class="ansi-green-intense-fg ansi-bold">    112</span>     <span class="ansi-green-intense-fg ansi-bold">def</span> testExtractedData<span class="ansi-yellow-intense-fg ansi-bold">(</span>self<span class="ansi-yellow-intense-fg ansi-bold">,</span> personaBlueprintPath<span class="ansi-yellow-intense-fg ansi-bold">,</span> personaDefPath<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
+<span class="ansi-green-fg">--&gt; 113</span><span class="ansi-red-fg">         </span>persona <span class="ansi-yellow-intense-fg ansi-bold">=</span> self<span class="ansi-yellow-intense-fg ansi-bold">.</span>loadPersona<span class="ansi-yellow-intense-fg ansi-bold">(</span>personaBlueprintPath<span class="ansi-yellow-intense-fg ansi-bold">,</span> personaDefPath<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    114</span>         <span class="ansi-red-intense-fg ansi-bold">#get source name</span>
+<span class="ansi-green-intense-fg ansi-bold">    115</span>         environment <span class="ansi-yellow-intense-fg ansi-bold">=</span> persona<span class="ansi-yellow-intense-fg ansi-bold">.</span>age<span class="ansi-yellow-intense-fg ansi-bold">.</span>environments<span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">0</span><span class="ansi-yellow-intense-fg ansi-bold">]</span>
+
+<span class="ansi-green-fg">C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\Process\Extract\Extractor.py</span> in <span class="ansi-cyan-fg">loadPersona</span><span class="ansi-blue-fg">(self, personaBlueprintPath, personaDefPath)</span>
+<span class="ansi-green-intense-fg ansi-bold">    101</span>     <span class="ansi-green-intense-fg ansi-bold">def</span> loadPersona<span class="ansi-yellow-intense-fg ansi-bold">(</span>self<span class="ansi-yellow-intense-fg ansi-bold">,</span> personaBlueprintPath<span class="ansi-yellow-intense-fg ansi-bold">,</span> personaDefPath<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    102</span>         <span class="ansi-red-intense-fg ansi-bold"># persona blueprint</span>
+<span class="ansi-green-fg">--&gt; 103</span><span class="ansi-red-fg">         </span>persona <span class="ansi-yellow-intense-fg ansi-bold">=</span> self<span class="ansi-yellow-intense-fg ansi-bold">.</span>getPersonaBlueprint<span class="ansi-yellow-intense-fg ansi-bold">(</span>personaBlueprintPath<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    104</span>         <span class="ansi-red-intense-fg ansi-bold">#load persona</span>
+<span class="ansi-green-intense-fg ansi-bold">    105</span>         persona_path <span class="ansi-yellow-intense-fg ansi-bold">=</span> os<span class="ansi-yellow-intense-fg ansi-bold">.</span>path<span class="ansi-yellow-intense-fg ansi-bold">.</span>abspath<span class="ansi-yellow-intense-fg ansi-bold">(</span>os<span class="ansi-yellow-intense-fg ansi-bold">.</span>path<span class="ansi-yellow-intense-fg ansi-bold">.</span>join<span class="ansi-yellow-intense-fg ansi-bold">(</span>personaDefPath<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+
+<span class="ansi-green-fg">C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\Process\Extract\Extractor.py</span> in <span class="ansi-cyan-fg">getPersonaBlueprint</span><span class="ansi-blue-fg">(self, personaBlueprintPath)</span>
+<span class="ansi-green-intense-fg ansi-bold">     96</span>         logger<span class="ansi-yellow-intense-fg ansi-bold">.</span>debug<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#34;TEST - Persona blueprint path: &#34;</span> <span class="ansi-yellow-intense-fg ansi-bold">+</span> persona_blueprint_path<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     97</span>         <span class="ansi-red-intense-fg ansi-bold">#persona blueprint</span>
+<span class="ansi-green-fg">---&gt; 98</span><span class="ansi-red-fg">         </span>personaBlueprint <span class="ansi-yellow-intense-fg ansi-bold">=</span> imp<span class="ansi-yellow-intense-fg ansi-bold">.</span>load_source<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#39;Persona&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> persona_blueprint_path<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">.</span>Persona<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     99</span>         <span class="ansi-green-intense-fg ansi-bold">return</span> personaBlueprint
+<span class="ansi-green-intense-fg ansi-bold">    100</span> 
+
+<span class="ansi-red-fg">IOError</span>: [Errno 2] No such file or directory</pre>
 </div>
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span> 
+</pre></div>
+
+</div>
 </div>
 </div>
 

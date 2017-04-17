@@ -67,12 +67,12 @@ message Persona {
 		
 			message Source {
 				string sourceName = 1;
-				float teachingDataPercentage = 2;
-				float validationDataPercentage = 3;
-				float testDataPercentage = 4;
-				repeated SourceConnectionLayer sourceConnectionLayers = 5;
+				repeated SourceConnectionLayer sourceConnectionLayers = 2;
 				
 				message SourceConnectionLayer {
+					float teachingDataPercentage = 3;
+					float validationDataPercentage = 4;
+					float testDataPercentage = 5;				
 					string connectedLayerName = 6;
 
 					oneof SourceParameter {
