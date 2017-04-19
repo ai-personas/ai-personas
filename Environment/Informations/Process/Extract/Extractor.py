@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[2]:
+# In[3]:
 
 import sys
 import imp
@@ -82,7 +82,7 @@ class Extractor(object):
         return teaching_data_array 
 
 
-# In[3]:
+# In[5]:
 
 PERSONA_NAME_QUALIFIER = "PersonaDefinition"
 TEST_PERSONA_BLUEPRINT = "../../../../Personas/personaBlueprint/version_1/personBlueprint" + PROTO_PYTHON_EXTENSION
@@ -120,7 +120,7 @@ class test(object):
         environment = persona.age.environments[0]
         source = environment.library.sources[0]
         logger.debug("TEST - information source: " + source.sourceName)
-        extractor = Extractor(INFORMATION_BLUEPRINT, INSTALLATION_PATH + source.sourceName)
+        extractor = Extractor(TEST_VERSION, INSTALLATION_PATH + source.sourceName)
         sourceConnectionLayer = source.sourceConnectionLayers[0]
         informationDef = extractor.loadInformationDefinition(TEST_VERSION, INSTALLATION_PATH + source.sourceName)
         processor = informationDef.processors[0]

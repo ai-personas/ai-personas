@@ -11748,7 +11748,7 @@ div#notebook {
 
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
@@ -11837,7 +11837,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">PERSONA_NAME_QUALIFIER</span> <span class="o">=</span> <span class="s2">&quot;PersonaDefinition&quot;</span>
@@ -11876,7 +11876,7 @@ div#notebook {
         <span class="n">environment</span> <span class="o">=</span> <span class="n">persona</span><span class="o">.</span><span class="n">age</span><span class="o">.</span><span class="n">environments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">source</span> <span class="o">=</span> <span class="n">environment</span><span class="o">.</span><span class="n">library</span><span class="o">.</span><span class="n">sources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;TEST - information source: &quot;</span> <span class="o">+</span> <span class="n">source</span><span class="o">.</span><span class="n">sourceName</span><span class="p">)</span>
-        <span class="n">extractor</span> <span class="o">=</span> <span class="n">Extractor</span><span class="p">(</span><span class="n">INFORMATION_BLUEPRINT</span><span class="p">,</span> <span class="n">INSTALLATION_PATH</span> <span class="o">+</span> <span class="n">source</span><span class="o">.</span><span class="n">sourceName</span><span class="p">)</span>
+        <span class="n">extractor</span> <span class="o">=</span> <span class="n">Extractor</span><span class="p">(</span><span class="n">TEST_VERSION</span><span class="p">,</span> <span class="n">INSTALLATION_PATH</span> <span class="o">+</span> <span class="n">source</span><span class="o">.</span><span class="n">sourceName</span><span class="p">)</span>
         <span class="n">sourceConnectionLayer</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">sourceConnectionLayers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">informationDef</span> <span class="o">=</span> <span class="n">extractor</span><span class="o">.</span><span class="n">loadInformationDefinition</span><span class="p">(</span><span class="n">TEST_VERSION</span><span class="p">,</span> <span class="n">INSTALLATION_PATH</span> <span class="o">+</span> <span class="n">source</span><span class="o">.</span><span class="n">sourceName</span><span class="p">)</span>
         <span class="n">processor</span> <span class="o">=</span> <span class="n">informationDef</span><span class="o">.</span><span class="n">processors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -11901,28 +11901,38 @@ div#notebook {
 <pre>DEBUG:Extractor:TEST - Persona blueprint path: C:\Users\rames\Documents\GitHub\ai-personas\Personas\personaBlueprint\version_1\personBlueprint_pb2.py
 DEBUG:Extractor:TEST - Persona definition path:C:\Users\rames\Documents\GitHub\ai-personas\Personas\Artist\Portraits\sketchToGreyImage\Khandhasamy\Evolution_1\age_1\KhandhasamyPersonaDefinition.bin
 DEBUG:Extractor:TEST - information source: Environment\Informations\Category\Portraits\scientists.bin
+DEBUG:Extractor:get information path
+DEBUG:Extractor:information path: C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\Category\Portraits\scientists.bin
+DEBUG:Extractor:get information blueprint path
+DEBUG:Extractor:information blue print path: C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\informationBlueprint_pb2.py
+DEBUG:Extractor:import information blueprint
+DEBUG:Extractor:get information path
+DEBUG:Extractor:information path: C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\Category\Portraits\scientists.bin
+DEBUG:Extractor:get information blueprint path
+DEBUG:Extractor:information blue print path: C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\informationBlueprint_pb2.py
+DEBUG:Extractor:import information blueprint
+DEBUG:Extractor:get extracted data
+DEBUG:Extractor:load extractor: extractImageFromImageArray
+DEBUG:Extractor:import extractor C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\Process\Extract\extractImageFromImageArray.py
+DEBUG:Extractor:data array shape: (0L, 1L, 50L, 50L)
+DEBUG:Extractor:call loader: downloadZipImageFile
+DEBUG:Extractor:get loader path
+DEBUG:Extractor:loader path: C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\Process\Load\Loader.py
+DEBUG:Extractor:import loader
+DEBUG:Extractor:source parameter: imageSource
+DEBUG:Extractor:data shape: (121L, 1L, 50L, 50L)
+DEBUG:Extractor:data array shape: (121L, 1L, 50L, 50L)
+DEBUG:Extractor:Teaching data percentage: 50.0
+C:\Users\rames\Anaconda2\lib\site-packages\ipykernel\__main__.py:75: VisibleDeprecationWarning: using a non-integer number instead of an integer will result in an error in the future
+DEBUG:Extractor:(60L, 1L, 50L, 50L)
 </pre>
 </div>
 </div>
 
 <div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-3-64a55a36d06a&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">     44</span> 
-<span class="ansi-green-intense-fg ansi-bold">     45</span> tst <span class="ansi-yellow-intense-fg ansi-bold">=</span> test<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">---&gt; 46</span><span class="ansi-red-fg"> </span>tst<span class="ansi-yellow-intense-fg ansi-bold">.</span>testExtractedData<span class="ansi-yellow-intense-fg ansi-bold">(</span>TEST_PERSONA_BLUEPRINT<span class="ansi-yellow-intense-fg ansi-bold">,</span> TEST_PERSONA_DEF<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-
-<span class="ansi-green-fg">&lt;ipython-input-3-64a55a36d06a&gt;</span> in <span class="ansi-cyan-fg">testExtractedData</span><span class="ansi-blue-fg">(self, personaBlueprintPath, personaDefPath)</span>
-<span class="ansi-green-intense-fg ansi-bold">     35</span>         source <span class="ansi-yellow-intense-fg ansi-bold">=</span> environment<span class="ansi-yellow-intense-fg ansi-bold">.</span>library<span class="ansi-yellow-intense-fg ansi-bold">.</span>sources<span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">0</span><span class="ansi-yellow-intense-fg ansi-bold">]</span>
-<span class="ansi-green-intense-fg ansi-bold">     36</span>         logger<span class="ansi-yellow-intense-fg ansi-bold">.</span>debug<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#34;TEST - information source: &#34;</span> <span class="ansi-yellow-intense-fg ansi-bold">+</span> source<span class="ansi-yellow-intense-fg ansi-bold">.</span>sourceName<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">---&gt; 37</span><span class="ansi-red-fg">         </span>extractor <span class="ansi-yellow-intense-fg ansi-bold">=</span> Extractor<span class="ansi-yellow-intense-fg ansi-bold">(</span>INFORMATION_BLUEPRINT<span class="ansi-yellow-intense-fg ansi-bold">,</span> INSTALLATION_PATH <span class="ansi-yellow-intense-fg ansi-bold">+</span> source<span class="ansi-yellow-intense-fg ansi-bold">.</span>sourceName<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     38</span>         sourceConnectionLayer <span class="ansi-yellow-intense-fg ansi-bold">=</span> source<span class="ansi-yellow-intense-fg ansi-bold">.</span>sourceConnectionLayers<span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">0</span><span class="ansi-yellow-intense-fg ansi-bold">]</span>
-<span class="ansi-green-intense-fg ansi-bold">     39</span>         informationDef <span class="ansi-yellow-intense-fg ansi-bold">=</span> extractor<span class="ansi-yellow-intense-fg ansi-bold">.</span>loadInformationDefinition<span class="ansi-yellow-intense-fg ansi-bold">(</span>TEST_VERSION<span class="ansi-yellow-intense-fg ansi-bold">,</span> INSTALLATION_PATH <span class="ansi-yellow-intense-fg ansi-bold">+</span> source<span class="ansi-yellow-intense-fg ansi-bold">.</span>sourceName<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-
-<span class="ansi-red-fg">NameError</span>: global name &#39;INFORMATION_BLUEPRINT&#39; is not defined</pre>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Loaded images: 121
+</pre>
 </div>
 </div>
 

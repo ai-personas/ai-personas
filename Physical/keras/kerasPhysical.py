@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[28]:
+# In[1]:
 
 import os
 os.environ["KERAS_BACKEND"] = "theano"
@@ -34,7 +34,7 @@ logger.setLevel(logging.DEBUG)
 #------------------------------------------------------#
 
 
-# In[31]:
+# In[2]:
 
 INSTALLATION_PATH = "C:\\Users\\rames\\Documents\\GitHub\\ai-personas\\"
 PYTHON_EXTENSION = ".py"
