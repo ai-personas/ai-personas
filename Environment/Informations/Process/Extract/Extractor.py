@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[3]:
+# In[1]:
 
 import sys
 import imp
@@ -82,7 +82,7 @@ class Extractor(object):
         return teaching_data_array 
 
 
-# In[5]:
+# In[2]:
 
 PERSONA_NAME_QUALIFIER = "PersonaDefinition"
 TEST_PERSONA_BLUEPRINT = "../../../../Personas/personaBlueprint/version_1/personBlueprint" + PROTO_PYTHON_EXTENSION
@@ -128,8 +128,8 @@ class test(object):
         extractor.getTeachingData(sourceConnectionLayer)
         return 
 
-tst = test()
-tst.testExtractedData(TEST_PERSONA_BLUEPRINT, TEST_PERSONA_DEF)
+# tst = test()
+# tst.testExtractedData(TEST_PERSONA_BLUEPRINT, TEST_PERSONA_DEF)
 
 
 # In[ ]:

@@ -11803,7 +11803,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">INSTALLATION_PATH</span> <span class="o">=</span> <span class="s2">&quot;C:</span><span class="se">\\</span><span class="s2">Users</span><span class="se">\\</span><span class="s2">rames</span><span class="se">\\</span><span class="s2">Documents</span><span class="se">\\</span><span class="s2">GitHub</span><span class="se">\\</span><span class="s2">ai-personas</span><span class="se">\\</span><span class="s2">&quot;</span>
@@ -11815,12 +11815,18 @@ div#notebook {
 <span class="n">INFORMATION_BLUEPRINT</span> <span class="o">=</span> <span class="s2">&quot;../../Environment/Informations/informationBlueprint&quot;</span> <span class="o">+</span> <span class="n">PROTO_PYTHON_EXTENSION</span>
 
 <span class="n">PERSONA_NAME_QUALIFIER</span> <span class="o">=</span> <span class="s2">&quot;PersonaDefinition&quot;</span>
-<span class="n">PERSONA_BLUEPRINT_BASE</span> <span class="o">=</span> <span class="s2">&quot;../../Personas/personaBlueprint/version_&quot;</span> 
-<span class="n">PERSONA_BLUEPRINT_NAME</span> <span class="o">=</span> <span class="s2">&quot;/personBlueprint&quot;</span> <span class="o">+</span> <span class="n">PROTO_PYTHON_EXTENSION</span>
+<span class="n">PERSONA_BLUEPRINT_BASE</span> <span class="o">=</span> <span class="s2">&quot;Personas/personaBlueprint/version_&quot;</span> 
+<span class="n">PERSONA_BLUEPRINT_NAME</span> <span class="o">=</span> <span class="s2">&quot;personBlueprint&quot;</span> <span class="o">+</span> <span class="n">PROTO_PYTHON_EXTENSION</span>
 <span class="n">PERSONA_NAME</span> <span class="o">=</span> <span class="s2">&quot;Khandhasamy&quot;</span> <span class="o">+</span> <span class="n">PERSONA_NAME_QUALIFIER</span> <span class="o">+</span> <span class="n">PROTO_DEF_EXTENSION</span>
 <span class="n">PERSONA_DEF</span> <span class="o">=</span> <span class="s2">&quot;../../Personas/Artist/Portraits/sketchToGreyImage/Khandhasamy/Evolution_1/age_1/&quot;</span> <span class="o">+</span> <span class="n">PERSONA_NAME</span>
 
 <span class="k">class</span> <span class="nc">KerasPhysical</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    
+    <span class="n">LAYER_CONVOLUTION</span> <span class="o">=</span> <span class="s2">&quot;layerConvolution&quot;</span>
+    <span class="n">LAYER_ACTIVATION</span> <span class="o">=</span> <span class="s2">&quot;layerActivation&quot;</span>
+    <span class="n">LAYER_DROPOUT</span> <span class="o">=</span> <span class="s2">&quot;layerDropout&quot;</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> 
@@ -11830,7 +11836,7 @@ div#notebook {
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">def</span> <span class="nf">getPersonaBlueprint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version</span><span class="p">):</span> 
         <span class="c1">#persona blueprint path</span>
-        <span class="n">persona_blueprint_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PERSONA_BLUEPRINT_BASE</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">version</span><span class="p">)</span> <span class="o">+</span> <span class="n">PERSONA_BLUEPRINT_NAME</span> <span class="p">))</span>
+        <span class="n">persona_blueprint_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">INSTALLATION_PATH</span><span class="p">,</span><span class="n">PERSONA_BLUEPRINT_BASE</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">version</span><span class="p">),</span> <span class="n">PERSONA_BLUEPRINT_NAME</span> <span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Persona blueprint path: &quot;</span> <span class="o">+</span> <span class="n">persona_blueprint_path</span><span class="p">)</span>
         <span class="c1">#persona blueprint</span>
         <span class="n">personaBlueprint</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">load_source</span><span class="p">(</span><span class="s1">&#39;Persona&#39;</span><span class="p">,</span> <span class="n">persona_blueprint_path</span><span class="p">)</span><span class="o">.</span><span class="n">Persona</span><span class="p">()</span> 
@@ -11856,13 +11862,61 @@ div#notebook {
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;import extractor&quot;</span><span class="p">)</span>
         <span class="n">extractor</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">load_source</span><span class="p">(</span><span class="s1">&#39;Extractor&#39;</span><span class="p">,</span> <span class="n">extractor_path</span><span class="p">)</span><span class="o">.</span><span class="n">Extractor</span><span class="p">(</span><span class="n">version</span><span class="p">,</span> <span class="n">source</span><span class="o">.</span><span class="n">sourceName</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">extractor</span>
+    
+    <span class="k">def</span> <span class="nf">generateConvolutionLayer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer</span><span class="p">):</span>
+        <span class="n">nb_filters</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">filters</span>
+        <span class="n">convDimension</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">convolutionDimension</span>
+        <span class="n">borderMode</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">borderMode</span>
+        <span class="n">kernelSize</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">kernelSize</span>
+        <span class="n">inputShape</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">layerConvolution</span><span class="o">.</span><span class="n">inputShape</span>
+        <span class="k">if</span> <span class="n">K</span><span class="o">.</span><span class="n">image_dim_ordering</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;th&#39;</span><span class="p">:</span>
+            <span class="n">conv_input_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">inputShape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">inputShape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">inputShape</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">conv_input_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">inputShape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">inputShape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">inputShape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">convDimension</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Convolution2D</span><span class="p">(</span><span class="n">nb_filters</span><span class="p">,</span> <span class="n">kernelSize</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">kernelSize</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">border_mode</span><span class="o">=</span><span class="n">borderMode</span><span class="p">,</span>
+                <span class="n">input_shape</span><span class="o">=</span><span class="n">conv_input_shape</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Convolution layer generated&quot;</span><span class="p">)</span>
+            
+    <span class="k">def</span> <span class="nf">generateActivationLayer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer</span><span class="p">):</span>
+        <span class="n">activationType</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">layerActivation</span><span class="o">.</span><span class="n">activationType</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Activation</span><span class="p">(</span><span class="n">activationType</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Activation layer generated&quot;</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">generateDropoutLayer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer</span><span class="p">):</span>
+        <span class="n">dropoutPercentage</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">layerDropout</span><span class="o">.</span><span class="n">dropPercentage</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropoutPercentage</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Dropout layer generated&quot;</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">generateDNA</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dna</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">dna</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">LAYER_CONVOLUTION</span> <span class="o">==</span> <span class="n">layer</span><span class="o">.</span><span class="n">WhichOneof</span><span class="p">(</span><span class="s2">&quot;SubLayer&quot;</span><span class="p">)):</span> 
+                <span class="bp">self</span><span class="o">.</span><span class="n">generateConvolutionLayer</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="n">LAYER_ACTIVATION</span> <span class="o">==</span> <span class="n">layer</span><span class="o">.</span><span class="n">WhichOneof</span><span class="p">(</span><span class="s2">&quot;SubLayer&quot;</span><span class="p">)):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">generateActivationLayer</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="n">LAYER_DROPOUT</span> <span class="o">==</span> <span class="n">layer</span><span class="o">.</span><span class="n">WhichOneof</span><span class="p">(</span><span class="s2">&quot;SubLayer&quot;</span><span class="p">)):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">generateDropoutLayer</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+        <span class="k">return</span>
+    
+    <span class="k">def</span> <span class="nf">compileModel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;binary_crossentropy&#39;</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adadelta&#39;</span><span class="p">)</span>
+        <span class="k">return</span>
+    
+    <span class="k">def</span> <span class="nf">runModel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train_data</span><span class="p">,</span> <span class="n">y_train_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">nb_epoch</span><span class="o">=</span><span class="n">nb_epoch</span><span class="p">,</span>
+                    <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="n">x_train_data</span><span class="p">,</span> <span class="n">y_train_data</span><span class="p">))</span>
+        <span class="k">return</span>
 
+    <span class="k">def</span> <span class="nf">savePersona</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span>
+    
 <span class="k">class</span> <span class="nc">Test</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> 
     
-    <span class="k">def</span> <span class="nf">testExtractor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">personaBlueprintPath</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">,</span> <span class="n">version</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">testExtractor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">,</span> <span class="n">version</span><span class="p">):</span>
         <span class="n">kerasPhysical</span> <span class="o">=</span> <span class="n">KerasPhysical</span><span class="p">()</span>
         <span class="n">persona</span> <span class="o">=</span> <span class="n">kerasPhysical</span><span class="o">.</span><span class="n">loadPersona</span><span class="p">(</span><span class="n">version</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">)</span>   
         <span class="k">for</span> <span class="n">environment</span> <span class="ow">in</span> <span class="n">persona</span><span class="o">.</span><span class="n">age</span><span class="o">.</span><span class="n">environments</span><span class="p">:</span>
@@ -11874,7 +11928,7 @@ div#notebook {
         <span class="k">return</span>
     
 <span class="n">tst</span> <span class="o">=</span> <span class="n">Test</span><span class="p">()</span>
-<span class="n">tst</span><span class="o">.</span><span class="n">testExtractor</span><span class="p">(</span><span class="n">PERSONA_BLUEPRINT</span><span class="p">,</span> <span class="n">PERSONA_DEF</span><span class="p">,</span> <span class="n">PERSONA_VERSION</span><span class="p">)</span>
+<span class="n">tst</span><span class="o">.</span><span class="n">testExtractor</span><span class="p">(</span><span class="n">PERSONA_DEF</span><span class="p">,</span> <span class="n">PERSONA_VERSION</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -11886,16 +11940,38 @@ div#notebook {
 
 
 <div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-2-5e179f2d966a&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">     67</span> 
-<span class="ansi-green-intense-fg ansi-bold">     68</span> tst <span class="ansi-yellow-intense-fg ansi-bold">=</span> Test<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">---&gt; 69</span><span class="ansi-red-fg"> </span>tst<span class="ansi-yellow-intense-fg ansi-bold">.</span>testExtractor<span class="ansi-yellow-intense-fg ansi-bold">(</span>PERSONA_BLUEPRINT<span class="ansi-yellow-intense-fg ansi-bold">,</span> PERSONA_DEF<span class="ansi-yellow-intense-fg ansi-bold">,</span> PERSONA_VERSION<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>DEBUG:Extractor:Persona blueprint path: C:\Users\rames\Documents\GitHub\ai-personas\Personas\personaBlueprint\version_1\personBlueprint_pb2.py
+DEBUG:Extractor:Persona definition path:C:\Users\rames\Documents\GitHub\ai-personas\Personas\Artist\Portraits\sketchToGreyImage\Khandhasamy\Evolution_1\age_1\KhandhasamyPersonaDefinition.bin
+DEBUG:Extractor:TEST source name: Environment\Informations\Category\Portraits\scientists.bin
+DEBUG:Extractor:get extractor path
+DEBUG:Extractor:extractor path: C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\Process\Extract\Extractor.py
+DEBUG:Extractor:import extractor
+DEBUG:Extractor:get information path
+DEBUG:Extractor:information path: C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\Category\Portraits\scientists.bin
+DEBUG:Extractor:get information blueprint path
+DEBUG:Extractor:information blue print path: C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\informationBlueprint_pb2.py
+DEBUG:Extractor:import information blueprint
+DEBUG:Extractor:load extractor: extractImageFromImageArray
+DEBUG:Extractor:import extractor C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\Process\Extract\extractImageFromImageArray.py
+DEBUG:Extractor:data array shape: (0L, 1L, 50L, 50L)
+DEBUG:Extractor:call loader: downloadZipImageFile
+DEBUG:Extractor:get loader path
+DEBUG:Extractor:loader path: C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\Process\Load\Loader.py
+DEBUG:Extractor:import loader
+DEBUG:Extractor:source parameter: imageSource
+DEBUG:Extractor:data shape: (121L, 1L, 50L, 50L)
+DEBUG:Extractor:data array shape: (121L, 1L, 50L, 50L)
+DEBUG:Extractor:Teaching data percentage: 50.0
+DEBUG:Extractor:(60L, 1L, 50L, 50L)
+</pre>
+</div>
+</div>
 
-<span class="ansi-red-fg">NameError</span>: name &#39;PERSONA_BLUEPRINT&#39; is not defined</pre>
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Loaded images: 121
+</pre>
 </div>
 </div>
 

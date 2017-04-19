@@ -34,7 +34,7 @@ logger.setLevel(logging.DEBUG)
 #------------------------------------------------------#
 
 
-# In[2]:
+# In[18]:
 
 INSTALLATION_PATH = "C:\\Users\\rames\\Documents\\GitHub\\ai-personas\\"
 PYTHON_EXTENSION = ".py"
@@ -45,12 +45,18 @@ EXTRACTOR_MODULE = "../../Environment/Informations/Process/Extract/Extractor.py"
 INFORMATION_BLUEPRINT = "../../Environment/Informations/informationBlueprint" + PROTO_PYTHON_EXTENSION
 
 PERSONA_NAME_QUALIFIER = "PersonaDefinition"
-PERSONA_BLUEPRINT_BASE = "../../Personas/personaBlueprint/version_" 
-PERSONA_BLUEPRINT_NAME = "/personBlueprint" + PROTO_PYTHON_EXTENSION
+PERSONA_BLUEPRINT_BASE = "Personas/personaBlueprint/version_" 
+PERSONA_BLUEPRINT_NAME = "personBlueprint" + PROTO_PYTHON_EXTENSION
 PERSONA_NAME = "Khandhasamy" + PERSONA_NAME_QUALIFIER + PROTO_DEF_EXTENSION
 PERSONA_DEF = "../../Personas/Artist/Portraits/sketchToGreyImage/Khandhasamy/Evolution_1/age_1/" + PERSONA_NAME
 
 class KerasPhysical(object):
+    
+    LAYER_CONVOLUTION = "layerConvolution"
+    LAYER_ACTIVATION = "layerActivation"
+    LAYER_DROPOUT = "layerDropout"
+
+    model = Sequential()
     
     def __init__(self):
         return 
@@ -60,7 +66,7 @@ class KerasPhysical(object):
     '''
     def getPersonaBlueprint(self, version): 
         #persona blueprint path
-        persona_blueprint_path = os.path.abspath(os.path.join(PERSONA_BLUEPRINT_BASE + str(version) + PERSONA_BLUEPRINT_NAME ))
+        persona_blueprint_path = os.path.abspath(os.path.join(INSTALLATION_PATH,PERSONA_BLUEPRINT_BASE+str(version), PERSONA_BLUEPRINT_NAME ))
         logger.debug("Persona blueprint path: " + persona_blueprint_path)
         #persona blueprint
         personaBlueprint = imp.load_source('Persona', persona_blueprint_path).Persona() 
@@ -86,13 +92,61 @@ class KerasPhysical(object):
         logger.debug("import extractor")
         extractor = imp.load_source('Extractor', extractor_path).Extractor(version, source.sourceName)
         return extractor
+    
+    def generateConvolutionLayer(self, layer):
+        nb_filters = layer.layerConvolution.filters
+        convDimension = layer.layerConvolution.convolutionDimension
+        borderMode = layer.layerConvolution.borderMode
+        kernelSize = layer.layerConvolution.kernelSize
+        inputShape = layer.layerConvolution.inputShape
+        if K.image_dim_ordering() == 'th':
+            conv_input_shape = (inputShape[0], inputShape[1], inputShape[2])
+        else:
+            conv_input_shape = (inputShape[1], inputShape[2], inputShape[0])
+        if convDimension == 2:
+            self.model.add(Convolution2D(nb_filters, kernelSize[0], kernelSize[1],
+                border_mode=borderMode,
+                input_shape=conv_input_shape))
+            logger.debug("Convolution layer generated")
+            
+    def generateActivationLayer(self, layer):
+        activationType = layer.layerActivation.activationType
+        self.model.add(Activation(activationType))
+        logger.debug("Activation layer generated")
+        
+    def generateDropoutLayer(self, layer):
+        dropoutPercentage = layer.layerDropout.dropPercentage
+        self.model.add(Dropout(dropoutPercentage))
+        logger.debug("Dropout layer generated")
+        
+    def generateDNA(self, dna):
+        for layer in dna.layers:
+            if (LAYER_CONVOLUTION == layer.WhichOneof("SubLayer")): 
+                self.generateConvolutionLayer(layer)
+            elif (LAYER_ACTIVATION == layer.WhichOneof("SubLayer")):
+                self.generateActivationLayer(layer)
+            elif (LAYER_DROPOUT == layer.WhichOneof("SubLayer")):
+                self.generateDropoutLayer(layer)
+        return
+    
+    def compileModel(self):
+        self.model.compile(loss='binary_crossentropy', optimizer='adadelta')
+        return
+    
+    def runModel(self):
+        self.model.fit(x_train_data, y_train_data, batch_size=batch_size, nb_epoch=nb_epoch,
+                    verbose=1, validation_data=(x_train_data, y_train_data))
+        return
 
+    def savePersona(self):
+        return
+    
 class Test(object):
     
     def __init__(self):
         return 
     
-    def testExtractor(self, personaBlueprintPath, personaDefPath, version):
+    def testExtractor(self, personaDefPath, version):
         kerasPhysical = KerasPhysical()
         persona = kerasPhysical.loadPersona(version, personaDefPath)   
         for environment in persona.age.environments:
@@ -104,7 +158,7 @@ class Test(object):
         return
     
 tst = Test()
-tst.testExtractor(PERSONA_BLUEPRINT, PERSONA_DEF, PERSONA_VERSION)
+tst.testExtractor(PERSONA_DEF, PERSONA_VERSION)
 
 
 # In[ ]:
