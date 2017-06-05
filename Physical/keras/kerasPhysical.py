@@ -34,7 +34,7 @@ logger.setLevel(logging.DEBUG)
 #------------------------------------------------------#
 
 
-# In[18]:
+# In[3]:
 
 INSTALLATION_PATH = "C:\\Users\\rames\\Documents\\GitHub\\ai-personas\\"
 PYTHON_EXTENSION = ".py"
@@ -48,7 +48,9 @@ PERSONA_NAME_QUALIFIER = "PersonaDefinition"
 PERSONA_BLUEPRINT_BASE = "Personas/personaBlueprint/version_" 
 PERSONA_BLUEPRINT_NAME = "personBlueprint" + PROTO_PYTHON_EXTENSION
 PERSONA_NAME = "Khandhasamy" + PERSONA_NAME_QUALIFIER + PROTO_DEF_EXTENSION
-PERSONA_DEF = "../../Personas/Artist/Portraits/sketchToGreyImage/Khandhasamy/Evolution_1/age_1/" + PERSONA_NAME
+PERSONA_DEF_PATH = "../../Personas/Artist/Portraits/sketchToGreyImage/Khandhasamy/Evolution_1/age_1/" 
+PERSONA_DEF = PERSONA_DEF_PATH + PERSONA_NAME
+PERSONA_STORAGE = "personaStorage/"
 
 class KerasPhysical(object):
     
@@ -138,17 +140,42 @@ class KerasPhysical(object):
                     verbose=1, validation_data=(x_train_data, y_train_data))
         return
 
-    def savePersona(self):
+    ''' Persist given persona. 
+        The logical persistence will be the location of the persona. The actual location could be anywhere (yet to be decided)
+    '''
+    def savePersona(self, personaDefPath, persona):
+        logger.debug(personaDefPath)
+        persona_storage_path = os.path.abspath(os.path.join(personaDefPath, PERSONA_STORAGE))
+        logger.debug("persona storage path: " + persona_storage_path)
         return
+    
+    ''' Load persona for given blue print version and persona definition path. 
+        The persona defintion includes persona's age.
+    '''
+    def wakeUpPersona(self, personaBluePrintVersion, personaDefPath, personaName):
+        persona_def = os.path.abspath(os.path.join(personaDefPath, personaName))
+        persona = self.loadPersona(personaBluePrintVersion, persona_def)
+        return persona
+    
+    def teachPersona():
+        return
+    
+    def testPersona():
+        return 
+    
+    def taskPersona():
+        return
+
     
 class Test(object):
     
     def __init__(self):
         return 
     
-    def testExtractor(self, personaDefPath, version):
+    def testExtractor(self, personaDefPath, personaName, version):
         kerasPhysical = KerasPhysical()
-        persona = kerasPhysical.loadPersona(version, personaDefPath)   
+        #persona = kerasPhysical.loadPersona(version, personaDefPath)
+        persona = kerasPhysical.wakeUpPersona(version, personaDefPath, personaName)
         for environment in persona.age.environments:
             for source in environment.library.sources:
                 logger.debug("TEST source name: " + source.sourceName)
@@ -157,8 +184,16 @@ class Test(object):
                 extractor.getTeachingData(sourceConnectionLayer)
         return
     
+    def testPersonaSave(self, personaDefPath, personaName, version):
+        logger.debug("Test savePersona method")
+        kerasPhysical = KerasPhysical()
+        persona = kerasPhysical.wakeUpPersona(version, personaDefPath, personaName)
+        kerasPhysical.savePersona(personaDefPath, persona)
+        return
+        
 tst = Test()
-tst.testExtractor(PERSONA_DEF, PERSONA_VERSION)
+#tst.testExtractor(PERSONA_DEF_PATH, PERSONA_NAME, PERSONA_VERSION)
+tst.testPersonaSave(PERSONA_DEF_PATH, PERSONA_NAME, PERSONA_VERSION)
 
 
 # In[ ]:

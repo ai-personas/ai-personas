@@ -11803,7 +11803,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">INSTALLATION_PATH</span> <span class="o">=</span> <span class="s2">&quot;C:</span><span class="se">\\</span><span class="s2">Users</span><span class="se">\\</span><span class="s2">rames</span><span class="se">\\</span><span class="s2">Documents</span><span class="se">\\</span><span class="s2">GitHub</span><span class="se">\\</span><span class="s2">ai-personas</span><span class="se">\\</span><span class="s2">&quot;</span>
@@ -11818,7 +11818,9 @@ div#notebook {
 <span class="n">PERSONA_BLUEPRINT_BASE</span> <span class="o">=</span> <span class="s2">&quot;Personas/personaBlueprint/version_&quot;</span> 
 <span class="n">PERSONA_BLUEPRINT_NAME</span> <span class="o">=</span> <span class="s2">&quot;personBlueprint&quot;</span> <span class="o">+</span> <span class="n">PROTO_PYTHON_EXTENSION</span>
 <span class="n">PERSONA_NAME</span> <span class="o">=</span> <span class="s2">&quot;Khandhasamy&quot;</span> <span class="o">+</span> <span class="n">PERSONA_NAME_QUALIFIER</span> <span class="o">+</span> <span class="n">PROTO_DEF_EXTENSION</span>
-<span class="n">PERSONA_DEF</span> <span class="o">=</span> <span class="s2">&quot;../../Personas/Artist/Portraits/sketchToGreyImage/Khandhasamy/Evolution_1/age_1/&quot;</span> <span class="o">+</span> <span class="n">PERSONA_NAME</span>
+<span class="n">PERSONA_DEF_PATH</span> <span class="o">=</span> <span class="s2">&quot;../../Personas/Artist/Portraits/sketchToGreyImage/Khandhasamy/Evolution_1/age_1/&quot;</span> 
+<span class="n">PERSONA_DEF</span> <span class="o">=</span> <span class="n">PERSONA_DEF_PATH</span> <span class="o">+</span> <span class="n">PERSONA_NAME</span>
+<span class="n">PERSONA_STORAGE</span> <span class="o">=</span> <span class="s2">&quot;personaStorage/&quot;</span>
 
 <span class="k">class</span> <span class="nc">KerasPhysical</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     
@@ -11908,17 +11910,42 @@ div#notebook {
                     <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="n">x_train_data</span><span class="p">,</span> <span class="n">y_train_data</span><span class="p">))</span>
         <span class="k">return</span>
 
-    <span class="k">def</span> <span class="nf">savePersona</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Persist given persona. </span>
+<span class="sd">        The logical persistence will be the location of the persona. The actual location could be anywhere (yet to be decided)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">savePersona</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">,</span> <span class="n">persona</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">personaDefPath</span><span class="p">)</span>
+        <span class="n">persona_storage_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">personaDefPath</span><span class="p">,</span> <span class="n">PERSONA_STORAGE</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;persona storage path: &quot;</span> <span class="o">+</span> <span class="n">persona_storage_path</span><span class="p">)</span>
         <span class="k">return</span>
+    
+    <span class="sd">&#39;&#39;&#39; Load persona for given blue print version and persona definition path. </span>
+<span class="sd">        The persona defintion includes persona&#39;s age.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">wakeUpPersona</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">personaBluePrintVersion</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">,</span> <span class="n">personaName</span><span class="p">):</span>
+        <span class="n">persona_def</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">personaDefPath</span><span class="p">,</span> <span class="n">personaName</span><span class="p">))</span>
+        <span class="n">persona</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loadPersona</span><span class="p">(</span><span class="n">personaBluePrintVersion</span><span class="p">,</span> <span class="n">persona_def</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">persona</span>
+    
+    <span class="k">def</span> <span class="nf">teachPersona</span><span class="p">():</span>
+        <span class="k">return</span>
+    
+    <span class="k">def</span> <span class="nf">testPersona</span><span class="p">():</span>
+        <span class="k">return</span> 
+    
+    <span class="k">def</span> <span class="nf">taskPersona</span><span class="p">():</span>
+        <span class="k">return</span>
+
     
 <span class="k">class</span> <span class="nc">Test</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> 
     
-    <span class="k">def</span> <span class="nf">testExtractor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">,</span> <span class="n">version</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">testExtractor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">,</span> <span class="n">personaName</span><span class="p">,</span> <span class="n">version</span><span class="p">):</span>
         <span class="n">kerasPhysical</span> <span class="o">=</span> <span class="n">KerasPhysical</span><span class="p">()</span>
-        <span class="n">persona</span> <span class="o">=</span> <span class="n">kerasPhysical</span><span class="o">.</span><span class="n">loadPersona</span><span class="p">(</span><span class="n">version</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">)</span>   
+        <span class="c1">#persona = kerasPhysical.loadPersona(version, personaDefPath)</span>
+        <span class="n">persona</span> <span class="o">=</span> <span class="n">kerasPhysical</span><span class="o">.</span><span class="n">wakeUpPersona</span><span class="p">(</span><span class="n">version</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">,</span> <span class="n">personaName</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">environment</span> <span class="ow">in</span> <span class="n">persona</span><span class="o">.</span><span class="n">age</span><span class="o">.</span><span class="n">environments</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">source</span> <span class="ow">in</span> <span class="n">environment</span><span class="o">.</span><span class="n">library</span><span class="o">.</span><span class="n">sources</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;TEST source name: &quot;</span> <span class="o">+</span> <span class="n">source</span><span class="o">.</span><span class="n">sourceName</span><span class="p">)</span>
@@ -11927,8 +11954,16 @@ div#notebook {
                 <span class="n">extractor</span><span class="o">.</span><span class="n">getTeachingData</span><span class="p">(</span><span class="n">sourceConnectionLayer</span><span class="p">)</span>
         <span class="k">return</span>
     
+    <span class="k">def</span> <span class="nf">testPersonaSave</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">,</span> <span class="n">personaName</span><span class="p">,</span> <span class="n">version</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Test savePersona method&quot;</span><span class="p">)</span>
+        <span class="n">kerasPhysical</span> <span class="o">=</span> <span class="n">KerasPhysical</span><span class="p">()</span>
+        <span class="n">persona</span> <span class="o">=</span> <span class="n">kerasPhysical</span><span class="o">.</span><span class="n">wakeUpPersona</span><span class="p">(</span><span class="n">version</span><span class="p">,</span> <span class="n">personaDefPath</span><span class="p">,</span> <span class="n">personaName</span><span class="p">)</span>
+        <span class="n">kerasPhysical</span><span class="o">.</span><span class="n">savePersona</span><span class="p">(</span><span class="n">personaDefPath</span><span class="p">,</span> <span class="n">persona</span><span class="p">)</span>
+        <span class="k">return</span>
+        
 <span class="n">tst</span> <span class="o">=</span> <span class="n">Test</span><span class="p">()</span>
-<span class="n">tst</span><span class="o">.</span><span class="n">testExtractor</span><span class="p">(</span><span class="n">PERSONA_DEF</span><span class="p">,</span> <span class="n">PERSONA_VERSION</span><span class="p">)</span>
+<span class="c1">#tst.testExtractor(PERSONA_DEF_PATH, PERSONA_NAME, PERSONA_VERSION)</span>
+<span class="n">tst</span><span class="o">.</span><span class="n">testPersonaSave</span><span class="p">(</span><span class="n">PERSONA_DEF_PATH</span><span class="p">,</span> <span class="n">PERSONA_NAME</span><span class="p">,</span> <span class="n">PERSONA_VERSION</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -11941,36 +11976,11 @@ div#notebook {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>DEBUG:Extractor:Persona blueprint path: C:\Users\rames\Documents\GitHub\ai-personas\Personas\personaBlueprint\version_1\personBlueprint_pb2.py
+<pre>DEBUG:Extractor:Test savePersona method
+DEBUG:Extractor:Persona blueprint path: C:\Users\rames\Documents\GitHub\ai-personas\Personas\personaBlueprint\version_1\personBlueprint_pb2.py
 DEBUG:Extractor:Persona definition path:C:\Users\rames\Documents\GitHub\ai-personas\Personas\Artist\Portraits\sketchToGreyImage\Khandhasamy\Evolution_1\age_1\KhandhasamyPersonaDefinition.bin
-DEBUG:Extractor:TEST source name: Environment\Informations\Category\Portraits\scientists.bin
-DEBUG:Extractor:get extractor path
-DEBUG:Extractor:extractor path: C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\Process\Extract\Extractor.py
-DEBUG:Extractor:import extractor
-DEBUG:Extractor:get information path
-DEBUG:Extractor:information path: C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\Category\Portraits\scientists.bin
-DEBUG:Extractor:get information blueprint path
-DEBUG:Extractor:information blue print path: C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\informationBlueprint_pb2.py
-DEBUG:Extractor:import information blueprint
-DEBUG:Extractor:load extractor: extractImageFromImageArray
-DEBUG:Extractor:import extractor C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\Process\Extract\extractImageFromImageArray.py
-DEBUG:Extractor:data array shape: (0L, 1L, 50L, 50L)
-DEBUG:Extractor:call loader: downloadZipImageFile
-DEBUG:Extractor:get loader path
-DEBUG:Extractor:loader path: C:\Users\rames\Documents\GitHub\ai-personas\Environment\Informations\Process\Load\Loader.py
-DEBUG:Extractor:import loader
-DEBUG:Extractor:source parameter: imageSource
-DEBUG:Extractor:data shape: (121L, 1L, 50L, 50L)
-DEBUG:Extractor:data array shape: (121L, 1L, 50L, 50L)
-DEBUG:Extractor:Teaching data percentage: 50.0
-DEBUG:Extractor:(60L, 1L, 50L, 50L)
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Loaded images: 121
+DEBUG:Extractor:../../Personas/Artist/Portraits/sketchToGreyImage/Khandhasamy/Evolution_1/age_1/
+DEBUG:Extractor:persona storage path: C:\Users\rames\Documents\GitHub\ai-personas\Personas\Artist\Portraits\sketchToGreyImage\Khandhasamy\Evolution_1\age_1\personaStorage
 </pre>
 </div>
 </div>
