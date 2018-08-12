@@ -4,7 +4,7 @@ AI Personas is the architecture and framework for AI design. This structure allo
 
 The AI persona structure follows as:
 ## DNA
-  The persona DNA defined here. DNAs definitions are the set of inputs, layers, outputs and its connections. The DNA wil be used in persona design and could be reused in any persona design.
+  The persona DNA defined here. DNAs definitions are specific to how the neural structure and processing implemented.With respect to deep learning it will be set of inputs, layers, outputs and its connections. The DNA wil be used in persona design and could be reused in any persona design.
   
 ## Environment
   The environment is where AI persona to grow up. It contains informations (like text, images, audio, video etc.) and load, extract, transformation scheme to consume these data. Also, environment has society which is individual persona, group of personas, communities, teams etc., The newly created persona can be included in any group, community, team and in this way, that persona behaviour will be enhanced and modulated. The persona could join the team as well to accomplish coordinated work and learn the multitude. 
