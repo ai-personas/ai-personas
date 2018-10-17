@@ -1,10 +1,14 @@
 language: python
 
+python:
+ - "3.6"
+ 
 sudo: enabled
 
 os:
   - linux
   
 before_script:
+  - pip3 install pyqtdeploy 
   - wget https://download.qt.io/archive/qt/5.11/5.11.2/single/qt-everywhere-src-5.11.2.tar.xz -O /tmp/qt-everywhere-src-5.11.2.tar.xz
   
