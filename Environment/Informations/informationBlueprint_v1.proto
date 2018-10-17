@@ -1,0 +1,34 @@
+syntax = "proto3";
+package portraits;
+
+message Information {
+
+    string informationName = 1;
+    repeated string informationCategory = 2;
+    repeated Processor processors = 3;
+
+    message Processor {
+        string processorName = 1;
+
+        oneof Loader {
+            DownloadZipImageFile downloadZipImageFile = 2;
+            MNIST mnist = 3;
+        }
+        message DownloadZipImageFile {
+            string downloadURL = 1;
+            string directoryName = 2;
+        }
+        message MNIST {
+            string category = 1;
+            string dataType = 2;
+            string dataProvider = 3;
+        }
+
+        oneof Extractor {
+            ExtractImageFromImageArray extractImageFromImageArray = 4;
+        }
+        message ExtractImageFromImageArray {
+            string extractorName = 1;
+        }
+    }
+}

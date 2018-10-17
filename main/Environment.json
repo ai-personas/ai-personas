@@ -1,0 +1,25 @@
+{
+  "school" : {
+    "name" : "Ramesh Image trainer",
+    "grades" : [
+      {
+        "name" : "1",
+        "courses" : [
+          {
+            "name" : "MNIST Image classification",
+            "image_count" : "60000",
+            "unit_test" : {
+              "image_count" : "10000"
+            }
+          }
+        ],
+        "test" : [
+          {
+            "name" : "final test",
+            "image_count" : "10000"
+          }
+        ]
+      }
+    ]
+  }
+}

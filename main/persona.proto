@@ -1,0 +1,16 @@
+syntax = "proto3";
+package persona;
+
+message Persona {
+	repeated string DNAs = 1;
+	string physical = 2;
+	string physicalType = 3;
+	Age age = 4;
+    bytes personaModel = 5;
+
+	message Age {
+		uint64 old = 1;
+		repeated string environments = 2;
+	}
+
+}
