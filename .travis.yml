@@ -9,10 +9,13 @@ os:
   - linux
   
 before_script:
-  - pip3 install pyqt5
+#  - pip3 install pyqt5
   - pip3 install pyqtdeploy 
-  - wget https://download.qt.io/archive/qt/5.11/5.11.2/single/qt-everywhere-src-5.11.2.tar.xz -O ai-personas/ai-personas/qt-everywhere-src-5.11.2.tar.xz
+#  - wget https://download.qt.io/archive/qt/5.11/5.11.2/single/qt-everywhere-src-5.11.2.tar.xz -O ai-personas/ai-personas/qt-everywhere-src-5.11.2.tar.xz
 
 script:
-  - cd ai-personas/ai-personas
+  - cd ai-personas
+  - ls
+  - cd ai-personas
+  - ls
   - pyqtdeploy-sysroot dependency.json
