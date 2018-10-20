@@ -9,9 +9,16 @@ os:
   - linux
   
 before_script:
-#  - pip3 install pyqt5
+  - pip3 install pyqt5
   - pip3 install pyqtdeploy 
-#  - wget https://download.qt.io/archive/qt/5.11/5.11.2/single/qt-everywhere-src-5.11.2.tar.xz -O ai-personas/ai-personas/qt-everywhere-src-5.11.2.tar.xz
+  - wget https://download.qt.io/archive/qt/5.11/5.11.2/single/qt-everywhere-src-5.11.2.tar.xz -O ai-personas/ai-personas/qt-everywhere-src-5.11.2.tar.xz
+  - wget https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tar.xz
+  - wget https://sourceforge.net/projects/pyqt/files/sip/sip-4.19.13/sip-4.19.13.tar.gz
+  - wget https://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.11.3/PyQt5_gpl-5.11.3.tar.gz
+  - wget https://sourceforge.net/projects/pyqt/files/PyQt3D/PyQt3D-5.11.3/PyQt3D_gpl-5.11.3.tar.gz
+  - wget https://sourceforge.net/projects/pyqt/files/PyQtChart/PyQtChart-5.11.3/PyQtChart_gpl-5.11.3.tar.gz
+  - wget https://sourceforge.net/projects/pyqt/files/PyQtDataVisualization/PyQtDataVisualization-5.11.3/PyQtDataVisualization_gpl-5.11.3.tar.gz
+  - wget https://sourceforge.net/projects/pyqt/files/QScintilla2/QScintilla-2.10.8/QScintilla_gpl-2.10.8.tar.gz
 
 script:
   - ls
