@@ -9,6 +9,7 @@ os:
   - linux
   
 before_script:
+  - sudo apt-get install libssl-dev
   - pip3 install pyqt5
   - pip3 install pyqtdeploy 
   - wget https://download.qt.io/archive/qt/5.11/5.11.2/single/qt-everywhere-src-5.11.2.tar.xz
