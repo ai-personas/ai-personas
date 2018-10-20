@@ -1,11 +1,12 @@
 import sys
 
-from PyQt5 import QtWidgets, QtGui
+from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QMainWindow, QLabel, QComboBox
-from PyQt5.QtWidgets import QPushButton
+from PyQt5.QtWidgets import QMainWindow
 
 from kerasPhysical_test import kerasSoftPhysical
+from layoutWidget import LayoutWidget
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -17,42 +18,8 @@ class MainWindow(QMainWindow):
         self.setPalette(self.p)
         self.setWindowTitle("AI Persona")
 
-        education = QLabel("Education", self)
-        educationFont = QtGui.QFont("Aerial", 12, QtGui.QFont.Bold)
-        education.setFont(educationFont)
-        education.resize(200, 34)
-        education.move(50, 20)
-
-        instituteLbl = QLabel("Institution", self)
-        institute = QComboBox(self)
-        institute.resize(200, 50)
-        instituteLbl.resize(200, 50)
-        instituteLbl.move(50, 70)
-        institute.move(200, 70)
-        institute.addItem("School")
-        institute.addItem("College")
-
-        gradeLbl = QLabel("Grade", self)
-        grade = QComboBox(self)
-        grade.addItem("1")
-        grade.addItem("2")
-        grade.resize(200, 50)
-        gradeLbl.move(50, 140)
-        grade.move(150, 140)
-
-        courseLbl = QLabel("Course", self)
-        course = QComboBox(self)
-        course.addItem("MNIST Image classification")
-        course.addItem("MNIST2 Image classification")
-        course.resize(400, 50)
-        courseLbl.move(50, 200)
-        course.move(150, 200)
-
-        startClass = QPushButton('Enroll into school', self)
-        startClass.clicked.connect(self.clickMethod)
-        startClass.resize(300, 64)
-        startClass.move(50, 300)
-
+        w = LayoutWidget()
+        self.setCentralWidget(w)
         self.showMaximized()
 
     def clickMethod(self):
