@@ -7,9 +7,11 @@ class SchoolWidget(QWidget):
 
     def __init__(self):
         super().__init__()
+        self.schoolJson = {}
         self.initUI()
 
     def initUI(self):
+
         self.setAutoFillBackground(True)
         self.p = self.palette()
         self.p.setColor(self.backgroundRole(), Qt.gray)
@@ -31,6 +33,7 @@ class SchoolWidget(QWidget):
         institute = QComboBox(self)
         institute.addItem("School")
         institute.addItem("College")
+        institute.currentTextChanged.connect(self.on_institute_change)
         instituteBox.addWidget(institute)
 
         gradeBox = QHBoxLayout()
@@ -39,6 +42,7 @@ class SchoolWidget(QWidget):
         grade = QComboBox(self)
         grade.addItem("1")
         grade.addItem("2")
+        grade.currentTextChanged.connect(self.on_institute_change)
         gradeBox.addWidget(grade)
 
         courseBox = QHBoxLayout()
@@ -47,6 +51,7 @@ class SchoolWidget(QWidget):
         course = QComboBox(self)
         course.addItem("MNIST Image classification")
         course.addItem("MNIST2 Image classification")
+        course.currentTextChanged.connect(self.on_institute_change)
         courseBox.addWidget(course)
 
         enrollBox = QHBoxLayout()
@@ -60,3 +65,14 @@ class SchoolWidget(QWidget):
         widgetLayout.addLayout(courseBox)
         widgetLayout.addLayout(enrollBox)
 
+    def get_school(self):
+        return self.schoolJson
+
+    def on_institute_change(self, value):
+        self.dnaJson['institute'] = value
+
+    def on_grade_change(self, value):
+        self.dnaJson['grade'] = value
+
+    def on_course_change(self, value):
+        self.dnaJson['course'] = value

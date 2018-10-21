@@ -8,11 +8,10 @@ class DnaWidget(QWidget):
 
     def __init__(self):
         super().__init__()
+        self.dnaJson = {}
         self.initUI()
 
     def initUI(self):
-
-        self.dnaJson = {}
 
         self.setAutoFillBackground(True)
         self.p = self.palette()
@@ -77,7 +76,6 @@ class DnaWidget(QWidget):
             self.dnaJson['layers'].append(value)
         else:
             self.dnaJson['layers'] = [value]
-        print(self.dnaJson)
 
     def on_input_size_change(self, value):
         self.dnaJson['inputSize'] = value

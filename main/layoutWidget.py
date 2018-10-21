@@ -19,7 +19,7 @@ class LayoutWidget(QWidget):
         dna = DnaWidget()
         dna.resize(dna.sizeHint())
 
-        createPersona = CreatePersonaWidget()
+        createPersona = CreatePersonaWidget(dna.get_dna(), school.get_school())
         createPersona.resize(dna.sizeHint())
 
         vbox = QVBoxLayout(self)

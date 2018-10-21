@@ -2,19 +2,25 @@ syntax = "proto3";
 package persona;
 
 message Persona {
-	repeated string dna = 2;
-	string physical = 3;
-	string physicalType = 4;
+    string name = 1;
+	string dna = 2;
+	string softPhysical = 3;
+    string hardPhysical = 4;
 	Age age = 5;
-    bytes personaModel = 6;
+    Brain brain = 6;
 
-	message Age {
+    message Age {
         //entity controlled like school or owner
 		uint64 old = 1;
         //auto increment this for any learning cycle
 		uint64 knowledgeCycle = 2;
         //json string to represent environments
-		repeated string environments = 3;
-	}
+		string environments = 3;
+    }
+
+    message Brain {
+        string modelJson = 1;
+        string modelUrl = 2;
+    }
 
 }
