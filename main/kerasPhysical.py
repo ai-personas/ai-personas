@@ -18,7 +18,6 @@ class KerasSoftPhysical():
 
         model = Sequential()
         dna = json.loads(self.personaDef.dna)
-        print(dna)
         layer = dna['layers']
 
         for li in range(len(layer)):
@@ -36,6 +35,9 @@ class KerasSoftPhysical():
                       optimizer=RMSprop(),
                       metrics=['accuracy'])
         return model
+
+    # def personaTeaching(self):
+
 
     def persona(self, environment):
         self.model = self.create_persona()

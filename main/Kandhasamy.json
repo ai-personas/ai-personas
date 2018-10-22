@@ -15,8 +15,7 @@
               "pass_score" : 60,
               "skip_course_test" : false,
               "skip_attempts" : 0
-            },
-            "data_provider": "keras.mnist"
+            }
           }
         ],
         "test" : [

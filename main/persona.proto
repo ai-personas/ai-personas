@@ -9,6 +9,7 @@ message Persona {
 	Age age = 5;
     Brain brain = 6;
 
+    // history of environment????
     message Age {
         //entity controlled like school or owner
 		uint64 old = 1;
@@ -19,8 +20,7 @@ message Persona {
     }
 
     message Brain {
-        string modelJson = 1;
-        string modelUrl = 2;
+        string modelUrl = 1;
     }
 
 }

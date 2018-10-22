@@ -43,6 +43,7 @@ class CreatePersonaWidget(QWidget):
 
     def createPersona(self):
         self.persona.dna = json.dumps(self.dnaJson)
+        print("$$$$$$$$$$$$$", self.persona.dna)
         self.persona.softPhysical = "keras"
         self.persona.age.old = 0
         self.persona.age.knowledgeCycle = 0
@@ -50,10 +51,9 @@ class CreatePersonaWidget(QWidget):
         if self.persona.softPhysical == 'keras':
             keras = KerasSoftPhysical(self.persona)
             brain = keras.create_persona()
-            brain.save_weights(self.persona.name + ".h5")
-            self.persona.brain.modelJson = brain.to_json()
-            self.persona.brain.modelUrl = self.persona.name + ".h5"
-            self.store_persona()
+            brain.save(self.brain_storage_location())
+            self.persona.brain.modelUrl = self.brain_storage_location()
+            self.store_persona_proto()
 
     def initializePersona(self):
         self.persona = persona_pb2.Persona()
@@ -61,7 +61,10 @@ class CreatePersonaWidget(QWidget):
     def on_name_change(self, value):
         self.persona.name = value
 
-    def store_persona(self):
-        f = open(self.persona.name + ".proto", "wb")
+    def store_persona_proto(self):
+        f = open("model/" + self.persona.name + ".proto", "wb")
         f.write(self.persona.SerializeToString())
         f.close()
+
+    def brain_storage_location(self):
+        return "model/" + self.persona.name + ".h5"

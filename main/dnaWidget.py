@@ -1,4 +1,4 @@
-
+from PyQt5 import QtGui
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QComboBox, QLayout, QHBoxLayout, QLabel, QPushButton, QLineEdit)
 
@@ -21,6 +21,12 @@ class DnaWidget(QWidget):
         widgetLayout = QVBoxLayout(self)
         widgetLayout.setSizeConstraint(QLayout.SetFixedSize)
         self.setLayout(widgetLayout)
+
+        titleBox = QHBoxLayout()
+        education = QLabel("DNA", self)
+        educationFont = QtGui.QFont("Aerial", 12, QtGui.QFont.Bold)
+        education.setFont(educationFont)
+        titleBox.addWidget(education)
 
         inputSizeBox = QHBoxLayout()
         inputSizeLbl = QLabel("Input size", self)
@@ -62,6 +68,7 @@ class DnaWidget(QWidget):
         optimizer.currentTextChanged.connect(self.on_optimizer_change)
         optimizerBox.addWidget(optimizer)
 
+        widgetLayout.addLayout(titleBox)
         widgetLayout.addLayout(inputSizeBox)
         widgetLayout.addLayout(layerBox)
         widgetLayout.addLayout(addLayerBox)
@@ -87,4 +94,5 @@ class DnaWidget(QWidget):
         self.dnaJson['optimizer'] = value
 
     def get_dna(self):
+        print(self.dnaJson)
         return self.dnaJson

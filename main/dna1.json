@@ -1,0 +1,9 @@
+{
+  "inputSize": "784",
+  "layers": [
+    "Dense"
+  ],
+  "loss": "categorical crossentropy",
+  "optimizer": "RMS Probability",
+  "outputSize": "10"
+}
