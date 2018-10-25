@@ -1,3 +1,49 @@
 {
-  "inputSize": "784"
+  "layers":
+    [
+      {
+        "id" : "1",
+        "type" : "Dense",
+        "activation" : "relu",
+        "size" : "512",
+        "connect_layer" : ["2"]
+      },
+      {
+        "id" : "2",
+        "type" : "Dropout",
+        "dropoutRate" : "0.2",
+        "connect_layer" : ["3"]
+      },
+      {
+        "id" : "3",
+        "type" : "Dense",
+        "activation" : "relu",
+        "size" : "512",
+        "connect_layer" : ["4"]
+      },
+      {
+        "id" : "4",
+        "type" : "Dropout",
+        "dropoutRate" : "0.2",
+        "connect_layer" : ["5"]
+      },
+      {
+        "id" : "5",
+        "type" : "Dense",
+        "activation" : "softmax",
+        "size" : "10",
+        "connect_layer" : []
+      }
+    ]
+  ,
+  "input" : {
+    "size" : "784",
+    "connected_layer" : ["1"]
+  },
+  "output" : {
+    "size" : "10",
+    "connected_layer" : ["5"]
+  },
+  "loss": "categorical crossentropy",
+  "optimizer": "RMS Probability"
 }

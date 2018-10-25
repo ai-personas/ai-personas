@@ -1,8 +1,11 @@
 
 from __future__ import print_function
 
+from collections import namedtuple
+
 import keras
 from keras.datasets import mnist
+from keras.engine.saving import load_model
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
 from keras.optimizers import RMSprop
@@ -12,31 +15,32 @@ class KerasSoftPhysical():
 
     def __init__(self, personaDef):
         self.personaDef = personaDef
+        self.dna = json.loads(personaDef.dna, object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
 
     def create_persona(self):
-        self.num_classes = 10
-
         model = Sequential()
-        dna = json.loads(self.personaDef.dna)
-        layer = dna['layers']
+        output = self.dna.output.size
 
-        for li in range(len(layer)):
-            if layer[li] == 'Dense':
-                model.add(Dense(512, activation='relu', input_shape=(784,)))
-            elif layer[li] == 'Dropout':
-                model.add(Dropout(0.2))
-
-        model.add(Dense(512, activation='relu'))
-        model.add(Dropout(0.2))
-        model.add(Dense(self.num_classes, activation='softmax'))
+        for li in range(len(self.dna.layers)):
+            if self.dna.layers[li].type == 'Dense':
+                if str(li+1) in self.dna.input.connected_layer:
+                    model.add(Dense(int(self.dna.layers[li].size),
+                                    activation=self.dna.layers[li].activation,
+                                    input_shape=(int(self.dna.input.size),)))
+                else:
+                    model.add(Dense(int(self.dna.layers[li].size),
+                                    activation=self.dna.layers[li].activation))
+            elif self.dna.layers[li].type == 'Dropout':
+                model.add(Dropout(float(self.dna.layers[li].dropoutRate)))
 
         model.summary()
-        model.compile(loss='categorical_crossentropy',
-                      optimizer=RMSprop(),
+        model.compile(loss=self.get_loss(),
+                      optimizer=self.get_optimizer(),
                       metrics=['accuracy'])
         return model
 
     # def personaTeaching(self):
+
 
 
     def persona(self, environment):
@@ -80,3 +84,15 @@ class KerasSoftPhysical():
 
     def main(self, environment):
         self.persona(environment)
+
+
+    def get_loss(self):
+        if self.dna.loss == 'categorical crossentropy':
+            return 'categorical_crossentropy'
+
+    def get_optimizer(self):
+        if self.dna.optimizer == 'RMS Probability':
+            return RMSprop()
+
+    def load_brain(self, personaDef):
+        return load_model("model/" + personaDef.name + ".h5")
