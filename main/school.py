@@ -3,7 +3,8 @@ from collections import namedtuple
 
 import keras
 from keras.datasets import mnist
-from kerasPhysical import KerasSoftPhysical
+
+from energy import Energy
 
 
 class School():
@@ -40,21 +41,8 @@ class School():
         y_train = keras.utils.to_categorical(y_train, int(dna.output.size))
         y_test = keras.utils.to_categorical(y_test, int(dna.output.size))
 
-        batch_size = 128
-        epochs = 2
+        energy = Energy()
+        energy.power(persona_def, x_train, y_train, x_test, y_test)
 
-        history = model.fit(x_train, y_train,
-                            batch_size=batch_size,
-                            epochs=epochs,
-                            verbose=1,
-                            validation_data=(x_test, y_test))
-        score = model.evaluate(x_test, y_test, verbose=0)
-        print('Test loss:', score[0])
-        print('Test accuracy:', score[1])
         return
-
-    def power(self, brain, personaDef):
-        if personaDef.softPhysical == 'keras':
-            keras = KerasSoftPhysical()
-
 

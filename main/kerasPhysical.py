@@ -7,7 +7,7 @@ import keras
 from keras.datasets import mnist
 from keras.engine.saving import load_model
 from keras.models import Sequential
-from keras.layers import Dense, Dropout
+from keras.layers import Dense, Dropout, Conv2D, MaxPooling2D, Flatten, K
 from keras.optimizers import RMSprop
 import json
 
@@ -32,6 +32,33 @@ class KerasSoftPhysical():
                                     activation=self.dna.layers[li].activation))
             elif self.dna.layers[li].type == 'Dropout':
                 model.add(Dropout(float(self.dna.layers[li].dropoutRate)))
+            elif self.dna.layers[li].type == 'Conv2D':
+                if str(li+1) in self.dna.input.connected_layer:
+                    model.add(Conv2D(int(self.dna.layers[li].filters),
+                                    kernel_size=(int(self.dna.layers[li].kernal_size[0]),
+                                                 int(self.dna.layers[li].kernal_size[1])
+                                                 ),
+                                    activation=self.dna.layers[li].activation,
+                                    input_shape=(int(self.dna.input.size[0]),
+                                                 int(self.dna.input.size[1])
+                                                 )
+                                     )
+                              )
+                else:
+                    model.add(Conv2D(int(self.dna.layers[li].filters),
+                                    kernel_size=(int(self.dna.layers[li].kernal_size[0]),
+                                                 int(self.dna.layers[li].kernal_size[1])
+                                                 ),
+                                    activation=self.dna.layers[li].activation
+                                     )
+                              )
+            elif self.dna.layers[li].type == 'MaxPooling2D':
+                model.add(MaxPooling2D(pool_size=(
+                    int(self.dna.layers[li].pool_size[0]),
+                    int(self.dna.layers[li].pool_size[1])
+                )))
+            elif self.dna.layers[li].type == 'Flatten':
+                model.add(Flatten())
 
         model.summary()
         model.compile(loss=self.get_loss(),
@@ -43,47 +70,24 @@ class KerasSoftPhysical():
 
 
 
-    def persona(self, environment):
-        self.model = self.create_persona()
-
-        train_img_count = int(environment.school.grades[0].courses[0].image_count)
-        test_img_count = int(environment.school.grades[0].test[0].image_count)
-
-        batch_size = 128
-        epochs = 2
-
-        # the data, split between train and test sets
-        (self.x_train, self.y_train), (self.x_test, self.y_test) = mnist.load_data()
-
-        self.x_train = self.x_train.reshape(train_img_count, 784)
-        self.x_test = self.x_test.reshape(test_img_count, 784)
-        self.x_train = self.x_train.astype('float32')
-        self.x_test = self.x_test.astype('float32')
-        self.x_train /= 255
-        self.x_test /= 255
-        print(self.x_train.shape[0], 'train samples')
-        print(self.x_test.shape[0], 'test samples')
-
-        # convert class vectors to binary class matrices
-        self.y_train = keras.utils.to_categorical(self.y_train, self.num_classes)
-        self.y_test = keras.utils.to_categorical(self.y_test, self.num_classes)
-
-        history = self.model.fit(self.x_train, self.y_train,
-                            batch_size=batch_size,
-                            epochs=epochs,
-                            verbose=1,
-                            validation_data=(self.x_test, self.y_test))
-        score = self.model.evaluate(self.x_test, self.y_test, verbose=0)
-        print('Test loss:', score[0])
-        print('Test accuracy:', score[1])
+        # score = self.model.evaluate(self.x_test, self.y_test, verbose=0)
+        # print('Test loss:', score[0])
+        # print('Test accuracy:', score[1])
 
     def mnist_test(self):
         score = self.model.evaluate(self.x_test, self.y_test, verbose=0)
         print('Test loss:', score[0])
         print('Test accuracy:', score[1])
 
-    def main(self, environment):
-        self.persona(environment)
+    def learn(self, x_train, y_train, x_test, y_test):
+        model = self.load_brain()
+        batch_size = 128
+        epochs = 2
+        history = model.fit(x_train, y_train,
+                            batch_size=batch_size,
+                            epochs=epochs,
+                            verbose=1,
+                            validation_data=(x_test, y_test))
 
 
     def get_loss(self):
@@ -94,5 +98,10 @@ class KerasSoftPhysical():
         if self.dna.optimizer == 'RMS Probability':
             return RMSprop()
 
-    def load_brain(self, personaDef):
-        return load_model("model/" + personaDef.name + ".h5")
+    def load_brain(self):
+        print("****************", self.personaDef.name)
+        return load_model("model/" + self.personaDef.name + ".h5")
+
+    def get_input_shape(self):
+        if K.image_data_format() == 'channels_first':
+            
