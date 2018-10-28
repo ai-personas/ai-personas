@@ -27,12 +27,8 @@ class School():
         if school.grades[0].courses[0].data_provider == 'keras.mnist':
             (x_train, y_train), (x_test, y_test) = mnist.load_data()
 
-        x_train = x_train.reshape(train_img_count, 784)
-        x_test = x_test.reshape(test_img_count, 784)
-        x_train = x_train.astype('float32')
-        x_test = x_test.astype('float32')
-        x_train /= 255
-        x_test /= 255
+        x_train = self.transform(x_train, dna, env)
+        x_test = self.transform(x_test, dna, env)
 
         print(x_train.shape[0], 'train samples')
         print(x_test.shape[0], 'test samples')
@@ -45,4 +41,23 @@ class School():
         energy.power(persona_def, x_train, y_train, x_test, y_test)
 
         return
+
+    def transform(self, data, dna, env):
+        # train_img_count = int(env.school.grades[0].courses[0].image_count)
+        if len(dna.input.size) == 1:
+            data = data.reshape(data.shape[0], int(dna.input.size[0]))
+        elif len(dna.input.size) == 2:
+            data = data.reshape(data.shape[0],
+                                int(dna.input.size[0]),
+                                int(dna.input.size[1])
+                                )
+        elif len(dna.input.size) == 3:
+            data = data.reshape(data.shape[0],
+                                int(dna.input.size[0]),
+                                int(dna.input.size[1]),
+                                int(dna.input.size[2])
+                                )
+        data = data.astype('float32')
+        data /= 255
+        return data
 

@@ -11,7 +11,10 @@
             "unit_test" : {
               "name" : "test1",
               "image_count" : "10000",
-              "score" : [],
+              "test_score" : [{
+                "persona_name" : "",
+                "score" : []
+              }],
               "pass_score" : 60,
               "skip_course_test" : false,
               "skip_attempts" : 0,
@@ -31,7 +34,10 @@
           {
             "name" : "final test",
             "image_count" : "10000",
-            "score": [],
+            "test_score" : [{
+              "persona_name" : "",
+              "score" : []
+            }],
             "pass_score" : 60,
             "skip_grade_test": false,
             "skip_attempts": 0,

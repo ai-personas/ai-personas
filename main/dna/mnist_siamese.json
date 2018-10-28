@@ -3,61 +3,52 @@
     [
       {
         "id" : "1",
-        "type" : "Conv2D",
-        "filters" : "32",
-        "kernal_size" : ["3", "3"],
-        "activation" : "relu",
+        "type" : "Input",
         "connect_layer" : ["2"]
       },
       {
         "id" : "2",
-        "type" : "Conv2D",
-        "filters" : "64",
-        "kernal_size" : ["3", "3"],
-        "activation" : "relu",
-        "connect_layer" : ["3"]
+        "type" : "Flatten"
       },
       {
         "id" : "3",
-        "type" : "MaxPooling2D",
-        "pool_size" : ["2", "2"],
+        "type" : "Dense",
+        "activation" : "relu",
+        "size" : "128",
         "connect_layer" : ["4"]
       },
       {
         "id" : "4",
         "type" : "Dropout",
-        "dropoutRate" : "0.25",
+        "dropoutRate" : "0.1",
         "connect_layer" : ["5"]
       },
       {
         "id" : "5",
-        "type" : "Flatten"
-      },
-      {
-        "id" : "6",
         "type" : "Dense",
         "activation" : "relu",
         "size" : "128",
+        "connect_layer" : ["6"]
+      },
+      {
+        "id" : "6",
+        "type" : "Dropout",
+        "dropoutRate" : "0.1",
         "connect_layer" : ["7"]
       },
       {
         "id" : "7",
-        "type" : "Dropout",
-        "dropoutRate" : "0.5",
-        "connect_layer" : ["8"]
-      },
-      {
-        "id" : "8",
         "type" : "Dense",
-        "activation" : "softmax",
-        "size" : "10",
+        "activation" : "relu",
+        "size" : "128",
         "connect_layer" : []
       }
     ]
   ,
   "input" : {
     "size" : ["28", "28"],
-    "connected_layer" : ["1"]
+    "connected_layer" : ["1"],
+    "channels_present" : false
   },
   "output" : {
     "size" : "10",

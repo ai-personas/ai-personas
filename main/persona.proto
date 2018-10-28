@@ -6,6 +6,7 @@ message Persona {
 	string dna = 2;
 	string softPhysical = 3;
     string hardPhysical = 4;
+
 	Age age = 5;
     Brain brain = 6;
 
@@ -23,4 +24,20 @@ message Persona {
         string modelUrl = 1;
     }
 
+    message Environment {
+        //persona current location
+        string currentlyLocated = 1;
+        //the commitments but not guaranteed, it might change as per calendar or on demand
+        //the future commitments will be changed any time
+        string futureCommitments = 2;
+        //accomplished commitments
+        string pastCommitments = 3;
+    }
+
+    //persona calendar
+    message Calendar {
+        string commitment = 1;
+        string startTime = 2;
+        string endTime = 3;
+    }
 }

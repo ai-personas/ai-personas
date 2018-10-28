@@ -1,15 +1,14 @@
 
 from __future__ import print_function
 
+import json
 from collections import namedtuple
 
-import keras
-from keras.datasets import mnist
 from keras.engine.saving import load_model
-from keras.models import Sequential
 from keras.layers import Dense, Dropout, Conv2D, MaxPooling2D, Flatten, K
-from keras.optimizers import RMSprop
-import json
+from keras.models import Sequential
+from keras.optimizers import RMSprop, Adadelta
+
 
 class KerasSoftPhysical():
 
@@ -26,7 +25,7 @@ class KerasSoftPhysical():
                 if str(li+1) in self.dna.input.connected_layer:
                     model.add(Dense(int(self.dna.layers[li].size),
                                     activation=self.dna.layers[li].activation,
-                                    input_shape=(int(self.dna.input.size),)))
+                                    input_shape=self.get_input_shape()))
                 else:
                     model.add(Dense(int(self.dna.layers[li].size),
                                     activation=self.dna.layers[li].activation))
@@ -39,9 +38,7 @@ class KerasSoftPhysical():
                                                  int(self.dna.layers[li].kernal_size[1])
                                                  ),
                                     activation=self.dna.layers[li].activation,
-                                    input_shape=(int(self.dna.input.size[0]),
-                                                 int(self.dna.input.size[1])
-                                                 )
+                                    input_shape=self.get_input_shape()
                                      )
                               )
                 else:
@@ -80,6 +77,8 @@ class KerasSoftPhysical():
         print('Test accuracy:', score[1])
 
     def learn(self, x_train, y_train, x_test, y_test):
+        if self.dna.input.channels_present:
+            print("---------", x_train.shape)
         model = self.load_brain()
         batch_size = 128
         epochs = 2
@@ -97,11 +96,26 @@ class KerasSoftPhysical():
     def get_optimizer(self):
         if self.dna.optimizer == 'RMS Probability':
             return RMSprop()
+        elif self.dna.optimizer == 'Adadelta':
+            return Adadelta()
+
 
     def load_brain(self):
         print("****************", self.personaDef.name)
         return load_model("model/" + self.personaDef.name + ".h5")
 
     def get_input_shape(self):
-        if K.image_data_format() == 'channels_first':
-            
+        if len(self.dna.input.size) == 1:
+            return (int(self.dna.input.size[0]), )
+        elif self.dna.input.channels_present:
+            if K.image_data_format() == 'channels_first':
+                return (int(self.dna.input.size[0]),
+                        int(self.dna.input.size[1]),
+                        int(self.dna.input.size[2]))
+            else:
+                return (int(self.dna.input.size[1]),
+                        int(self.dna.input.size[2]),
+                        int(self.dna.input.size[0]))
+        elif len(self.dna.input.size) == 2:
+            return (int(self.dna.input.size[0]),
+                    int(self.dna.input.size[1]))

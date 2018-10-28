@@ -37,8 +37,9 @@
     ]
   ,
   "input" : {
-    "size" : "784",
-    "connected_layer" : ["1"]
+    "size" : ["784"],
+    "connected_layer" : ["1"],
+    "channels_present" : false
   },
   "output" : {
     "size" : "10",

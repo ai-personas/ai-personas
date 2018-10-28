@@ -1,35 +1,8 @@
 {
-  "school" : {
-    "name" : "Ramesh Image trainer",
-    "grades" : [
-      {
-        "name" : "1",
-        "courses" : [
-          {
-            "name" : "MNIST Image classification",
-            "image_count" : "60000",
-            "unit_test" : {
-              "name" : "test1",
-              "image_count" : "10000",
-              "score" : [],
-              "pass_score" : 60,
-              "skip_course_test" : false,
-              "skip_attempts" : 0
-            },
-            "data_provider": "keras.mnist"
-          }
-        ],
-        "test" : [
-          {
-            "name" : "final test",
-            "image_count" : "10000",
-            "score": [],
-            "pass_score" : 60,
-            "skip_grade_test": false,
-            "skip_attempts": 0
-          }
-        ]
-      }
-    ]
+  "enrolled" : {
+    "school" : {
+      "name" : "Ramesh Image trainer",
+      "grades" : ""
+    }
   }
 }

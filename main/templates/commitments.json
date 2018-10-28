@@ -1,0 +1,12 @@
+{
+  "enrolled": {
+    "school": [
+      {
+        "id": " ",  //auto generated id
+        "name": "", //school name
+        "startTime": "", //persona start time in school
+        "endTime": "" //persona end time in school
+      }
+    ]
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "layers":
+    [
+      {
+        "id" : "", //integer id, generated
+        "type" : "Conv2D", //layer type
+        "filters" : "", //integer
+        "kernal_size" : ["", ""], //integer values in array
+        "activation" : "", //string, supported activation i.e relu
+        "connect_layer" : [""] //integer, valid layer id
+      },
+      {
+        "id" : "",
+        "type" : "MaxPooling2D", //string, layer type
+        "pool_size" : ["", ""], //integer
+        "connect_layer" : [""] //integer, valid layer id
+      },
+      {
+        "id" : "",
+        "type" : "Dropout", //string, layer type
+        "dropoutRate" : "", //float, values max 1.0
+        "connect_layer" : [""] //integer, valid layer id or empty
+      },
+      {
+        "id" : "",
+        "type" : "Flatten" //string, layer type
+      },
+      {
+        "id" : "",
+        "type" : "Dense",
+        "activation" : "",
+        "size" : "", //integer
+        "connect_layer" : [""] //integer, valid layer id or empty
+      }
+    ]
+  ,
+  "input" : {
+    "size" : ["28", "28"],
+    "connected_layer" : ["1"]
+  },
+  "output" : {
+    "size" : "10",
+    "connected_layer" : ["8"]
+  },
+  "loss": "categorical crossentropy",
+  "optimizer": "Adadelta"
+}

@@ -2,3 +2,4 @@
 .idea/
 venv/
 main/model
+main/.pytest_cache
