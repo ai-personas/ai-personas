@@ -7,10 +7,10 @@ from school import School
 
 
 def test_persona():
-    # persona =  createPersona('test', 'kandhasamy', 'Ramesh_school')
-    # persona_def = get_persona('test')
-    persona =  createPersona('test3', 'mnist_cnn_dna', 'Ramesh_school')
-    persona_def = get_persona('test3')
+    persona =  createPersona('test', 'kandhasamy', 'Ramesh_school')
+    persona_def = get_persona('test')
+    # persona =  createPersona('test3', 'mnist_cnn_dna', 'Ramesh_school')
+    # persona_def = get_persona('test3')
     # persona =  createPersona('test4', 'mnist_siamese', 'Ramesh_school')
     # persona_def = get_persona('test4')
     env = json.loads(persona_def.age.environments, object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))

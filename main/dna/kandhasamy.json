@@ -2,49 +2,51 @@
   "layers":
     [
       {
-        "id" : "1",
+        "id" : "l1",
         "type" : "Dense",
         "activation" : "relu",
         "size" : "512",
-        "connect_layer" : ["2"]
+        "connected_layer" : ["l2"]
       },
       {
-        "id" : "2",
+        "id" : "l2",
         "type" : "Dropout",
         "dropoutRate" : "0.2",
-        "connect_layer" : ["3"]
+        "connected_layer" : ["l3"]
       },
       {
-        "id" : "3",
+        "id" : "l3",
         "type" : "Dense",
         "activation" : "relu",
         "size" : "512",
-        "connect_layer" : ["4"]
+        "connected_layer" : ["l4"]
       },
       {
-        "id" : "4",
+        "id" : "l4",
         "type" : "Dropout",
         "dropoutRate" : "0.2",
-        "connect_layer" : ["5"]
+        "connected_layer" : ["l5"]
       },
       {
-        "id" : "5",
+        "id" : "l5",
         "type" : "Dense",
         "activation" : "softmax",
         "size" : "10",
-        "connect_layer" : []
+        "connected_layer" : []
       }
     ]
   ,
-  "input" : {
+  "input" : [{
+    "id" : "i1",
     "size" : ["784"],
-    "connected_layer" : ["1"],
+    "connected_layer" : ["l1"],
     "channels_present" : false
-  },
-  "output" : {
+  }],
+  "output" : [{
+    "id" : "o1",
     "size" : "10",
-    "connected_layer" : ["5"]
-  },
+    "connected_layer" : ["l5"]
+  }],
   "loss": "categorical crossentropy",
   "optimizer": "RMS Probability"
 }
