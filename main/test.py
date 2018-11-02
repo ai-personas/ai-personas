@@ -28,13 +28,18 @@ epochs = 1
 
 
 def euclidean_distance(vects):
+    print("vect", vects)
     x, y = vects
     sum_square = K.sum(K.square(x - y), axis=1, keepdims=True)
     return K.sqrt(K.maximum(sum_square, K.epsilon()))
 
 
 def eucl_dist_output_shape(shapes):
+    print("shapes", shapes)
     shape1, shape2 = shapes
+    print("shape1", shape1)
+    print("shape2", shape2)
+    print((shape1[0], 1))
     return (shape1[0], 1)
 
 
@@ -42,9 +47,12 @@ def contrastive_loss(y_true, y_pred):
     '''Contrastive loss from Hadsell-et-al.'06
     http://yann.lecun.com/exdb/publis/pdf/hadsell-chopra-lecun-06.pdf
     '''
+    print("y_true:", y_true)
+    print("y_pred:", y_pred)
     margin = 1
     sqaure_pred = K.square(y_pred)
     margin_square = K.square(K.maximum(margin - y_pred, 0))
+    print("loss:", K.mean(y_true * sqaure_pred + (1 - y_true) * margin_square))
     return K.mean(y_true * sqaure_pred + (1 - y_true) * margin_square)
 
 
@@ -103,43 +111,43 @@ input_shape = x_train.shape[1:]
 
 print("----------------", input_shape)
 
-# # create training+test positive and negative pairs
-# digit_indices = [np.where(y_train == i)[0] for i in range(num_classes)]
-# tr_pairs, tr_y = create_pairs(x_train, digit_indices)
-#
-# digit_indices = [np.where(y_test == i)[0] for i in range(num_classes)]
-# te_pairs, te_y = create_pairs(x_test, digit_indices)
-#
-# # network definition
-# base_network = create_base_network(input_shape)
-#
-# input_a = Input(shape=input_shape)
-# input_b = Input(shape=input_shape)
-#
-# # because we re-use the same instance `base_network`,
-# # the weights of the network
-# # will be shared across the two branches
-# processed_a = base_network(input_a)
-# processed_b = base_network(input_b)
-#
-# distance = Lambda(euclidean_distance,
-#                   output_shape=eucl_dist_output_shape)([processed_a, processed_b])
-#
-# model = Model([input_a, input_b], distance)
-#
-# # train
-# rms = RMSprop()
-# model.compile(loss=contrastive_loss, optimizer=rms, metrics=[accuracy])
-# model.fit([tr_pairs[:, 0], tr_pairs[:, 1]], tr_y,
-#           batch_size=128,
-#           epochs=epochs,
-#           validation_data=([te_pairs[:, 0], te_pairs[:, 1]], te_y))
-#
-# # compute final accuracy on training and test sets
-# y_pred = model.predict([tr_pairs[:, 0], tr_pairs[:, 1]])
-# tr_acc = compute_accuracy(tr_y, y_pred)
-# y_pred = model.predict([te_pairs[:, 0], te_pairs[:, 1]])
-# te_acc = compute_accuracy(te_y, y_pred)
-#
-# print('* Accuracy on training set: %0.2f%%' % (100 * tr_acc))
-# print('* Accuracy on test set: %0.2f%%' % (100 * te_acc))
+# create training+test positive and negative pairs
+digit_indices = [np.where(y_train == i)[0] for i in range(num_classes)]
+tr_pairs, tr_y = create_pairs(x_train, digit_indices)
+
+digit_indices = [np.where(y_test == i)[0] for i in range(num_classes)]
+te_pairs, te_y = create_pairs(x_test, digit_indices)
+
+# network definition
+base_network = create_base_network(input_shape)
+
+input_a = Input(shape=input_shape)
+input_b = Input(shape=input_shape)
+
+# because we re-use the same instance `base_network`,
+# the weights of the network
+# will be shared across the two branches
+processed_a = base_network(input_a)
+processed_b = base_network(input_b)
+
+distance = Lambda(euclidean_distance,
+                  output_shape=eucl_dist_output_shape)([processed_a, processed_b])
+
+model = Model([input_a, input_b], distance)
+
+# train
+rms = RMSprop()
+model.compile(loss=contrastive_loss, optimizer=rms, metrics=[accuracy])
+model.fit([tr_pairs[:, 0], tr_pairs[:, 1]], tr_y,
+          batch_size=128,
+          epochs=epochs,
+          validation_data=([te_pairs[:, 0], te_pairs[:, 1]], te_y))
+
+# compute final accuracy on training and test sets
+y_pred = model.predict([tr_pairs[:, 0], tr_pairs[:, 1]])
+tr_acc = compute_accuracy(tr_y, y_pred)
+y_pred = model.predict([te_pairs[:, 0], te_pairs[:, 1]])
+te_acc = compute_accuracy(te_y, y_pred)
+
+print('* Accuracy on training set: %0.2f%%' % (100 * tr_acc))
+print('* Accuracy on test set: %0.2f%%' % (100 * te_acc))

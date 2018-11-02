@@ -33,25 +33,29 @@ class KerasSoftPhysical():
 
         # build rest of the layers
         for li in range(len(self.dna.layers)):
-            if self.dna.layers[li].type == 'Dense':
-                layers[self.dna.layers[li].id] = Dense(int(self.dna.layers[li].size),
-                                                        activation=self.dna.layers[li].activation)
-            elif self.dna.layers[li].type == 'Dropout':
-                layers[self.dna.layers[li].id] = Dropout(float(self.dna.layers[li].dropoutRate))
-            elif self.dna.layers[li].type == 'Conv2D':
-                layers[self.dna.layers[li].id] = Conv2D(int(self.dna.layers[li].filters),
-                                kernel_size=(int(self.dna.layers[li].kernal_size[0]),
-                                             int(self.dna.layers[li].kernal_size[1])
-                                             ),
-                                activation=self.dna.layers[li].activation
-                                 )
-            elif self.dna.layers[li].type == 'MaxPooling2D':
-                layers[self.dna.layers[li].id] = MaxPooling2D(pool_size=(
-                    int(self.dna.layers[li].pool_size[0]),
-                    int(self.dna.layers[li].pool_size[1])
-                ))
-            elif self.dna.layers[li].type == 'Flatten':
-                layers[self.dna.layers[li].id] = Flatten()
+            if self.dna.layers[li].sharedLayer:
+                # todo: sort lower dependent layers and create them first
+                layers[self.dna.layers[li].id] = layers[self.dna.layers[li].sharedLayer]
+            else:
+                if self.dna.layers[li].type == 'Dense':
+                    layers[self.dna.layers[li].id] = Dense(int(self.dna.layers[li].size),
+                                                            activation=self.dna.layers[li].activation)
+                elif self.dna.layers[li].type == 'Dropout':
+                    layers[self.dna.layers[li].id] = Dropout(float(self.dna.layers[li].dropoutRate))
+                elif self.dna.layers[li].type == 'Conv2D':
+                    layers[self.dna.layers[li].id] = Conv2D(int(self.dna.layers[li].filters),
+                                    kernel_size=(int(self.dna.layers[li].kernal_size[0]),
+                                                 int(self.dna.layers[li].kernal_size[1])
+                                                 ),
+                                    activation=self.dna.layers[li].activation
+                                     )
+                elif self.dna.layers[li].type == 'MaxPooling2D':
+                    layers[self.dna.layers[li].id] = MaxPooling2D(pool_size=(
+                        int(self.dna.layers[li].pool_size[0]),
+                        int(self.dna.layers[li].pool_size[1])
+                    ))
+                elif self.dna.layers[li].type == 'Flatten':
+                    layers[self.dna.layers[li].id] = Flatten()
 
         print("***********", layers)
         print("***********", range(len(layers)))
@@ -64,9 +68,13 @@ class KerasSoftPhysical():
             # todo: merge layers if incoming more than 1
             if len(incomingLayers) == 1:
                 layers[id] = layer(layers[incomingLayers[0]])
-        # todo: multiple input possible here?
+
+        # build inputs
         print("last layer:", list(layers.keys())[-1])
-        return Model(layers["i1"], layers[list(layers.keys())[-1]])
+        inputs = []
+        for ip in range(len(self.dna.input)):
+            inputs.append(layers[self.dna.input[ip].id])
+        return Model(inputs, layers[list(layers.keys())[-1]])
 
     def findIncomingLayers(self, layerId):
         incomingLayers = []

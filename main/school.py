@@ -45,6 +45,7 @@ class School():
         return
 
     def transform(self, data, input):
+        # todo: make it generic
         if len(input.size) == 1:
             data = data.reshape(data.shape[0], int(input.size[0]))
         elif len(input.size) == 2:

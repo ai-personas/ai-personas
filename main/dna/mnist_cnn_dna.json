@@ -2,68 +2,71 @@
   "layers":
     [
       {
-        "id" : "1",
+        "id" : "l1",
         "type" : "Conv2D",
         "filters" : "32",
         "kernal_size" : ["3", "3"],
         "activation" : "relu",
-        "connect_layer" : ["2"]
+        "connected_layer" : ["l2"]
       },
       {
-        "id" : "2",
+        "id" : "l2",
         "type" : "Conv2D",
         "filters" : "64",
         "kernal_size" : ["3", "3"],
         "activation" : "relu",
-        "connect_layer" : ["3"]
+        "connected_layer" : ["l3"]
       },
       {
-        "id" : "3",
+        "id" : "l3",
         "type" : "MaxPooling2D",
         "pool_size" : ["2", "2"],
-        "connect_layer" : ["4"]
+        "connected_layer" : ["l4"]
       },
       {
-        "id" : "4",
+        "id" : "l4",
         "type" : "Dropout",
         "dropoutRate" : "0.25",
-        "connect_layer" : ["5"]
+        "connected_layer" : ["l5"]
       },
       {
-        "id" : "5",
-        "type" : "Flatten"
+        "id" : "l5",
+        "type" : "Flatten",
+        "connected_layer" : ["l6"]
       },
       {
-        "id" : "6",
+        "id" : "l6",
         "type" : "Dense",
         "activation" : "relu",
         "size" : "128",
-        "connect_layer" : ["7"]
+        "connected_layer" : ["l7"]
       },
       {
-        "id" : "7",
+        "id" : "l7",
         "type" : "Dropout",
         "dropoutRate" : "0.5",
-        "connect_layer" : ["8"]
+        "connected_layer" : ["l8"]
       },
       {
-        "id" : "8",
+        "id" : "l8",
         "type" : "Dense",
         "activation" : "softmax",
         "size" : "10",
-        "connect_layer" : []
+        "connected_layer" : []
       }
     ]
   ,
-  "input" : {
+  "input" : [{
+    "id" : "i1",
     "size" : ["1", "28", "28"],
-    "connected_layer" : ["1"],
+    "connected_layer" : ["l1"],
     "channels_present" : true
-  },
-  "output" : {
+  }],
+  "output" : [{
+    "id" : "o1",
     "size" : "10",
-    "connected_layer" : ["8"]
-  },
+    "connected_layer" : ["l8"]
+  }],
   "loss": "categorical crossentropy",
   "optimizer": "Adadelta"
 }
