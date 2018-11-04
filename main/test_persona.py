@@ -36,7 +36,7 @@ def createPersona(name, dna, env):
     if persona.softPhysical == 'keras':
         keras = KerasSoftPhysical(persona)
         brain = keras.create_persona()
-        brain.save(get_brain_storage_location(persona))
+        brain.save_weights(get_brain_storage_location(persona))
         persona.brain.modelUrl = get_brain_storage_location(persona)
         store_persona_proto(persona)
 

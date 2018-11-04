@@ -2,14 +2,14 @@
 from __future__ import print_function
 
 import json
+import random
 from collections import namedtuple
 
+import numpy as np
 from keras import Input, Model
-from keras.engine.saving import load_model
 from keras.layers import Dense, Dropout, Conv2D, MaxPooling2D, Flatten, Lambda
 from keras.optimizers import RMSprop, Adadelta
-import numpy as np
-import random
+
 
 class KerasSoftPhysical:
 
@@ -26,6 +26,8 @@ class KerasSoftPhysical:
         return model
 
     def create_network(self):
+        from predefinedLambda import PredefinedLambda
+        from outputShape import OutputShape
         layers = {}
         # build input layer
         # todo: layers should be sorted on lower to higher dependencies
@@ -66,8 +68,8 @@ class KerasSoftPhysical:
                     elif layer.type == 'Flatten':
                         layers[model.id + layer.id] = Flatten()
                     elif layer.type == 'Lambda':
-                        layers[model.id + layer.id] = Lambda(self.euclidean_distance,
-                                                             output_shape=self.eucl_dist_output_shape)
+                        layers[model.id + layer.id] = Lambda(PredefinedLambda.euclidean_distance,
+                                                             output_shape=OutputShape.single_output)
 
         print("***********", layers)
         print("***********", range(len(layers)))
@@ -198,7 +200,8 @@ class KerasSoftPhysical:
 
     def load_brain(self):
         print("****************", self.personaDef.name)
-        return load_model("model/" + self.personaDef.name + ".h5")
+        brain = self.create_persona()
+        return brain.load_weights("model/" + self.personaDef.name + ".h5")
 
 
     def get_input_shape(self, id):
@@ -219,17 +222,6 @@ class KerasSoftPhysical:
         elif len(ip_layer.size) == 2:
             return (int(ip_layer.size[0]),
                     int(ip_layer.size[1]))
-
-
-    def euclidean_distance(self, vects):
-        from keras import backend as K
-        x, y = vects
-        sum_square = K.sum(K.square(x - y), axis=1, keepdims=True)
-        return K.sqrt(K.maximum(sum_square, K.epsilon()))
-
-    def eucl_dist_output_shape(self, shapes):
-        shape1, shape2 = shapes
-        return (shape1[0], 1)
 
     def transform_by_dna(self, transform_type, x, y):
         if transform_type == 'positiveNegativePair':
