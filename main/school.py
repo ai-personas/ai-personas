@@ -29,18 +29,18 @@ class School():
 
         # todo: if multiple input present, how school know which input preferred by persona
         # todo: if course has audio, video, action etc., and persona has multiple input, where is the coordination?
-        x_train_list = []
-        x_test_list = []
-        for ip in range(len(dna.input.layers)):
-            x_train_list.append(self.transform(x_train.copy(), dna.input.layers[ip]))
-            x_test_list.append(self.transform(x_test.copy(), dna.input.layers[ip]))
-            print(x_train_list[ip].shape[0], 'train samples')
-            print(x_test_list[ip].shape[0], 'test samples')
-
-        # convert class vectors to binary class matrices
-        # todo: if multiple represented by persona, which one or many considered by school?
-        y_train = keras.utils.to_categorical(y_train, int(dna.output[0].size))
-        y_test = keras.utils.to_categorical(y_test, int(dna.output[0].size))
+        # x_train_list = []
+        # x_test_list = []
+        # for ip in range(len(dna.input.layers)):
+        #     x_train_list.append(self.transform(x_train.copy(), dna.input.layers[ip]))
+        #     x_test_list.append(self.transform(x_test.copy(), dna.input.layers[ip]))
+        #     print(x_train_list[ip].shape[0], 'train samples')
+        #     print(x_test_list[ip].shape[0], 'test samples')
+        #
+        # # convert class vectors to binary class matrices
+        # # todo: if multiple represented by persona, which one or many considered by school?
+        # y_train = keras.utils.to_categorical(y_train, int(dna.output[0].size))
+        # y_test = keras.utils.to_categorical(y_test, int(dna.output[0].size))
 
         energy = Energy()
         energy.power(persona_def, x_train, y_train, x_test, y_test)

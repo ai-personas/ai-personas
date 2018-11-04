@@ -6,12 +6,12 @@ from collections import namedtuple
 
 from keras import Input, Model
 from keras.engine.saving import load_model
-from keras.layers import Dense, Dropout, Conv2D, MaxPooling2D, Flatten, K, Lambda
+from keras.layers import Dense, Dropout, Conv2D, MaxPooling2D, Flatten, Lambda
 from keras.optimizers import RMSprop, Adadelta
 import numpy as np
 import random
 
-class KerasSoftPhysical():
+class KerasSoftPhysical:
 
     def __init__(self, personaDef):
         self.personaDef = personaDef
@@ -129,29 +129,38 @@ class KerasSoftPhysical():
         # todo: mutliple input, multi output generalization
         (x_train, y_train), (x_test, y_test) = self.multi_platform_input_handling(x_train, y_train, x_test, y_test)
 
-
+        x_train_data = []
+        y_train_data = []
+        x_test_data = []
+        y_test_data = []
         if self.dna.input.preTransform:
+            # todo: generalize this for multi input, output
             (tr_pairs, tr_y) = self.transform_by_dna(self.dna.input.preTransform.type,
                                                     x_train, y_train)
+            x_train_data.append(tr_pairs[:, 0])
+            x_train_data.append(tr_pairs[:, 1])
+            y_train_data.append(tr_y)
             (te_pairs, te_y) = self.transform_by_dna(self.dna.input.preTransform.type,
                                                     x_test, y_test)
+            x_test_data.append(te_pairs[:, 0])
+            x_test_data.append(te_pairs[:, 1])
+            y_test_data.append(te_y)
+        else:
+            x_train_data.append(x_train)
+            x_test_data.append(x_test)
         model = self.load_brain()
-        batch_size = 128
-        epochs = 2
-        history = model.fit([tr_pairs[:, 0], tr_pairs[:, 1]], tr_y,
-                            batch_size=batch_size,
-                            epochs=epochs,
-                            verbose=1,
-                            validation_data=([te_pairs[:, 0], te_pairs[:, 1]], te_y))
-        # history = model.fit(x_train, y_train,
+        # batch_size = 128
+        # epochs = 2
+        # history = model.fit(x_train_data, y_train_data[0],
         #                     batch_size=batch_size,
         #                     epochs=epochs,
         #                     verbose=1,
-        #                     validation_data=(x_test, y_test))
+        #                     validation_data=(x_test_data, y_test_data[0]))
 
     def multi_platform_input_handling(self, x_train, y_train, x_test, y_test):
+        from keras import backend as K
         # todo: multiple input handling
-        if self.dna.input[0].channels_present:
+        if self.dna.input.layers[0].channels_present:
             print("---------", x_train.shape)
             # todo: handle it in generic way.
             if K.image_data_format() == 'channels_first':
@@ -175,10 +184,11 @@ class KerasSoftPhysical():
         return (x_train, y_train), (x_test, y_test)
 
     def get_loss(self):
+        from customLoss import CustomLoss
         if self.dna.loss == 'categorical crossentropy':
             return 'categorical_crossentropy'
         if self.dna.loss == 'Contrastive Loss':
-            return self.contrastive_loss
+            return CustomLoss.contrastive_loss
 
     def get_optimizer(self):
         if self.dna.optimizer == 'RMS Probability':
@@ -192,6 +202,7 @@ class KerasSoftPhysical():
 
 
     def get_input_shape(self, id):
+        from keras import backend as K
         ip_layer = self.dna.input.layers[id]
         if len(ip_layer.size) == 1:
             return (int(ip_layer.size[0]),)
@@ -211,6 +222,7 @@ class KerasSoftPhysical():
 
 
     def euclidean_distance(self, vects):
+        from keras import backend as K
         x, y = vects
         sum_square = K.sum(K.square(x - y), axis=1, keepdims=True)
         return K.sqrt(K.maximum(sum_square, K.epsilon()))
@@ -219,23 +231,14 @@ class KerasSoftPhysical():
         shape1, shape2 = shapes
         return (shape1[0], 1)
 
-    def contrastive_loss(self, y_true, y_pred):
-        '''Contrastive loss from Hadsell-et-al.'06
-        http://yann.lecun.com/exdb/publis/pdf/hadsell-chopra-lecun-06.pdf
-        '''
-        margin = 1
-        sqaure_pred = K.square(y_pred)
-        margin_square = K.square(K.maximum(margin - y_pred, 0))
-        return K.mean(y_true * sqaure_pred + (1 - y_true) * margin_square)
-
-    def transform_by_dna(self, type, x, y):
-        if type == 'positiveNegativePair':
+    def transform_by_dna(self, transform_type, x, y):
+        if transform_type == 'positiveNegativePair':
             return self.createPositiveNegativePair(x, y, 10)
 
     def createPositiveNegativePair(self, x_train, y_train, num_classes):
         # create training+test positive and negative pairs
         digit_indices = [np.where(y_train == i)[0] for i in range(num_classes)]
-        tr_pairs, tr_y = self.create_pairs(x_train, digit_indices)
+        tr_pairs, tr_y = self.create_pairs(x_train, digit_indices, num_classes)
         print("tr_y:", tr_y)
         return (tr_pairs, tr_y)
 
