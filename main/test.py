@@ -63,6 +63,7 @@ def create_pairs(x, digit_indices):
     pairs = []
     labels = []
     n = min([len(digit_indices[d]) for d in range(num_classes)]) - 1
+    print("create pair min:", n)
     for d in range(num_classes):
         for i in range(n):
             z1, z2 = digit_indices[d][i], digit_indices[d][i + 1]
@@ -79,6 +80,7 @@ def create_base_network(input_shape):
     '''Base network to be shared (eq. to feature extraction).
     '''
     input = Input(shape=input_shape)
+    print("input:", input)
     x = Flatten()(input)
     x = Dense(128, activation='relu')(x)
     x = Dropout(0.1)(x)
@@ -114,6 +116,8 @@ print("----------------", input_shape)
 # create training+test positive and negative pairs
 digit_indices = [np.where(y_train == i)[0] for i in range(num_classes)]
 tr_pairs, tr_y = create_pairs(x_train, digit_indices)
+
+print("tr_y:", tr_y)
 
 digit_indices = [np.where(y_test == i)[0] for i in range(num_classes)]
 te_pairs, te_y = create_pairs(x_test, digit_indices)

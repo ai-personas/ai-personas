@@ -1,5 +1,5 @@
 {
-  "model": [
+  "models": [
     {
       "id": "m1",
       "layers": [
@@ -9,7 +9,9 @@
           "connected": [
             {
               "model": "m1",
-              "layers": ["l2"]
+              "layers": [
+                "l2"
+              ]
             }
           ],
           "sharedLayer": {}
@@ -22,7 +24,9 @@
           "connected": [
             {
               "model": "m1",
-              "layers": ["l3"]
+              "layers": [
+                "l3"
+              ]
             }
           ],
           "sharedLayer": {}
@@ -34,7 +38,9 @@
           "connected": [
             {
               "model": "m1",
-              "layers": ["l4"]
+              "layers": [
+                "l4"
+              ]
             }
           ],
           "sharedLayer": {}
@@ -47,7 +53,9 @@
           "connected": [
             {
               "model": "m1",
-              "layers": ["l4"]
+              "layers": [
+                "l5"
+              ]
             }
           ],
           "sharedLayer": {}
@@ -59,7 +67,9 @@
           "connected": [
             {
               "model": "m1",
-              "layers": ["l6"]
+              "layers": [
+                "l6"
+              ]
             }
           ],
           "sharedLayer": {}
@@ -72,7 +82,9 @@
           "connected": [
             {
               "model": "m3",
-              "layers": ["l1"]
+              "layers": [
+                "l1"
+              ]
             }
           ],
           "sharedLayer": {}
@@ -80,19 +92,21 @@
       ]
     },
     {
-      "id" : "m2",
+      "id": "m2",
       "layers": [
         {
           "id": "l1",
           "connected": [
             {
               "model": "m2",
-              "layers": ["l2"]
+              "layers": [
+                "l2"
+              ]
             }
           ],
           "sharedLayer": {
-            "model" : "m1",
-            "layer" : "l1"
+            "model": "m1",
+            "layer": "l1"
           }
         },
         {
@@ -100,12 +114,14 @@
           "connected": [
             {
               "model": "m2",
-              "layers": ["l3"]
+              "layers": [
+                "l3"
+              ]
             }
           ],
           "sharedLayer": {
-            "model" : "m1",
-            "layer" : "l2"
+            "model": "m1",
+            "layer": "l2"
           }
         },
         {
@@ -113,12 +129,14 @@
           "connected": [
             {
               "model": "m2",
-              "layers": ["l4"]
+              "layers": [
+                "l4"
+              ]
             }
           ],
           "sharedLayer": {
-            "model" : "m1",
-            "layer" : "l3"
+            "model": "m1",
+            "layer": "l3"
           }
         },
         {
@@ -126,12 +144,14 @@
           "connected": [
             {
               "model": "m2",
-              "layers": ["l5"]
+              "layers": [
+                "l5"
+              ]
             }
           ],
           "sharedLayer": {
-            "model" : "m1",
-            "layer" : "l4"
+            "model": "m1",
+            "layer": "l4"
           }
         },
         {
@@ -139,12 +159,14 @@
           "connected": [
             {
               "model": "m2",
-              "layers": ["l6"]
+              "layers": [
+                "l6"
+              ]
             }
           ],
           "sharedLayer": {
-            "model" : "m1",
-            "layer" : "l5"
+            "model": "m1",
+            "layer": "l5"
           }
         },
         {
@@ -152,19 +174,21 @@
           "connected": [
             {
               "model": "m3",
-              "layers": ["l1"]
+              "layers": [
+                "l1"
+              ]
             }
           ],
           "sharedLayer": {
-            "model" : "m1",
-            "layer" : "l6"
+            "model": "m1",
+            "layer": "l6"
           }
         }
       ]
     },
     {
-      "id" : "m3",
-      "layers" : [
+      "id": "m3",
+      "layers": [
         {
           "id": "l1",
           "type": "Lambda",
@@ -175,52 +199,64 @@
       ]
     }
   ],
-  "input": [
-    {
-      "id": "i1",
+  "input": {
+    "layers": [
+      {
+        "id": "i1",
+        "size": [
+          "28",
+          "28"
+        ],
+        "connected": [
+          {
+            "model": "m1",
+            "layers": [
+              "l1"
+            ]
+          }
+        ],
+        "channels_present": false,
+        "transform": {}
+      },
+      {
+        "id": "i2",
+        "size": [
+          "28",
+          "28"
+        ],
+        "connected": [
+          {
+            "model": "m2",
+            "layers": [
+              "l1"
+            ]
+          }
+        ],
+        "channels_present": false,
+        "transform": {}
+      }
+    ],
+    "preTransform": {
+      "type": "positiveNegativePair",
       "size": [
         "28",
         "28"
       ],
-      "connected" : [
-        {
-          "model" : "m1",
-          "layers" : [
-            "l1"
-          ]
-        }
-      ],
-      "channels_present": false
-    },
-    {
-      "id": "i2",
-      "size": [
-        "28",
-        "28"
-      ],
-      "connected" : [
-        {
-          "model" : "m2",
-          "layers" : [
-            "l1"
-          ]
-        }
-      ],
-      "channels_present": false
+      "": ""
     }
-  ],
+  },
   "output": [
     {
       "id": "o1",
       "size": "10",
       "connected": [
         {
-          "model" : "m3",
-          "layer" : "l1"
+          "model": "m3",
+          "layer": "l1"
         }
       ]
     }
   ],
-  "loss": "categorical crossentropy",
-  "optimizer": "Adadelta"
+  "loss": "Contrastive Loss",
+  "optimizer": "RMS Probability"
 }

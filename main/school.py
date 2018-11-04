@@ -29,11 +29,13 @@ class School():
 
         # todo: if multiple input present, how school know which input preferred by persona
         # todo: if course has audio, video, action etc., and persona has multiple input, where is the coordination?
-        x_train = self.transform(x_train, dna.input[0])
-        x_test = self.transform(x_test, dna.input[0])
-
-        print(x_train.shape[0], 'train samples')
-        print(x_test.shape[0], 'test samples')
+        x_train_list = []
+        x_test_list = []
+        for ip in range(len(dna.input.layers)):
+            x_train_list.append(self.transform(x_train.copy(), dna.input.layers[ip]))
+            x_test_list.append(self.transform(x_test.copy(), dna.input.layers[ip]))
+            print(x_train_list[ip].shape[0], 'train samples')
+            print(x_test_list[ip].shape[0], 'test samples')
 
         # convert class vectors to binary class matrices
         # todo: if multiple represented by persona, which one or many considered by school?
