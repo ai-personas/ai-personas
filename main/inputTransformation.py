@@ -1,4 +1,3 @@
-
 import random
 
 import numpy as np
@@ -18,7 +17,6 @@ class InputTransformation:
         tr_pairs, tr_y = InputTransformation.create_pairs(x_train, digit_indices, num_classes)
         print("tr_y:", tr_y)
         return (tr_pairs, tr_y)
-
 
     @staticmethod
     def create_pairs(x, digit_indices, num_classes):
@@ -40,4 +38,47 @@ class InputTransformation:
                 labels += [1, 0]
         return np.array(pairs), np.array(labels)
 
+    @staticmethod
+    def match_input_size(x, channels, transform):
+        x_transformed = []
+        # todo: make it generic for all input channels
+        for c in range(len(channels)):
+            # todo: make it generic
+            channel = channels[c]
+            if len(channel.size) == 1:
+                x = x.reshape(x.shape[0], int(channel.size[0]))
+            elif len(channel.size) == 2:
+                x = x.reshape(x.shape[0],
+                              int(channel.size[0]),
+                              int(channel.size[1])
+                              )
+            elif len(channel.size) == 3:
+                x = x.reshape(x.shape[0],
+                              int(channel.size[0]),
+                              int(channel.size[1]),
+                              int(channel.size[2])
+                              )
+            x = x.astype('float32')
+            x /= 255
+            x = InputTransformation.image_channel_transormation(x, transform.channels_present)
+            x_transformed.append(x)
+        return x_transformed
 
+    @staticmethod
+    def image_channel_transormation(x, channels_present):
+        from keras import backend as K
+        # todo: multiple input handling
+        if channels_present:
+            print("---------", x.shape)
+            # todo: handle it in generic way.
+            if K.image_data_format() == 'channels_first':
+                x = x.reshape(x.shape[0],
+                              x.shape[1],
+                              x.shape[2],
+                              x.shape[3])
+            else:
+                x = x.reshape(x.shape[0],
+                              x.shape[2],
+                              x.shape[3],
+                              x.shape[1])
+        return x

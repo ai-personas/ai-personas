@@ -142,11 +142,13 @@
             ]
           }
         ],
-        "channels_present": true,
         "transform": {}
       }
     ],
-    "preTransform": {}
+    "preTransform": {
+      "type": "match input size",
+      "channels_present": true
+    }
   },
   "output": {
     "channels": [

@@ -19,13 +19,9 @@ class School():
         train_img_count = int(school.grades[0].courses[0].image_count)
         test_img_count = int(school.grades[0].test[0].image_count)
 
-        x_train = []
-        y_train = []
-        x_test = []
-        y_test = []
-
         if school.grades[0].courses[0].data_provider == 'keras.mnist':
             (x_train, y_train), (x_test, y_test) = mnist.load_data()
+
 
         # todo: if multiple input present, how school know which input preferred by persona
         # todo: if course has audio, video, action etc., and persona has multiple input, where is the coordination?
