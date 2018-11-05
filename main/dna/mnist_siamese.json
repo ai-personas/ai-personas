@@ -200,7 +200,7 @@
     }
   ],
   "input": {
-    "layers": [
+    "channels": [
       {
         "id": "i1",
         "size": [
@@ -244,18 +244,21 @@
       ]
     }
   },
-  "output": [
-    {
-      "id": "o1",
-      "size": "10",
-      "connected": [
-        {
-          "model": "m3",
-          "layer": "l1"
-        }
-      ]
-    }
-  ],
+  "output": {
+    "channels": [
+      {
+        "id": "o1",
+        "size": "10",
+        "connected": [
+          {
+            "model": "m3",
+            "layer": "l1"
+          }
+        ]
+      }
+    ],
+    "postTransform" : {}
+  },
   "loss": "Contrastive Loss",
   "optimizer": "RMS Probability"
 }

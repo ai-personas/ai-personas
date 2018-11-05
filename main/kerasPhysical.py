@@ -9,7 +9,8 @@ import numpy as np
 from keras import Input, Model
 from keras.layers import Dense, Dropout, Conv2D, MaxPooling2D, Flatten, Lambda
 from keras.optimizers import RMSprop, Adadelta
-
+from inputTransformation import InputTransformation as ipT
+from outputTransformation import OutputTransformation as opT
 
 class KerasSoftPhysical:
 
@@ -31,8 +32,8 @@ class KerasSoftPhysical:
         layers = {}
         # build input layer
         # todo: layers should be sorted on lower to higher dependencies
-        for ip in range(len(self.dna.input)):
-            input_id = self.dna.input.layers[ip].id
+        for ip in range(len(self.dna.input.channels)):
+            input_id = self.dna.input.channels[ip].id
             print("inputId:", input_id)
             layers[input_id] = Input(shape=self.get_input_shape(ip))
             print("input:", layers[input_id])
@@ -95,14 +96,14 @@ class KerasSoftPhysical:
         print("last layer:", list(layers.keys())[-1])
         final_layer = layers[list(layers.keys())[-1]]
         inputs = []
-        for ip in range(len(self.dna.input.layers)):
-            inputs.append(layers[self.dna.input.layers[ip].id])
+        for ip in range(len(self.dna.input.channels)):
+            inputs.append(layers[self.dna.input.channels[ip].id])
         return Model(inputs, final_layer)
 
     def findIncomingLayers(self, layerId):
         incomingLayers = []
-        for ip in range(len(self.dna.input.layers)):
-            ip_layer = self.dna.input.layers[ip]
+        for ip in range(len(self.dna.input.channels)):
+            ip_layer = self.dna.input.channels[ip]
             for cl in range(len(ip_layer.connected)):
                 connected = ip_layer.connected[cl]
                 for li in range(len(connected.layers)):
@@ -137,32 +138,41 @@ class KerasSoftPhysical:
         y_test_data = []
         if self.dna.input.preTransform:
             # todo: generalize this for multi input, output
-            (tr_pairs, tr_y) = self.transform_by_dna(self.dna.input.preTransform.type,
-                                                    x_train, y_train)
+            (tr_pairs, tr_y) = ipT.input_transform_by_dna(self.dna.input.preTransform.type,
+                                                           x_train, y_train)
             x_train_data.append(tr_pairs[:, 0])
             x_train_data.append(tr_pairs[:, 1])
+            # todo: apart from pair creation, if input transformed, the output transformation not expected
+            # todo: output transformation taken out separately
             y_train_data.append(tr_y)
-            (te_pairs, te_y) = self.transform_by_dna(self.dna.input.preTransform.type,
-                                                    x_test, y_test)
+            (te_pairs, te_y) = ipT.input_transform_by_dna(self.dna.input.preTransform.type,
+                                                           x_test, y_test)
             x_test_data.append(te_pairs[:, 0])
             x_test_data.append(te_pairs[:, 1])
             y_test_data.append(te_y)
         else:
             x_train_data.append(x_train)
             x_test_data.append(x_test)
+
+        if self.dna.output.postTransform:
+            tr_y = opT.output_transform_by_dna(y_train, self.dna)
+            y_train_data.append(tr_y)
+            te_y = opT.output_transform_by_dna(y_test, self.dna)
+            y_train_data.append(te_y)
+
         model = self.load_brain()
-        # batch_size = 128
-        # epochs = 2
-        # history = model.fit(x_train_data, y_train_data[0],
-        #                     batch_size=batch_size,
-        #                     epochs=epochs,
-        #                     verbose=1,
-        #                     validation_data=(x_test_data, y_test_data[0]))
+        batch_size = 128
+        epochs = 2
+        history = model.fit(x_train_data, y_train_data,
+                            batch_size=batch_size,
+                            epochs=epochs,
+                            verbose=1,
+                            validation_data=(x_test_data, y_test_data))
 
     def multi_platform_input_handling(self, x_train, y_train, x_test, y_test):
         from keras import backend as K
         # todo: multiple input handling
-        if self.dna.input.layers[0].channels_present:
+        if self.dna.input.channels[0].channels_present:
             print("---------", x_train.shape)
             # todo: handle it in generic way.
             if K.image_data_format() == 'channels_first':
@@ -201,12 +211,13 @@ class KerasSoftPhysical:
     def load_brain(self):
         print("****************", self.personaDef.name)
         brain = self.create_persona()
-        return brain.load_weights("model/" + self.personaDef.name + ".h5")
+        brain.load_weights("model/" + self.personaDef.name + ".h5")
+        return brain
 
 
     def get_input_shape(self, id):
         from keras import backend as K
-        ip_layer = self.dna.input.layers[id]
+        ip_layer = self.dna.input.channels[id]
         if len(ip_layer.size) == 1:
             return (int(ip_layer.size[0]),)
         # todo: assumed here 3d, make it generic
@@ -223,37 +234,42 @@ class KerasSoftPhysical:
             return (int(ip_layer.size[0]),
                     int(ip_layer.size[1]))
 
-    def transform_by_dna(self, transform_type, x, y):
-        if transform_type == 'positiveNegativePair':
-            return self.createPositiveNegativePair(x, y, 10)
-
-    def createPositiveNegativePair(self, x_train, y_train, num_classes):
-        # create training+test positive and negative pairs
-        digit_indices = [np.where(y_train == i)[0] for i in range(num_classes)]
-        tr_pairs, tr_y = self.create_pairs(x_train, digit_indices, num_classes)
-        print("tr_y:", tr_y)
-        return (tr_pairs, tr_y)
-
-        # digit_indices = [np.where(y_test == i)[0] for i in range(num_classes)]
-        # te_pairs, te_y = self.create_pairs(x_test, digit_indices)
-
-
-    def create_pairs(self, x, digit_indices, num_classes):
-        '''Positive and negative pair creation.
-        Alternates between positive and negative pairs.
-        '''
-        pairs = []
-        labels = []
-        n = min([len(digit_indices[d]) for d in range(num_classes)]) - 1
-        print("create pair min:", n)
-        for d in range(num_classes):
-            for i in range(n):
-                z1, z2 = digit_indices[d][i], digit_indices[d][i + 1]
-                pairs += [[x[z1], x[z2]]]
-                inc = random.randrange(1, num_classes)
-                dn = (d + inc) % num_classes
-                z1, z2 = digit_indices[d][i], digit_indices[dn][i]
-                pairs += [[x[z1], x[z2]]]
-                labels += [1, 0]
-        return np.array(pairs), np.array(labels)
+    # def input_transform_by_dna(self, transform_type, x, y):
+    #     if transform_type == 'positiveNegativePair':
+    #         return self.createPositiveNegativePair(x, y, 10)
+    #
+    # def output_transform_by_dna(self, transform_type, y):
+    #     if transform_type == 'categorical to integer':
+    #         return self.createPositiveNegativePair(x, y, 10)
+    #
+    # def createPositiveNegativePair(self, x_train, y_train, num_classes):
+    #     # create training+test positive and negative pairs
+    #     digit_indices = [np.where(y_train == i)[0] for i in range(num_classes)]
+    #     tr_pairs, tr_y = self.create_pairs(x_train, digit_indices, num_classes)
+    #     print("tr_y:", tr_y)
+    #     return (tr_pairs, tr_y)
+    #
+    #     # digit_indices = [np.where(y_test == i)[0] for i in range(num_classes)]
+    #     # te_pairs, te_y = self.create_pairs(x_test, digit_indices)
+    #
+    #
+    # def create_pairs(self, x, digit_indices, num_classes):
+    #     '''Positive and negative pair creation.
+    #     Alternates between positive and negative pairs.
+    #     '''
+    #     pairs = []
+    #     labels = []
+    #     n = min([len(digit_indices[d]) for d in range(num_classes)]) - 1
+    #     print("create pair min:", n)
+    #     for d in range(num_classes):
+    #         for i in range(n):
+    #             z1, z2 = digit_indices[d][i], digit_indices[d][i + 1]
+    #             pairs += [[x[z1], x[z2]]]
+    #             inc = random.randrange(1, num_classes)
+    #             dn = (d + inc) % num_classes
+    #             z1, z2 = digit_indices[d][i], digit_indices[dn][i]
+    #             pairs += [[x[z1], x[z2]]]
+    #             labels += [1, 0]
+    #     return np.array(pairs), np.array(labels)
+    #
 

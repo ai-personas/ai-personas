@@ -36,9 +36,9 @@ class School():
         #     x_test_list.append(self.transform(x_test.copy(), dna.input.layers[ip]))
         #     print(x_train_list[ip].shape[0], 'train samples')
         #     print(x_test_list[ip].shape[0], 'test samples')
-        #
-        # # convert class vectors to binary class matrices
-        # # todo: if multiple represented by persona, which one or many considered by school?
+
+        # convert class vectors to binary class matrices
+        # todo: if multiple represented by persona, which one or many considered by school?
         # y_train = keras.utils.to_categorical(y_train, int(dna.output[0].size))
         # y_test = keras.utils.to_categorical(y_test, int(dna.output[0].size))
 
