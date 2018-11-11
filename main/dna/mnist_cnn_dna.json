@@ -169,5 +169,6 @@
     }
   },
   "loss": "categorical crossentropy",
-  "optimizer": "Adadelta"
+  "optimizer": "Adadelta",
+  "age_maturity_cycle": "10"
 }

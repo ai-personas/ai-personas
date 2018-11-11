@@ -26,12 +26,12 @@ message Persona {
 
     message Environment {
         //persona current location
-        string currentlyLocated = 1;
+        string currentEnvironment = 1;
         //the commitments but not guaranteed, it might change as per calendar or on demand
         //the future commitments will be changed any time
-        string futureCommitments = 2;
+        string futureEnvironment = 2;
         //accomplished commitments
-        string pastCommitments = 3;
+        string pastEnvironment= 3;
     }
 
     //persona calendar

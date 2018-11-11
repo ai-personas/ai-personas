@@ -1,0 +1,14 @@
+{
+  "personas" : [
+    {
+      "name" : "test4",
+      "tags" : ["image"],
+      "ipfs" : [
+        {
+          "age": "0",
+          "hash" : ""
+        }
+      ]
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+import ipfsapi
 import json
 from collections import namedtuple
 
@@ -5,20 +6,25 @@ import persona_pb2
 from kerasPhysical import KerasSoftPhysical
 from school import School
 
+LOCAL_PERSONA_FOLDER = "model/"
 
 def test_persona():
     # persona =  createPersona('test', 'kandhasamy', 'Ramesh_school')
     # persona_def = get_persona('test')
     # persona =  createPersona('test3', 'mnist_cnn_dna', 'Ramesh_school')
     # persona_def = get_persona('test3')
-    persona =  createPersona('test4', 'mnist_siamese', 'Ramesh_school')
-    persona_def = get_persona('test4')
-    env = json.loads(persona_def.age.environments, object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
-    if env.school:
-        School().schedule(persona_def)
 
-def get_persona(name):
-    f = open("model/" + name + ".proto", "rb")
+    persona_name = 'test4'
+    persona =  createPersona(persona_name, 'mnist_siamese', 'Ramesh_school')
+    add_new_age(persona_name)
+
+    # persona_def = get_persona(persona_name)
+    # env = json.loads(persona_def.age.environments, object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
+    # if env.school:
+    #     School().schedule(persona_def)
+
+def get_persona_meta(name):
+    f = open(LOCAL_PERSONA_FOLDER + name + ".proto", "rb")
     persona = persona_pb2.Persona()
     persona.ParseFromString(f.read())
     f.close()
@@ -40,11 +46,57 @@ def createPersona(name, dna, env):
         persona.brain.modelUrl = get_brain_storage_location(persona)
         store_persona_proto(persona)
 
+
 def store_persona_proto(persona):
-    f = open("model/" + persona.name + ".proto", "wb")
+    f = open(LOCAL_PERSONA_FOLDER + persona.name + ".proto", "wb")
     f.write(persona.SerializeToString())
     f.close()
 
-def get_brain_storage_location(persona):
-    return "model/" + persona.name + ".h5"
 
+def get_brain_storage_location(persona):
+    return LOCAL_PERSONA_FOLDER + persona.name + ".h5"
+
+
+def get_persona_meta(persona_name):
+    personas_str = json.dumps(json.load(open("personas/personas.json")))
+    personas_obj = json.loads(personas_str)
+    personas = personas_obj['personas']
+    for p in range(len(personas)):
+        persona_meta = personas[p]
+        if persona_meta['name'] == persona_name:
+            return persona_meta
+
+
+def add_persona(persona_meta, ipfs_hash, age):
+    if not is_persona_age_exist(persona_meta, age):
+        newAge = {}
+        newAge['hash'] = ipfs_hash
+        newAge['age'] = age
+        persona_meta['ipfs'].append(newAge)
+    return persona_meta
+
+
+def is_persona_age_exist(persona_meta, age):
+    for a in range(len(persona_meta['ipfs'])):
+        age_hash = persona_meta['ipfs'][a]
+        if age_hash['age'] == age:
+            return True
+    return False
+
+
+def get_age_increment(persona_meta):
+    max_age = 0
+    for a in range(len(persona_meta['ipfs'])):
+        age_hash = persona_meta['ipfs'][a]
+        if int(age_hash['age']) > max_age:
+            max_age = max_age + 1
+    return max_age + 1
+
+
+def add_new_age(persona_name):
+    ipfs_api = ipfsapi.connect('127.0.0.1', 5001)
+    ipfs_res = ipfs_api.add(LOCAL_PERSONA_FOLDER + persona_name + ".proto")
+    persona_meta = get_persona_meta(persona_name)
+    new_age = get_age_increment(persona_meta)
+    add_persona(persona_meta, ipfs_res['Hash'], str(new_age))
+    print(ipfs_res)
