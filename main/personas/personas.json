@@ -1,14 +1,1 @@
-{
-  "personas" : [
-    {
-      "name" : "test4",
-      "tags" : ["image"],
-      "ipfs" : [
-        {
-          "age": "0",
-          "hash" : ""
-        }
-      ]
-    }
-  ]
-}
+{"personas": [{"name": "test4", "tags": ["image"], "ipfs": [{"age": "0", "hash": ""}, {"hash": "QmQ3YsjTLKoyJ71sL1umcG17HKQ8HKECL7cjdR52Yxeqna", "age": "1"}, {"hash": "QmQ3YsjTLKoyJ71sL1umcG17HKQ8HKECL7cjdR52Yxeqna", "age": "2"}, {"hash": "QmQ3YsjTLKoyJ71sL1umcG17HKQ8HKECL7cjdR52Yxeqna", "age": "3"}, {"hash": "QmQ3YsjTLKoyJ71sL1umcG17HKQ8HKECL7cjdR52Yxeqna", "age": "4"}, {"hash": "QmQ3YsjTLKoyJ71sL1umcG17HKQ8HKECL7cjdR52Yxeqna", "age": "5"}, {"hash": "QmQ3YsjTLKoyJ71sL1umcG17HKQ8HKECL7cjdR52Yxeqna", "age": "6"}, {"hash": "QmQ3YsjTLKoyJ71sL1umcG17HKQ8HKECL7cjdR52Yxeqna", "age": "7"}, {"hash": "QmQ3YsjTLKoyJ71sL1umcG17HKQ8HKECL7cjdR52Yxeqna", "age": "8"}, {"hash": "QmQ3YsjTLKoyJ71sL1umcG17HKQ8HKECL7cjdR52Yxeqna", "age": "9"}, {"hash": "QmQ3YsjTLKoyJ71sL1umcG17HKQ8HKECL7cjdR52Yxeqna", "age": "10"}, {"hash": "QmQ3YsjTLKoyJ71sL1umcG17HKQ8HKECL7cjdR52Yxeqna", "age": "11"}, {"hash": "QmQ3YsjTLKoyJ71sL1umcG17HKQ8HKECL7cjdR52Yxeqna", "age": "12"}, {"hash": "QmQ3YsjTLKoyJ71sL1umcG17HKQ8HKECL7cjdR52Yxeqna", "age": "13"}, {"hash": "QmQ3YsjTLKoyJ71sL1umcG17HKQ8HKECL7cjdR52Yxeqna", "age": "14"}, {"hash": "QmQ3YsjTLKoyJ71sL1umcG17HKQ8HKECL7cjdR52Yxeqna", "age": "15"}, {"hash": "QmQ3YsjTLKoyJ71sL1umcG17HKQ8HKECL7cjdR52Yxeqna", "age": "16"}, {"hash": "QmQ3YsjTLKoyJ71sL1umcG17HKQ8HKECL7cjdR52Yxeqna", "age": "17"}, {"hash": "QmQ3YsjTLKoyJ71sL1umcG17HKQ8HKECL7cjdR52Yxeqna", "age": "18"}, {"hash": "QmQ3YsjTLKoyJ71sL1umcG17HKQ8HKECL7cjdR52Yxeqna", "age": "19"}, {"hash": "QmQ3YsjTLKoyJ71sL1umcG17HKQ8HKECL7cjdR52Yxeqna", "age": "20"}, {"hash": "QmQ3YsjTLKoyJ71sL1umcG17HKQ8HKECL7cjdR52Yxeqna", "age": "21"}]}]}

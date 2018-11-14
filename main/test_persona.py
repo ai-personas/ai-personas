@@ -4,9 +4,10 @@ from collections import namedtuple
 
 import persona_pb2
 from kerasPhysical import KerasSoftPhysical
-from school import School
+# from school import School
 
 LOCAL_PERSONA_FOLDER = "model/"
+PERSONAS_PATH = "personas/personas.json"
 
 def test_persona():
     # persona =  createPersona('test', 'kandhasamy', 'Ramesh_school')
@@ -15,6 +16,7 @@ def test_persona():
     # persona_def = get_persona('test3')
 
     persona_name = 'test4'
+    persona_age = '0'
     persona =  createPersona(persona_name, 'mnist_siamese', 'Ramesh_school')
     add_new_age(persona_name)
 
@@ -23,7 +25,7 @@ def test_persona():
     # if env.school:
     #     School().schedule(persona_def)
 
-def get_persona_meta(name):
+def get_persona_proto(name):
     f = open(LOCAL_PERSONA_FOLDER + name + ".proto", "rb")
     persona = persona_pb2.Persona()
     persona.ParseFromString(f.read())
@@ -57,10 +59,7 @@ def get_brain_storage_location(persona):
     return LOCAL_PERSONA_FOLDER + persona.name + ".h5"
 
 
-def get_persona_meta(persona_name):
-    personas_str = json.dumps(json.load(open("personas/personas.json")))
-    personas_obj = json.loads(personas_str)
-    personas = personas_obj['personas']
+def get_persona_meta(personas, persona_name):
     for p in range(len(personas)):
         persona_meta = personas[p]
         if persona_meta['name'] == persona_name:
@@ -94,9 +93,20 @@ def get_age_increment(persona_meta):
 
 
 def add_new_age(persona_name):
-    ipfs_api = ipfsapi.connect('127.0.0.1', 5001)
-    ipfs_res = ipfs_api.add(LOCAL_PERSONA_FOLDER + persona_name + ".proto")
-    persona_meta = get_persona_meta(persona_name)
+    personas_str = json.dumps(json.load(open(PERSONAS_PATH)))
+    personas_obj = json.loads(personas_str)
+    personas = personas_obj['personas']
+    ipfs_client = ipfsapi.Client('127.0.0.1', 5001)
+    ipfs_res = ipfs_client.add(LOCAL_PERSONA_FOLDER + persona_name + ".proto")
+    persona_meta = get_persona_meta(personas, persona_name)
     new_age = get_age_increment(persona_meta)
     add_persona(persona_meta, ipfs_res['Hash'], str(new_age))
+    with open(PERSONAS_PATH, 'w') as outfile:
+        json.dump(personas_obj, outfile)
     print(ipfs_res)
+    print(ipfs_client.swarm_peers())
+    # ipfs_publish_res = ipfs_client.name_publish(ipfs_res['Hash'])
+    # print(ipfs_publish_res)
+    # ipfs_client.get()
+    # print(ipfs_client.dht_put(ipfs_res['Hash'], 'aiPersonas'))
+
