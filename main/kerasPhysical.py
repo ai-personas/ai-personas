@@ -9,6 +9,7 @@ from keras.optimizers import RMSprop, Adadelta
 
 from inputTransformation import InputTransformation as ipT
 from outputTransformation import OutputTransformation as opT
+from storage import Storage
 
 
 class KerasSoftPhysical:
@@ -203,7 +204,10 @@ class KerasSoftPhysical:
     def load_brain(self):
         print("****************", self.personaDef.name)
         brain = self.create_persona()
-        brain.load_weights("model/" + self.personaDef.name + ".h5")
+        brain_hash = self.personaDef.Brain.modelUrl
+        storage = Storage()
+        storage.load_ipfs_file(brain_hash)
+        brain.load_weights(brain_hash)
         return brain
 
     def get_input_shape(self, id):
