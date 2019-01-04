@@ -9,7 +9,7 @@ from keras.optimizers import RMSprop, Adadelta
 
 from inputTransformation import InputTransformation as ipT
 from outputTransformation import OutputTransformation as opT
-from storage import Storage
+from decentralizedStorage import Storage
 
 
 class KerasSoftPhysical:

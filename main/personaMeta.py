@@ -3,7 +3,8 @@ import time
 
 import persona_pb2
 from kerasPhysical import KerasSoftPhysical
-from storage import Storage
+from decentralizedStorage import Storage
+from privateStorage import PrivateStorage
 
 
 class PersonaMeta:
@@ -12,6 +13,8 @@ class PersonaMeta:
         self.personas_local_path = 'personas/personas.json'
         self.persona_loca_folder = 'model/'
         self.storage = Storage()
+        self.privateStorage = PrivateStorage()
+        self.isPublic = False
         self.personas_network_file = ''
 
     def get_new_age_model(self, hash, age):
@@ -70,8 +73,10 @@ class PersonaMeta:
             persona_meta['ages'].append(new_age_entry)
             with open(self.personas_local_path, 'w') as outfile:
                 json.dump(personas_obj, outfile)
-        res = self.storage.add_ipfs_file(self.personas_local_path)
-        self.storage.update_file(res['Hash'])
+        else:
+            print(json.dump(personas_obj))
+        # res = self.storage.add_ipfs_file(self.personas_local_path)
+        # self.storage.update_file(res['Hash'])
 
     def add_new_age(self, persona_name):
         personas_obj = self.get_personas_obj()
@@ -151,8 +156,11 @@ class PersonaMeta:
 
     def store_brain_and_persona(self, brain, persona):
         brain.save_weights(self.get_brain_storage_location(persona))
-        res = self.storage.add_ipfs_file(self.get_brain_storage_location(persona))
-        persona.brain.modelUrl = res['Hash']
+        if self.isPublic:
+            res = self.storage.add_ipfs_file(self.get_brain_storage_location(persona))
+            persona.brain.modelUrl = res['Hash']
+        else:
+            res = self.privateStorage
         self.store_local_persona_proto(persona)
         res = self.storage.add_ipfs_file(self.get_local_persona_proto_location(persona))
         return res['Hash']
