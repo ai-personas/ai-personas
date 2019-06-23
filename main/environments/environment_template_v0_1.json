@@ -1,0 +1,26 @@
+{
+  "persona": {
+    "name": "",
+    "age": [
+      {
+        "dna" : {
+          "location" : {}
+        },
+        "brain": {
+          "location" : ""
+        },
+        "old": "1",
+        "knowledge_cycle": "0",
+        "environments": [
+          {
+            "type" : "",
+            "name" : ""
+          }
+        ]
+      }
+    ],
+    "status" : "",
+    "description" : ""
+  },
+  "def_version" : "0.1"
+}

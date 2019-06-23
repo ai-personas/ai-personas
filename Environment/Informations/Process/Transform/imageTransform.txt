@@ -1,4 +1,0 @@
-type: image
-height: h
-width: w
-color: Binary|Grey|RGB

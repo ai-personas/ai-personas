@@ -1,1 +1,0 @@
-## personaDefinition.proto
