@@ -1,8 +1,8 @@
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLayout)
 
 from ui.createPersonaWidget import CreatePersonaWidget
-from dnaWidget import DnaWidget
-from enrollPersonaWidget import EnrollPersonaWidget
+from ui.dnaWidget import DnaWidget
+from ui.enrollPersonaWidget import EnrollPersonaWidget
 from schoolWidget import SchoolWidget
 
 

@@ -14,8 +14,9 @@ def generate_environment_random_integers():
         environment = json.load(f)['environment']
     environment['name'] = 'random_integers'
     environment['type'] = 'book'
-    environment['interface'] = storage.store('./tmp/BasicResearch/random_integers.py')
-    environment['data'][0] = {'input': 'input_integers', 'output': 'output_integers'}
+    environment['interface'] = storage.store('environments/books/random_integers/env_random_integers.py')
+    del environment['data'][-1]
+    environment['data'].append({'input': 'input_integers', 'output': 'output_integers'})
     save_environment(environment)
 
 def save_environment(environment):

@@ -1,10 +1,10 @@
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QComboBox, QLayout, QHBoxLayout, QLabel, QPushButton, QLineEdit)
+from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLayout, QHBoxLayout, QLabel, QPushButton, QLineEdit)
 
 import json
 import persona_pb2
-from kerasPhysical import KerasSoftPhysical
+from physical.kerasPhysical import KerasSoftPhysical
 
 class CreatePersonaWidget(QWidget):
 

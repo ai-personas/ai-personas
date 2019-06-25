@@ -2,12 +2,11 @@ import json
 
 from PyQt5 import QtGui
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QApplication, QComboBox, QLayout, QLabel, QPushButton, QHBoxLayout)
+from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QComboBox, QLayout, QLabel, QPushButton, QHBoxLayout)
 from keras.engine.saving import load_model
 
 import persona_pb2
-from energy import Energy
-from school import School
+from environments.school.school import School
 
 
 class EnrollPersonaWidget(QWidget):

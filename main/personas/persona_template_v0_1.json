@@ -4,7 +4,7 @@
     "age": [
       {
         "dna" : {
-          "code" : ""
+          "location" : {}
         },
         "brain": {
           "location" : ""
@@ -14,11 +14,20 @@
         "environments": [
           {
             "type" : "",
-            "name" : ""
+            "name" : "",
+            "intention" : ""
+          }
+        ],
+        "history": [
+          {
+            "environment" : "",
+            "score" : ""
           }
         ]
       }
     ],
-    "def_version" : "0.1"
-  }
+    "status" : "",
+    "description" : ""
+  },
+  "def_version" : "0.1"
 }

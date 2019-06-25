@@ -1,27 +1,21 @@
 import ipfsapi
-
+from  storage.decentralizedStorage import DecentralizedStorage
+from storage.centralizedStorage import PrivateStorage
 
 class Storage:
 
-    def __init__(self):
-        self.host = 'Ramesh'
-        self.port = 5001
-        self.ipfs_client = ipfsapi.Client(self.host, 5001)
+    def store(self, file):
+        location = {}
+        # centralized storage
+        cstorage = PrivateStorage()
+        location['personas.ai'] = cstorage.store(file)
+        # decentralized storage
+        dstorage = DecentralizedStorage()
+        location['ipfs'] = dstorage.store(file)
+        return location
 
-    def load_ipfs_file(self, hash):
-        self.ipfs_client.get(hash)
-
-    def add_ipfs_file(self, file):
-        ipfs_res = self.ipfs_client.add(file)
-        print(ipfs_res)
-        return ipfs_res
-
-    def save_persona(self, persona):
-        return
-
-    def update_file(self, hash):
-        ipfs_res = self.ipfs_client.name_publish(hash)
-        print(ipfs_res)
-        print(self.ipfs_client.resolve(ipfs_res['Name']))
-        print(self.ipfs_client.name_resolve())
-
+    def retrieve(self, location, dir_name, file_name):
+        print('hash', location['ipfs'])
+        # retrieve it from decentralized storage
+        dstorage = DecentralizedStorage()
+        return dstorage.retrieve(location['ipfs'], dir_name, file_name)

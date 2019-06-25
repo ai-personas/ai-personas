@@ -4,7 +4,7 @@ import requests
 class PrivateStorage:
 
     def __init__(self):
-        self.url = "http://localhost:8080"
+        self.url = "http://personas.ai"
 
     def save_new_persona(self, persona_name, persona_meta):
         path = "/save-new-persona"
@@ -19,3 +19,6 @@ class PrivateStorage:
         path = "/save-brain/" + persona_name + "/" + age
         files = {'upload_file': open(fPath, 'rb')}
         return requests.post(self.url + path, files=files)
+
+    def store(self, file):
+        return self.url
