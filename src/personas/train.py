@@ -16,9 +16,8 @@ from personas.persona import Persona
 class Train:
 
     def __init__(self, persona_name):
-        self.persona = Persona()
-        self.persona_details = self.persona.get_persona(persona_name)
-        self.persona_name = persona_name
+        self.persona = Persona(persona_name)
+        self.persona_details = self.persona.get_persona_details()
 
         specification = self.persona_details['specification']
         self.NUM_BATCHES = int(1e5)
@@ -30,15 +29,14 @@ class Train:
         self.GENERATE_LENGTH = 1024
         self.SEQ_LEN = specification['sequence_length']
         self.NUM_TOKENS = specification['num_tokens']
-        attn_layers_spec = specification['attn_layers']
+        attn_layers_spec = specification['attnLayers']
         self.ATTN_DIM = attn_layers_spec['dim']
         self.ATTN_DEPTH = attn_layers_spec['depth']
         self.ATTN_HEADS = attn_layers_spec['heads']
 
-        environment = self.persona_details['environments']
-        envDetails = Environment().retrieveEnvDetails(environment)[0]
-        if envDetails['url'] == 'local':
-            self.DATASET = sys.argv[1:][0]
+        env = Environment(self.persona_details['environments'])
+        envDetails = env.retrieveEnvDetails()
+        self.DATASET = env.getEnvironmentUrlToLocal(envDetails)
 
         self.validation_loss = []
         self.training_loss = []
@@ -106,15 +104,12 @@ class Train:
                         print(f'validation loss: {loss.item()}')
 
             if i % self.STORE_PERSONA_WHILE_TRAINING_EVERY == 0:
-                persona_updates = {
-                    "$set": {
-                        'training': {
-                            'training_loss': self.training_loss,
-                            'validation_loss': self.validation_loss
-                        }
-                    }
-                }
-                self.persona.update_persona(self.persona_details['_id'], persona_updates)
+                self.persona.update_training_loss(self.training_loss, self.validation_loss)
+                torch.save({
+                    'model_state_dict': model.state_dict(),
+                    'optimizer_state_dict': optim.state_dict()
+                }, self.persona.persona_name + '.torch')
+                self.persona.save_model(self.persona.persona_name + '.torch')
 
             if i % self.GENERATE_EVERY == 0:
                 model.eval()

@@ -2,3 +2,5 @@ tqdm
 numpy
 pymongo
 git+https://github.com/lucidrains/x-transformers.git@main#egg=x-transformers
+requests
+tqdm
