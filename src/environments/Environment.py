@@ -6,13 +6,15 @@ from bson import ObjectId
 from pymongo import MongoClient
 from tqdm import tqdm
 
+from constants.PersonaConstants import BASE_URL
+
 
 class Environment:
 
     def __init__(self, env_meta):
         self.mongodb_port = 27017
         self.env_collection = 'environments'
-        self.base_url = 'http://localhost:8090/personas/env/'
+        self.base_url = BASE_URL + '/personas/env/'
         self.env_meta = env_meta
 
     def getEnvironmentUrlToLocal(self, env):

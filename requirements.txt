@@ -4,3 +4,8 @@ pymongo
 git+https://github.com/lucidrains/x-transformers.git@main#egg=x-transformers
 requests
 tqdm
+
+# colab engine related
+selenium==3.141.0
+webdriver-manager==3.4.2
+undetected-chromedriver==3.0.3

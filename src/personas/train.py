@@ -12,6 +12,8 @@ from torch.utils.data import DataLoader, Dataset
 from environments.Environment import Environment
 import sys
 from personas.persona import Persona
+import sys
+import argparse
 
 class Train:
 
@@ -135,3 +137,10 @@ class TextSamplerDataset(Dataset):
     def __len__(self):
         return self.data.size(0) // self.seq_len
 
+if __name__ == '__main__':
+
+    parser = argparse.ArgumentParser(description='Train Persona')
+    parser.add_argument('--persona', required=True, help='persona name')
+    args = parser.parse_args()
+    train = Train(args.persona)
+    train.run()

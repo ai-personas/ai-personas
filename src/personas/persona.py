@@ -5,6 +5,8 @@ import requests
 from bson import ObjectId
 from pymongo import MongoClient
 
+from constants.PersonaConstants import BASE_URL
+
 
 class Persona:
 
@@ -15,7 +17,7 @@ class Persona:
         self.persona_collection = 'personas'
         self.spec_id = 1
         self.persona_name = persona_name
-        self.base_url = 'http://localhost:8090/personas/' + str(self.spec_id)
+        self.base_url = BASE_URL +'/personas/' + str(self.spec_id)
         self.persona_details = self.get_persona(persona_name)
 
     def get_persona_details(self):

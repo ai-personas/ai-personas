@@ -1,0 +1,7 @@
+!rm -rf ai-personas/
+!git clone https://github.com/ai-personas/ai-personas.git
+!pip install -r ai-personas/requirements.txt
+%cd ai-personas/src
+%env PYTHONPATH=$PYTHONPATH:.
+!python personas/train.py --persona personaName
+
