@@ -1,6 +1,3 @@
-from x_transformers import TransformerWrapper, Decoder
-from x_transformers.autoregressive_wrapper import AutoregressiveWrapper
-
 import random
 import tqdm
 import gzip
@@ -11,9 +8,14 @@ from torch.nn import functional as F
 from torch.utils.data import DataLoader, Dataset
 from environments.Environment import Environment
 import sys
+
+from personas.autoregressive_wrapper import AutoregressiveWrapper
 from personas.persona import Persona
 import sys
 import argparse
+
+from personas.x_transformers import TransformerWrapper, Decoder
+
 
 class Train:
 
@@ -27,8 +29,9 @@ class Train:
         self.GRADIENT_ACCUMULATE_EVERY = specification['gradient_accumulate_every']
         self.LEARNING_RATE = specification['learning_rate']
         self.VALIDATE_EVERY  = specification['validate_every']
-        self.GENERATE_EVERY  = 500
-        self.GENERATE_LENGTH = 1024
+        self.STORE_PERSONA_WHILE_TRAINING_EVERY = specification['store_persona_while_training_every']
+        self.GENERATE_EVERY  = specification['generate_every']
+        self.GENERATE_LENGTH = specification['generate_length']
         self.SEQ_LEN = specification['sequence_length']
         self.NUM_TOKENS = specification['num_tokens']
         attn_layers_spec = specification['attnLayers']
@@ -40,9 +43,6 @@ class Train:
         envDetails = env.retrieveEnvDetails()
         self.DATASET = env.getEnvironmentUrlToLocal(envDetails)
 
-        self.validation_loss = []
-        self.training_loss = []
-        self.STORE_PERSONA_WHILE_TRAINING_EVERY = 2
 
     def cycle(self, loader):
         while True:
@@ -67,6 +67,16 @@ class Train:
         model = AutoregressiveWrapper(model)
         model.cuda()
 
+        # optimizer
+        optim = torch.optim.Adam(model.parameters(), lr=self.LEARNING_RATE)
+
+        # if model exist, download and load the model
+        downloaded_model_file_name = self.persona.download_model()
+        if downloaded_model_file_name is not None:
+            checkpoint = torch.load(downloaded_model_file_name)
+            model.load_state_dict(checkpoint['model_state_dict'])
+            optim.load_state_dict(checkpoint['optimizer_state_dict'])
+
         # prepare enwik8 data
         if self.DATASET is None:
             return
@@ -81,9 +91,8 @@ class Train:
         train_loader  = self.cycle(DataLoader(train_dataset, batch_size = self.BATCH_SIZE))
         val_loader    = self.cycle(DataLoader(val_dataset, batch_size = self.BATCH_SIZE))
 
-        # optimizer
-        optim = torch.optim.Adam(model.parameters(), lr=self.LEARNING_RATE)
-
+        validation_loss = []
+        training_loss = []
         # training
         for i in tqdm.tqdm(range(self.NUM_BATCHES), mininterval=10., desc='training'):
             model.train()
@@ -92,26 +101,28 @@ class Train:
                 loss = model(next(train_loader))
                 loss.backward()
 
-            self.training_loss.append(loss.item())
+            training_loss.append(loss.item())
             print(f'training loss: {loss.item()}')
             torch.nn.utils.clip_grad_norm_(model.parameters(), 0.5)
             optim.step()
             optim.zero_grad()
 
-            if i % self.VALIDATE_EVERY == 0:
+            if (i+1) % self.VALIDATE_EVERY == 0:
                 model.eval()
                 with torch.no_grad():
                         loss = model(next(val_loader))
-                        self.validation_loss.append(loss.item())
+                        validation_loss.append(loss.item())
                         print(f'validation loss: {loss.item()}')
 
-            if i % self.STORE_PERSONA_WHILE_TRAINING_EVERY == 0:
-                self.persona.update_training_loss(self.training_loss, self.validation_loss)
+            if (i+1) % self.STORE_PERSONA_WHILE_TRAINING_EVERY == 0:
+                self.persona.update_training_loss(training_loss, validation_loss)
                 torch.save({
                     'model_state_dict': model.state_dict(),
                     'optimizer_state_dict': optim.state_dict()
                 }, self.persona.persona_name + '.torch')
                 self.persona.save_model(self.persona.persona_name + '.torch')
+                validation_loss = []
+                training_loss = []
 
             if i % self.GENERATE_EVERY == 0:
                 model.eval()

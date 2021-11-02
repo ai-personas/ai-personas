@@ -7,8 +7,3 @@ tqdm
 torch>=1.6
 einops>=0.3
 entmax
-
-# colab engine related
-selenium==3.141.0
-webdriver-manager==3.4.2
-undetected-chromedriver==3.0.3

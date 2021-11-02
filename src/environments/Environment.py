@@ -6,6 +6,7 @@ from bson import ObjectId
 from pymongo import MongoClient
 from tqdm import tqdm
 
+from commons.FileUtils import FileUtils
 from constants.PersonaConstants import BASE_URL
 
 
@@ -16,17 +17,11 @@ class Environment:
         self.env_collection = 'environments'
         self.base_url = BASE_URL + '/personas/env/'
         self.env_meta = env_meta
+        self.fileUtils = FileUtils('downloaded/')
 
     def getEnvironmentUrlToLocal(self, env):
         url = env['url']
-
-        local_filename = url.split('/')[-1]
-        with requests.get(url, stream=True) as r:
-            r.raise_for_status()
-            with open(local_filename, 'wb') as f:
-                for chunk in r.iter_content(chunk_size=8192):
-                    f.write(chunk)
-        return local_filename
+        return self.fileUtils.downloadDataToLocal(url)
 
     '''
         Retrieve environment details for given environment meta information

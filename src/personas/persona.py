@@ -1,10 +1,9 @@
 import json
-from importlib import import_module
-import requests
 
-from bson import ObjectId
+import requests
 from pymongo import MongoClient
 
+from commons.FileUtils import FileUtils
 from constants.PersonaConstants import BASE_URL
 
 
@@ -19,6 +18,7 @@ class Persona:
         self.persona_name = persona_name
         self.base_url = BASE_URL +'/personas/' + str(self.spec_id)
         self.persona_details = self.get_persona(persona_name)
+        self.fileUtils = FileUtils('downloaded/')
 
     def get_persona_details(self):
         return self.persona_details
@@ -56,6 +56,13 @@ class Persona:
     def save_model(self, file_name):
         url = self.base_url + '/' + self.persona_name + '/model/' + file_name
         r = requests.post(url, files={'file': open(file_name, 'rb')})
+
+    '''
+        download model from url  
+    '''
+    def download_model(self):
+        model_url = self.persona_details['model']['url']
+        return self.fileUtils.downloadDataToLocal(model_url)
 
     def run_persona(self, persona_name):
         return

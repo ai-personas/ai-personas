@@ -5,3 +5,4 @@ main/.pytest_cache
 *.pyc
 data/
 *.pkl
+**/downloaded/
