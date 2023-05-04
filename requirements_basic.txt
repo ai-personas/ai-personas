@@ -1,9 +1,0 @@
-tqdm
-numpy
-pymongo
-# git+https://github.com/lucidrains/x-transformers.git@main#egg=x-transformers
-requests
-tqdm
-torch>=1.6
-einops>=0.3
-entmax
