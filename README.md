@@ -1,4 +1,4 @@
-# AiPersonas: An Experimental Open Source Project
+# AiPersonas
 
 AiPersonas is an experimental open source project, and some functionalities might break. Currently, it is written based on AutoGPT with limited functionalities, including GPT-3.5/GPT-4, search, and browsing functionalities.
 
