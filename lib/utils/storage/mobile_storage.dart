@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
-import 'package:universal_html/html.dart' as html;
 import 'storage.dart';
 
 class MobileStorage implements Storage {

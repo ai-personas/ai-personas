@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'package:ai_personas/config/ConfigKeys.dart';
+import 'package:ai_personas/config/config_keys.dart';
 import 'package:openai_client/openai_client.dart';
 import 'package:openai_client/src/model/openai_chat/chat_message.dart';
-import 'config/AppConfig.dart';
+import 'config/app_config.dart';
 
 OpenAIConfiguration loadConfiguration() {
   return OpenAIConfiguration(

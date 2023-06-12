@@ -1,31 +1,43 @@
-import '../config/AppConfig.dart';
-import '../config/ConfigKeys.dart';
+import 'package:ai_personas/memory/pinecone_memory.dart';
+
+import '../config/app_config.dart';
+import '../config/config_keys.dart';
 import 'local_memory.dart';
 import 'memory_base.dart';
 
-final List<String> supportedMemory = ["local", "no_memory"];
+final List<String> supportedMemory = ["local", "pinecone", "no_memory"];
 
-// Declare a global variable to store the memory instance
-MemoryBase? _memoryInstance;
-
-Future<MemoryBase> getMemory({bool init = false}) async {
-  // If the memory instance exists and init is false, return the existing instance
-  if (_memoryInstance != null && !init) {
-    return _memoryInstance!;
+Future<MemoryBase> createMemory({String personaName = ''}) async {
+  String memoryBackend = cfg[ConfigKeys.memoryBackend];
+  if (!supportedMemory.contains(memoryBackend)) {
+    throw Exception('Unsupported memory backend: $memoryBackend');
   }
 
-  // If init is true, create a new memory instance based on the memory backend
-  switch (cfg[ConfigKeys.memoryBackend]) {
+  switch (memoryBackend) {
+    case "local":
+      return await LocalCache.create(personaName);
+    case "pinecone":
+      return await PineconeMemory.create(
+          cfg[ConfigKeys.pineconeEnvironment],
+          personaName);
     default:
-      _memoryInstance = await LocalCache.create(cfg[ConfigKeys.memoryIndex]);
-      if (init) {
-        _memoryInstance!.clear();
-      }
+      throw Exception('Unsupported memory backend: $memoryBackend');
+  }
+}
+
+Future<MemoryBase> loadMemory({String jsonStr = ''}) async {
+  String memoryBackend = cfg[ConfigKeys.memoryBackend];
+  if (!supportedMemory.contains(memoryBackend)) {
+    throw Exception('Unsupported memory backend: $memoryBackend');
   }
 
-  return _memoryInstance!;
+  switch (memoryBackend) {
+    case "local":
+      return await LocalCache.load(jsonStr);
+    case "pinecone":
+      return await PineconeMemory.load(jsonStr);
+    default:
+      throw Exception('Unsupported memory backend: $memoryBackend');
+  }
 }
 
-List<String> getSupportedMemoryBackends() {
-  return supportedMemory;
-}

@@ -22,22 +22,22 @@ class Console extends ChangeNotifier {
     _onStdoutRendered = callback;
   }
 
-  Future<void> stdout(String message, {Color textColor = Colors.white}) async {
+  Future<void> stdout(String message, {Color textColor = Colors.white, int fontSize=18}) async {
     if (message.contains('\r')) {
       // Handle the carriage return (\r) character.
       List<String> parts = message.split('\r');
       for (int i = 0; i < parts.length; i++) {
         if (i == 0) {
           _output.value = List.from(_output.value)
-            ..add({'text': parts[i], 'color': textColor});
+            ..add({'text': parts[i], 'color': textColor, 'fontSize': fontSize});
         } else {
           _output.value = List.from(_output.value)
-            ..[_output.value.length - 1] = {'text': parts[i], 'color': textColor};
+            ..[_output.value.length - 1] = {'text': parts[i], 'color': textColor, 'fontSize': fontSize};
         }
       }
     } else {
       _output.value = List.from(_output.value)
-        ..add({'text': message, 'color': textColor});
+        ..add({'text': message, 'color': textColor, 'fontSize': fontSize});
     }
     _onStdoutRendered?.call();
     await _stdoutRenderedCompleter.future;
@@ -51,7 +51,7 @@ class Console extends ChangeNotifier {
     }
   }
 
-  Future<Map<String, dynamic>> printAssistantThoughts(String aiName, String assistantReply) async {
+  Future<Map<String, dynamic>> printAssistantThoughts(String personaName, String assistantReply) async {
     Map<String, dynamic> assistantReplyJson = {};
 
     try {
@@ -74,7 +74,7 @@ class Console extends ChangeNotifier {
     String divider = '----------------------------------------';
     await stdout(divider, textColor: Colors.blue);
 
-    await stdout('${aiName.toUpperCase()} THOUGHTS:', textColor: Colors.yellow);
+    await stdout('${personaName.toUpperCase()} THOUGHTS:', textColor: Colors.yellow);
     await stdout(assistantThoughtsText, textColor: Colors.white70);
     await stdout('REASONING:', textColor: Colors.yellow);
     await stdout(assistantThoughtsReasoning, textColor: Colors.white70);
@@ -136,7 +136,7 @@ class Console extends ChangeNotifier {
     _onUserInputCalled = callback;
   }
 
-  Future<String> getUserInput(String message, {Color textColor = Colors.yellow, bool displayInput = true}) {
+  Future<String> getUserInput(String message, {Color textColor = Colors.yellow, bool displayInput = false}) {
     stdout(message, textColor: textColor);
     _onUserInputCalled?.call();
     return _userInputCompleter.future.then((result) {
@@ -178,6 +178,89 @@ class Console extends ChangeNotifier {
       _showRotateCompleter = Completer<void>();
     }
   }
+
+  Completer<Map<String, String>> _patternTextCompleter = Completer<Map<String, String>>();
+  VoidCallback? _onPatternTextCalled;
+
+  set onParseTextCalled(VoidCallback? callback) {
+    _onPatternTextCalled = callback;
+  }
+
+  Future<Map<String, String>> patternText(String text) async {
+    _output.value = List.from(_output.value)
+      ..add({'patternText': text});
+    _onPatternTextCalled?.call();
+    return _patternTextCompleter.future;
+  }
+
+  void patternTextComplete(Map<String, String> result) {
+    if (!_patternTextCompleter.isCompleted) {
+      _patternTextCompleter.complete(result);
+      _patternTextCompleter = Completer<Map<String, String>>();
+    }
+  }
+
+  Completer<Map<String, String>> _tableSelectionCompleter = Completer<Map<String, String>>();
+  VoidCallback? _onTableShown;
+
+  set onTableShown(VoidCallback? callback) {
+    _onTableShown = callback;
+  }
+
+  Future<Map<String, String>> getSelectionFromTable(List<Map<String, String>> data) async {
+    _output.value = List.from(_output.value)
+      ..add({'tableData': data});
+    _onTableShown?.call();
+    return await _tableSelectionCompleter.future;
+  }
+
+  void tableSelectionComplete(Map<String, String> selectedRow) {
+    if (!_tableSelectionCompleter.isCompleted) {
+      _tableSelectionCompleter.complete(selectedRow);
+      _tableSelectionCompleter = Completer<Map<String, String>>();
+    }
+  }
+
+  Completer<Map<String, String>> _buttonAddedCompleter = Completer<Map<String, String>>();
+  VoidCallback? _onButtonAdded;
+
+  set onButtonAdded(VoidCallback? callback) {
+    _onButtonAdded = callback;
+  }
+
+  Future<Map<String, String>> addButton(String buttonText, Map<String, String> returnValue) async {
+    _output.value = List.from(_output.value)..add({'buttonText': buttonText, 'returnValue': returnValue});
+    _onButtonAdded?.call();
+    return await _buttonAddedCompleter.future;
+  }
+
+  void buttonAddedComplete(Map<String, String> returnValue) {
+    if (!_buttonAddedCompleter.isCompleted) {
+      _buttonAddedCompleter.complete(returnValue);
+    }
+    _buttonAddedCompleter = Completer<Map<String, String>>();
+  }
+
+  Completer<Map<String, dynamic>> _groupedActionCompleter = Completer<Map<String, dynamic>>();
+  VoidCallback? _onGroupedActionCalled;
+
+  set onGroupedActionCalled(VoidCallback? callback) {
+    _onGroupedActionCalled = callback;
+  }
+
+  Future<Map<String, dynamic>> groupedActions(Map<String, dynamic> action) {
+    _output.value = List.from(_output.value)..add(action);
+    _onGroupedActionCalled?.call();
+    return _groupedActionCompleter.future;
+  }
+
+  void groupedActionComplete(Map<String, dynamic> result) {
+    if (!_groupedActionCompleter.isCompleted) {
+      _groupedActionCompleter.complete(result);
+      _groupedActionCompleter = Completer<Map<String, dynamic>>();
+    }
+  }
+
 }
 
 final Console console = Console._internal();

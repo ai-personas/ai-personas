@@ -1,6 +1,6 @@
 import 'dart:convert';
-import '../config/AppConfig.dart';
-import '../config/ConfigKeys.dart';
+import '../config/app_config.dart';
+import '../config/config_keys.dart';
 import '../speech/say.dart';
 import 'json_fixer.dart';
 

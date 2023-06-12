@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:path/path.dart' as p;
-import 'package:ai_personas/config/ConfigKeys.dart';
-import 'package:ai_personas/config/AppConfig.dart';
+import 'package:ai_personas/config/config_keys.dart';
+import 'package:ai_personas/config/app_config.dart';
 
 String WORKSPACE_PATH = 'your_workspace_path_here';
 

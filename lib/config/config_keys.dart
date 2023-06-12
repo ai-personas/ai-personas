@@ -26,7 +26,7 @@ class ConfigKeys {
   static const String googleApiKey = 'googleApiKey';
   static const String customSearchEngineId = 'customSearchEngineId';
   static const String pineconeApiKey = 'pineconeApiKey';
-  static const String pineconeRegion = 'pineconeRegion';
+  static const String pineconeEnvironment = 'pineconeEnvironment';
   static const String weaviateHost = 'weaviateHost';
   static const String weaviatePort = 'weaviatePort';
   static const String weaviateProtocol = 'weaviateProtocol';
@@ -46,6 +46,5 @@ class ConfigKeys {
   static const String redisPort = 'redisPort';
   static const String redisPassword = 'redisPassword';
   static const String wipeRedisOnStart = 'wipeRedisOnStart';
-  static const String memoryIndex = 'memoryIndex';
   static const String memoryBackend = 'memoryBackend';
 }

@@ -1,8 +1,7 @@
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:universal_html/html.dart' as html;
-import 'storage.dart';
-import 'package:universal_platform/universal_platform.dart';
+
 // Export the appropriate storage implementation based on the platform
 export 'web_storage.dart' if (dart.library.html) 'mobile_storage.dart';
 

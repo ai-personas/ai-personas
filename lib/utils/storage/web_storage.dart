@@ -1,8 +1,6 @@
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
+import 'dart:async';
 import 'package:universal_html/html.dart' as html;
 import 'storage.dart';
-import 'dart:async';
 
 class WebStorage implements Storage {
   @override

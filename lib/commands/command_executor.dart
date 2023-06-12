@@ -1,9 +1,6 @@
 import 'dart:convert';
-
 import 'package:ai_personas/commands/web_browser.dart';
-import 'package:ai_personas/config/ConfigKeys.dart';
 import 'google_search.dart';
-import 'package:ai_personas/config/AppConfig.dart';
 
 class CommandExecutor {
 
@@ -51,7 +48,7 @@ class CommandExecutor {
     return synonyms[commandName] ?? commandName;
   }
 
-  static Future<String?> executeCommand(String commandName, Map<String, dynamic> arguments) async {
+  static Future<String?> executeCommand(String commandName, Map<dynamic, dynamic> arguments) async {
     try {
       commandName = mapCommandSynonyms(commandName);
 
@@ -67,7 +64,7 @@ class CommandExecutor {
           break;
         case 'browse_website':
         // Implement the browse_website logic here
-          return fetchWebsiteContent(arguments['url'], arguments['question']);
+          return await fetchWebsiteContent(arguments['url'], arguments['question']);
         case 'read_file':
         // Implement the read_file logic here
           break;

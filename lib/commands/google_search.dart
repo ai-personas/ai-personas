@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:ai_personas/config/AppConfig.dart';
-import 'package:ai_personas/config/ConfigKeys.dart';
+import 'package:ai_personas/config/app_config.dart';
+import 'package:ai_personas/config/config_keys.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 

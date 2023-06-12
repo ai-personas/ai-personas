@@ -2,8 +2,8 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:just_audio/just_audio.dart';
-import '../config/AppConfig.dart';
-import '../config/ConfigKeys.dart';
+import '../config/app_config.dart';
+import '../config/config_keys.dart';
 import 'base.dart';
 
 class ElevenLabsSpeech extends VoiceBase {

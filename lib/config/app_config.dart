@@ -31,7 +31,7 @@ class AppConfig {
     'googleApiKey': '',
     'customSearchEngineId': '',
     'pineconeApiKey': '',
-    'pineconeRegion': '',
+    'pineconeEnvironment': '',
     'weaviateHost': '',
     'weaviatePort': '',
     'weaviateProtocol': 'http',
@@ -52,7 +52,6 @@ class AppConfig {
     'redisPort': '6379',
     'redisPassword': '',
     'wipeRedisOnStart': false,
-    'memoryIndex': 'auto-gpt',
     'memoryBackend': 'local',
   };
 
@@ -93,9 +92,6 @@ class AppConfig {
   }
 
   static Future<void> checkApiKeys() async {
-    // Load the configuration to ensure the latest values are available.
-    await loadConfig();
-
     bool allKeysProvided;
     do {
       allKeysProvided = true;

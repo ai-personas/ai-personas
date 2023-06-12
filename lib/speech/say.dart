@@ -7,8 +7,8 @@ import 'brian.dart';
 import 'macos_tts.dart';
 import 'gtts.dart';
 import 'eleven_labs.dart';
-import '../config/AppConfig.dart';
-import '../config/ConfigKeys.dart';
+import '../config/app_config.dart';
+import '../config/config_keys.dart';
 import 'base.dart'; // Import base.dart to use Mutex from base.dart
 
 class TextToSpeech {

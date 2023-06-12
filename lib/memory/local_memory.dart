@@ -26,29 +26,26 @@ class CacheContent {
 }
 
 class LocalCache extends MemoryBase {
-  late String filename;
+  late String personaName;
   late CacheContent data;
   late Storage _storage;
 
   // Private constructor
   LocalCache._(String memoryIndex) {
-    filename = '$memoryIndex.json';
+    personaName = memoryIndex;
     _storage = kIsWeb ? WebStorage() : MobileStorage();
   }
 
   // Static method to create an instance of LocalCache
   static Future<MemoryBase> create(String memoryIndex) async {
     LocalCache cache = LocalCache._(memoryIndex);
-    await cache._initialize();
+    await cache._initialize('{}');
     return cache;
   }
 
-  Future<void> _initialize() async {
-    String? fileContent = await _storage.load(filename);
-
+  Future<void> _initialize(String? fileContent) async {
     if (fileContent == null || fileContent.trim().isEmpty) {
       fileContent = '{}';
-      await _storage.save(filename, fileContent);
     }
 
     try {
@@ -59,7 +56,7 @@ class LocalCache extends MemoryBase {
         embeddings: Float32List.fromList(doubleList),
       );
     } on FormatException {
-      print("Error: The file '$filename' is not in JSON format.");
+      print("Error: The content is not in JSON format.");
       data = CacheContent();
     }
   }
@@ -97,12 +94,43 @@ class LocalCache extends MemoryBase {
     newEmbeddings.setRange(oldLength, newLength, embedding);
     data.embeddings = newEmbeddings;
 
-    await _storage.save(filename, json.encode(data.toJson()));
-
     return text;
   }
 
-  String clear() {
+  String toJsonString() {
+    return jsonEncode({
+      "provider": "Local",
+      "data": data.toJson()
+    });
+  }
+
+  static Future<LocalCache> load(String jsonString) async {
+    LocalCache cache = LocalCache._('');
+
+    try {
+      // Decode the JSON string
+      Map<String, dynamic> jsonData = json.decode(jsonString);
+
+      // Load data
+      if (jsonData.containsKey('data')) {
+        Map<String, dynamic> dataJson = jsonData['data'];
+
+        List<double> doubleList = cache._parseEmbeddingsList(dataJson['embeddings']);
+        cache.data = CacheContent(
+          texts: List<String>.from(dataJson['texts'] ?? []),
+          embeddings: Float32List.fromList(doubleList),
+        );
+      } else {
+        print("No data found in the provided JSON string.");
+      }
+    } catch (e) {
+      print("Error in loading from JSON string: $e");
+    }
+
+    return cache;
+  }
+
+  Future<String> clear() async {
     data = CacheContent();
     return "Obliviated";
   }
@@ -144,7 +172,7 @@ class LocalCache extends MemoryBase {
     return indices.sublist(0, math.min(k, indices.length));
   }
 
-  Map<String, dynamic> getStats() {
+  Future<Map<String, dynamic>> getStats() async {
     int numRows = data.embeddings.length ~/ embedDim;
     return {
       'texts': data.texts.length,

@@ -1,21 +1,18 @@
-import 'dart:isolate';
-import 'package:flutter/material.dart';
-import 'package:ai_personas/ui/configUI.dart';
 import 'package:ai_personas/ui/consoleUI.dart';
-import 'ConfigPage.dart';
+import 'package:flutter/material.dart';
+
+import 'config_page.dart';
 
 class MobileHomePage extends StatefulWidget {
+  // Add this static method to create an instance of WebHomePage
+  static MobileHomePage MainPage() => MobileHomePage();
+
   @override
   _MobileHomePageState createState() => _MobileHomePageState();
 }
 
 class _MobileHomePageState extends State<MobileHomePage> {
   Future<void> _init() async {
-    // final localCache = await LocalCache.create(cfg[ConfigKeys.memoryIndex]);
-    //
-    // await localCache.add("{'text': 'Some text'}");
-    // final relevantTexts = await localCache.getRelevant('Query text', numRelevant: 5);
-    // print(relevantTexts);
   }
 
   @override

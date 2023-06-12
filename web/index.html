@@ -17,12 +17,33 @@
   <title>ai_personas</title>
   <link rel="manifest" href="manifest.json">
 
+  <style>
+    /* Add your own styling for the loading screen here */
+    #loading {
+      position: fixed;
+      display: flex;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      align-items: center;
+      justify-content: center;
+      background-color: #fff; /* Change the color to your needs */
+    }
+  </style>
+
   <script>
     var serviceWorkerVersion = null;
   </script>
   <script src="flutter.js" defer></script>
 </head>
 <body>
+<!-- Add this div for the loading screen -->
+<div id="loading">
+  <!-- Replace the source with your own loading image -->
+  <img src="loading.gif" alt="Loading..." />
+</div>
+
 <script>
     window.addEventListener('load', function(ev) {
       _flutter.loader.loadEntrypoint({
@@ -31,6 +52,8 @@
         },
         onEntrypointLoaded: function(engineInitializer) {
           engineInitializer.initializeEngine().then(function(appRunner) {
+            // Hide the loading screen once the app is ready
+            document.getElementById('loading').style.display = 'none';
             appRunner.runApp();
           });
         }

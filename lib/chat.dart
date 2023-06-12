@@ -2,18 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
-// Replace with appropriate package imports
-import 'package:ai_personas/memory/memory.dart';
-import 'package:ai_personas/memory/memory_base.dart';
+import 'package:ai_personas/config/app_config.dart';
+import 'package:ai_personas/config/config_keys.dart';
 import 'package:ai_personas/persona/persona.dart';
+import 'package:openai_client/src/model/openai_chat/chat_message.dart';
+import 'package:tuple/tuple.dart';
 
 import 'llm_utils.dart';
-import 'package:ai_personas/config/AppConfig.dart';
-import 'package:ai_personas/config/ConfigKeys.dart';
-import 'package:tuple/tuple.dart';
 import 'token_counter.dart';
-import 'package:dart_openai/openai.dart';
-import 'package:openai_client/src/model/openai_chat/chat_message.dart';
 
 
 Map<String, dynamic> createChatMessage(String role, String content) {
@@ -23,13 +19,13 @@ Map<String, dynamic> createChatMessage(String role, String content) {
   };
 }
 
-Tuple4<int, int, int, List<Map<String, dynamic>>> generateContext(
-    String prompt,
+Tuple4<int, int, int, List<Map<String, dynamic>>> generateFullContext(
+    String context,
     String relevantMemory,
     List<Map<String, dynamic>> fullMessageHistory,
     String model) {
   List<Map<String, dynamic>> currentContext = [
-    createChatMessage('system', prompt),
+    createChatMessage('system', context),
     createChatMessage(
         'system', 'The current time and date is ${DateTime.now()}'),
     createChatMessage(
@@ -51,16 +47,17 @@ Future<List<String>> getRelevantMemory(
     return [];
   }
 
-  MemoryBase memory = await getMemory();
-  List<String> relMemoryList = await memory.getRelevant(
+  Persona persona = await Persona.getCurrentPersona;
+  List<String> relMemoryList = await persona.memory!.getRelevant(
       fullMessageHistory
           .sublist(max(0, fullMessageHistory.length - 9))
           .join(),
       numRelevant: 10);
+
   return relMemoryList;
 }
 
-Future<String> chatWithPersona(Persona? persona, String prompt, String userInput,
+Future<String> chatWithPersona(Persona? persona, String userInput,
     int tokenLimit) async {
   while (true) {
       String model = cfg[ConfigKeys.fastLLMModel];
@@ -70,7 +67,7 @@ Future<String> chatWithPersona(Persona? persona, String prompt, String userInput
       int sendTokenLimit = tokenLimit - 1000;
 
       Tuple4<int, int, int, List<Map<String, dynamic>>> contextData =
-      generateContext(prompt, relevantMemoryList.join("\n"), persona.fullMessageHistory, model);
+      generateFullContext(persona.context, relevantMemoryList.join("\n"), persona.fullMessageHistory, model);
 
       int nextMessageToAddIndex = contextData.item1;
       int currentTokensUsed = contextData.item2;
@@ -81,8 +78,8 @@ Future<String> chatWithPersona(Persona? persona, String prompt, String userInput
         if (relevantMemoryList.isNotEmpty) {
           relevantMemoryList.removeLast();
         }
-        contextData = generateContext(
-            prompt, relevantMemoryList.join("\n"), persona.fullMessageHistory, model);
+        contextData = generateFullContext(
+            persona.context, relevantMemoryList.join("\n"), persona.fullMessageHistory, model);
 
         nextMessageToAddIndex = contextData.item1;
         currentTokensUsed = contextData.item2;

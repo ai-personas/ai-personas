@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import '../config/AppConfig.dart';
-import '../config/ConfigKeys.dart';
+import '../config/app_config.dart';
+import '../config/config_keys.dart';
 import '../workspace.dart';
 
 Future<String> readAudioFromFile(String audioPath) async {

@@ -125,6 +125,10 @@ dependencies:
 
   puppeteer: any
 
+  pinecone: any
+
+  event_bus: any
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

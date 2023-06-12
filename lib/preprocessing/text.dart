@@ -1,9 +1,9 @@
 import 'dart:async';
-import '../config/AppConfig.dart';
-import '../config/ConfigKeys.dart';
+import 'package:ai_personas/persona/persona.dart';
+
+import '../config/app_config.dart';
+import '../config/config_keys.dart';
 import '../llm_utils.dart';
-import '../memory/memory.dart';
-import '../memory/memory_base.dart';
 import '../utils/console.dart';
 import 'package:openai_client/src/model/openai_chat/chat_message.dart';
 
@@ -30,11 +30,11 @@ Stream<String> splitText(String text, {int maxLength = 8192}) async* {
 
 Future<String> summarizeText(
     String url, String text, String question) async {
-  MemoryBase memory = await getMemory();
   if (text.isEmpty) {
     return "Error: No text to summarize";
   }
 
+  Persona persona = await Persona.getCurrentPersona;
   final textLength = text.length;
   print('Text length: $textLength characters');
 
@@ -47,7 +47,7 @@ Future<String> summarizeText(
 
     final memoryToAdd = 'Source: $url\nRaw content part#${i + 1}: ${chunks[i]}';
 
-    memory.add(memoryToAdd);
+    await persona.addDataToMemory(memoryToAdd);
 
     await console.stdout('Summarizing chunk ${i + 1} / ${chunks.length}');
     final messages = [createMessage(chunks[i], question)];
@@ -62,7 +62,7 @@ Future<String> summarizeText(
     final memoryToAdd2 =
         'Source: $url\nContent summary part#${i + 1}: $summary';
 
-    memory.add(memoryToAdd2);
+    await persona.addDataToMemory(memoryToAdd2);
   }
 
   await console.stdout('Summarized ${chunks.length} chunks.');

@@ -1,27 +1,31 @@
-import 'dart:io';
-
 import 'package:ai_personas/persona/persona.dart';
 import 'package:ai_personas/ui/consoleUI.dart';
+import 'package:ai_personas/ui/events/persona_change_event.dart';
+import 'package:ai_personas/ui/global.dart';
+import 'package:ai_personas/utils/persona_downloader.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
-import '../utils/console.dart';
-import 'ConfigPage.dart';
-import 'package:share_plus/share_plus.dart';
-import 'dart:html' as html;
-import 'package:flutter/foundation.dart' show kIsWeb;
+
+import 'config_page.dart';
 
 class WebHomePage extends StatefulWidget {
+  // Add this static method to create an instance of WebHomePage
+  static WebHomePage MainPage() => WebHomePage();
+
   @override
   _WebHomePageState createState() => _WebHomePageState();
 }
 
 class _WebHomePageState extends State<WebHomePage> {
-  Future<void> _init() async {
-    // final localCache = await LocalCache.create(cfg[ConfigKeys.memoryIndex]);
-    //
-    // await localCache.add("{'text': 'Some text'}");
-    // final relevantTexts = await localCache.getRelevant('Query text', numRelevant: 5);
-    // print(relevantTexts);
+  String personaName = '';
+
+  @override
+  void initState() {
+    super.initState();
+    eventBus.on<PersonaChangeEvent>().listen((event) {
+      setState(() {
+        personaName = event.personaName;
+      });
+    });
   }
 
   void _showConfigDialog(BuildContext context) {
@@ -88,16 +92,17 @@ class _WebHomePageState extends State<WebHomePage> {
                             ),
                           ),
                           SizedBox(width: 8),
-                          InkWell(
-                            onTap: () {
-                              _downloadContent();
-                            },
-                            child: Icon(
-                              Icons.download, // Add the download icon
-                              size: 24,
-                              color: Colors.white,
+                          if (personaName.isNotEmpty)
+                            InkWell(
+                              onTap: () {
+                                PersonaDownloader.downloadPersona(personaName);
+                              },
+                              child: Icon(
+                                Icons.download,
+                                size: 24,
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
                         ],
                       ),
                     ],
@@ -114,34 +119,6 @@ class _WebHomePageState extends State<WebHomePage> {
         ),
       ),
     );
-  }
-
-  Future<void> _downloadContent() async {
-    List<Map<String, dynamic>> consoleOutput = console.output.value;
-    String content = consoleOutput.map((entry) => entry['text']).join('\n');
-
-    if (kIsWeb) {
-      // Create a Blob with the console output content
-      final blob = html.Blob([content]);
-
-      // Create an anchor element with a download attribute
-      final anchor = html.AnchorElement(href: html.Url.createObjectUrlFromBlob(blob));
-      Persona persona = await Persona.getPersona;
-      anchor.download = '${persona.name}.txt';
-
-      // Trigger the download by simulating a click on the anchor element
-      anchor.click();
-    } else {
-      // Get the temporary directory
-      final tempDir = await getTemporaryDirectory();
-      File tempFile = File('${tempDir.path}/console_output.txt');
-
-      // Write the console output to a temporary file
-      await tempFile.writeAsString(content);
-
-      // Share the file using the share_plus package
-      await Share.shareFiles([tempFile.path], mimeTypes: ['text/plain']);
-    }
   }
 
 }

@@ -1,41 +1,59 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
-import 'package:ai_personas/config/ConfigKeys.dart';
-import 'package:ai_personas/config/AppConfig.dart';
-import 'package:flutter/material.dart';
-import '../chat.dart';
-import '../commands/web_browser.dart';
-import 'persona.dart';
-import '../memory/memory.dart';
-import '../speech/say.dart';
-import '../json_fixes/bracket_termination.dart';
-import '../memory/memory_base.dart';
-import 'package:ai_personas/app.dart';
-import 'package:ai_personas/utils/console.dart';
+
 import 'package:ai_personas/commands/command_executor.dart';
+import 'package:ai_personas/config/app_config.dart';
+import 'package:ai_personas/config/config_keys.dart';
+import 'package:ai_personas/ui/events/persona_change_event.dart';
+import 'package:ai_personas/ui/global.dart';
+import 'package:ai_personas/utils/console.dart';
+import 'package:flutter/material.dart';
+
+import '../chat.dart';
+import '../json_fixes/bracket_termination.dart';
+import '../speech/say.dart';
+import 'persona.dart';
 
 class PersonaMain {
   Persona? persona;
   int nextActionCount;
-  String prompt;
   String userInput;
   TextToSpeech textToSpeech;
   dynamic arguments;
-  MemoryBase? memory;
 
   PersonaMain({
     required this.nextActionCount,
-    required this.prompt,
     required this.userInput,
     required this.textToSpeech});
 
   Future<void> startInteractionLoop() async {
-    persona = await Persona.getPersona;
-    String aiName = persona!.name;
+    await AppConfig.loadConfig();
+    List<Map<String, Map<String, String>>> prevPersonas  = await Persona.getAllPersonas();
+
+    if (prevPersonas.isEmpty) {
+      // Directly go to "Create new Persona" if no previous personas exist
+      await createNewPersona();
+    } else {
+      // If previous personas exist, show selection options
+      Map<String, dynamic> selected = await console.groupedActions({"group": [
+        {"button": {"buttonText": "Create new Persona", "returnVal": {'name': 'Create new Persona'}}},
+        {"table": prevPersonas}
+      ]});
+      if (selected['name'] == 'Create new Persona') {
+        await createNewPersona();
+      } else {
+        persona = await Persona.getPersona(selected['persona']['value']!);
+      }
+    }
+    eventBus.fire(PersonaChangeEvent(Persona.currentPersona));
+    printAllAssistantThoughts(Persona.currentPersona, persona!.fullMessageHistory);
+    await console.showAsciiRotate();
+
+    await AppConfig.checkApiKeys();
+    persona = await Persona.getCurrentPersona;
+
+    String personaName = persona!.name;
     int loopCount = 0;
     String commandName = '';
-    memory = await getMemory(init: false);
 
     while (true) {
       loopCount++;
@@ -44,14 +62,14 @@ class PersonaMain {
       String assistantReply;
       try {
         assistantReply = await chatWithPersona(
-            persona, prompt, userInput,
+            persona, userInput,
             cfg[ConfigKeys.fastTokenLimit]);
-        await console.printAssistantThoughts(aiName, assistantReply);
+        await console.printAssistantThoughts(personaName, assistantReply);
         commandName = extractCommandNameFromReply(assistantReply);
         speakCommandName(commandName);
 
         if (!cfg[ConfigKeys.continuousMode] && nextActionCount == 0) {
-          final result = await getUserInputForCommandAuthorization(commandName, aiName);
+          final result = await getUserInputForCommandAuthorization(commandName, personaName);
           userInput = result['userInput']!;
           commandName = result['commandName']!;
           if (userInput == 'EXIT') {
@@ -79,6 +97,14 @@ class PersonaMain {
     }
   }
 
+  Future<void> createNewPersona() async {
+    Map<String, String> cxtTemplate = await console.patternText(await Persona.getContext());
+    await console.stdout('Persona - ${cxtTemplate['personaName']!}', textColor: Colors.yellow, fontSize: 22);
+    await console.stdout(cxtTemplate['finalText']!, textColor: Colors.white70);
+    await console.showAsciiRotate();
+    persona = await Persona.createPersona(cxtTemplate['personaName']!, cxtTemplate['finalText']!);
+  }
+
   Future<void> checkContinuousLimit(int loopCount) async {
     if (cfg[ConfigKeys.continuousMode] &&
         cfg[ConfigKeys.continuousLimit] > 0 &&
@@ -94,7 +120,7 @@ class PersonaMain {
     var commandData = CommandExecutor.getCommand(
         extractJsonCommand(assistantReply));
     String commandName = commandData[0];
-    arguments = commandData[1];
+    arguments =  commandData[1];
     return commandName;
   }
 
@@ -159,7 +185,7 @@ class PersonaMain {
     }
 
     String memoryToAdd = 'Assistant Reply: $assistantReply \nResult: ${result.toString()}';
-    memory!.add(memoryToAdd);
+    await persona?.addDataToMemory(memoryToAdd);
 
     await console.stdout('SYSTEM:', textColor: Colors.yellow);
     if (cmdResult != null && !cmdResult!.startsWith('Error:')) {
@@ -168,6 +194,14 @@ class PersonaMain {
     } else {
       persona?.addMessageToHistory(createChatMessage('system', 'Unable to execute command'));
       await console.stdout('Unable to execute command', textColor: Colors.red);
+    }
+  }
+
+  void printAllAssistantThoughts(String personaName, List<Map<String, dynamic>> fullMessageHistory) async {
+    for (var message in fullMessageHistory) {
+      if (message['role'] == 'assistant') {
+        await console.printAssistantThoughts(personaName, message['content']);
+      }
     }
   }
 }
